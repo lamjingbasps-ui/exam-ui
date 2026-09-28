@@ -275,6 +275,18 @@ const INITIAL_ASSIGNMENTS = [
     questionCount: "10",
     instructions: "Prepare lab simulation questions & quantum state derivations.",
     createdAt: "1.5 hours ago"
+  },
+  {
+    id: "ASN-2003",
+    type: "question",
+    program: "B.Tech - Computer Science Engineering",
+    subject: "Data Structures & Algorithms (CS-201)",
+    teacherId: "TCH-1001",
+    teacherIds: ["TCH-1001"],
+    selectedQuestionIds: ["Q-101", "Q-102"],
+    totalMarks: "50",
+    instructions: "Evaluate student submissions for MergeSort and Palindrome algorithms.",
+    createdAt: "25 minutes ago"
   }
 ];
 
@@ -467,9 +479,15 @@ export default function TeacherManagement() {
     setEditingAssignment(asn);
     setSelectedProgram(asn.program);
     setSelectedSubject(asn.subject);
-    setSelectedTeacherIds(asn.teacherIds || []);
-    setSelectedQuestionTypes(asn.questionTypes || []);
-    setAssignmentStep(asn.type === 'questionType' ? 'questionTypeForm' : 'questionForm');
+    if (asn.type === 'questionType') {
+      setSelectedTeacherIds(asn.teacherIds || []);
+      setSelectedQuestionTypes(asn.questionTypes || []);
+      setAssignmentStep('questionTypeForm');
+    } else {
+      setSelectedTeacherForAssignment(teachers.find(t => t.id === (asn.teacherId || (asn.teacherIds && asn.teacherIds[0]))) || teachers[0]);
+      setSelectedQuestionIds(asn.selectedQuestionIds || ['Q-101']);
+      setAssignmentStep('questionForm');
+    }
     setIsAssignmentModalOpen(true);
   };
 
@@ -485,7 +503,7 @@ export default function TeacherManagement() {
       teacherName: "Administrator",
       teacherAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       department: target.program,
-      action: `Deleted Question Type Assignment (${target.subject})`,
+      action: `Deleted Assignment (${target.subject})`,
       details: `Assignment ${target.id} (${target.subject}) was deleted from active assignments.`,
       timestamp: "Just now"
     };
@@ -573,7 +591,7 @@ export default function TeacherManagement() {
     }
   };
 
-  // Submit Step 2B: Add Specific Question Assignment
+  // Submit Step 2B: Add / Edit Specific Question Assignment
   const handleSaveQuestionAssignment = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -584,19 +602,70 @@ export default function TeacherManagement() {
     const totalMarks = formData.get('totalMarks') || '50';
     const instructions = formData.get('instructions');
 
-    const newLog = {
-      id: `LOG-${5000 + activityLogs.length + 1}`,
-      teacherName: teacher.name,
-      teacherAvatar: teacher.avatar,
-      department: teacher.department,
-      action: `Assigned Question Assignment (${subject})`,
-      details: `Program: ${program} | Course: ${subject} | Assigned ${selectedQuestionIds.length} questions [${selectedQuestionIds.join(', ')}] worth ${totalMarks} marks to ${teacher.name}. ${instructions || ''}`,
-      timestamp: "Just now"
-    };
+    if (editingAssignment) {
+      // UPDATE EXISTING SPECIFIC QUESTION ASSIGNMENT
+      setAssignments(prev => prev.map(asn => {
+        if (asn.id === editingAssignment.id) {
+          return {
+            ...asn,
+            program,
+            subject,
+            teacherId: teacher.id,
+            teacherIds: [teacher.id],
+            selectedQuestionIds,
+            totalMarks,
+            instructions,
+            updatedAt: "Just now"
+          };
+        }
+        return asn;
+      }));
 
-    setActivityLogs(prev => [newLog, ...prev]);
-    setIsAssignmentModalOpen(false);
-    showToast(`Assigned ${selectedQuestionIds.length} questions for ${subject} to ${teacher.name}!`);
+      const newLog = {
+        id: `LOG-${5000 + activityLogs.length + 1}`,
+        teacherName: teacher.name,
+        teacherAvatar: teacher.avatar,
+        department: teacher.department,
+        action: `Updated Question Assignment (${subject})`,
+        details: `Updated assignment ${editingAssignment.id} for ${subject} (${selectedQuestionIds.length} questions, ${totalMarks} marks).`,
+        timestamp: "Just now"
+      };
+
+      setActivityLogs(prev => [newLog, ...prev]);
+      setIsAssignmentModalOpen(false);
+      setEditingAssignment(null);
+      showToast(`Updated Question Assignment ${editingAssignment.id}!`);
+    } else {
+      // CREATE NEW SPECIFIC QUESTION ASSIGNMENT
+      const newAsn = {
+        id: `ASN-${2000 + assignments.length + 1}`,
+        type: 'question',
+        program,
+        subject,
+        teacherId: teacher.id,
+        teacherIds: [teacher.id],
+        selectedQuestionIds,
+        totalMarks,
+        instructions,
+        createdAt: "Just now"
+      };
+
+      setAssignments(prev => [newAsn, ...prev]);
+
+      const newLog = {
+        id: `LOG-${5000 + activityLogs.length + 1}`,
+        teacherName: teacher.name,
+        teacherAvatar: teacher.avatar,
+        department: teacher.department,
+        action: `Created Question Assignment (${subject})`,
+        details: `Program: ${program} | Course: ${subject} | Assigned ${selectedQuestionIds.length} questions [${selectedQuestionIds.join(', ')}] worth ${totalMarks} marks to ${teacher.name}. ${instructions || ''}`,
+        timestamp: "Just now"
+      };
+
+      setActivityLogs(prev => [newLog, ...prev]);
+      setIsAssignmentModalOpen(false);
+      showToast(`Assigned ${selectedQuestionIds.length} questions for ${subject} to ${teacher.name}!`);
+    }
   };
 
   const toggleQuestionType = (type) => {
@@ -741,9 +810,16 @@ export default function TeacherManagement() {
                       {/* Header Badge & Action Buttons (Edit / Delete) */}
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <div>
-                          <div className="flex items-center gap-2 mb-1">
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
                             <span className="font-mono text-xs font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">
                               {asn.id}
+                            </span>
+                            <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${
+                              asn.type === 'question'
+                                ? 'bg-violet-500/20 text-violet-300 border-violet-500/30'
+                                : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
+                            }`}>
+                              {asn.type === 'question' ? 'Specific Questions Assignment' : 'Question Type Assignment'}
                             </span>
                             <span className="text-[11px] font-semibold text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
                               {asn.program}
@@ -771,22 +847,46 @@ export default function TeacherManagement() {
                         </div>
                       </div>
 
-                      {/* Question Types & Question Count */}
-                      <div className="mb-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
-                          Configured Question Types ({asn.questionCount} Total Questions)
-                        </p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {(asn.questionTypes || []).map((qt, idx) => (
-                            <span
-                              key={idx}
-                              className="bg-indigo-950/60 text-indigo-200 text-xs px-2.5 py-1 rounded-lg border border-indigo-800/50 font-medium"
-                            >
-                              {qt}
-                            </span>
-                          ))}
+                      {/* Content details depending on assignment type */}
+                      {asn.type === 'questionType' ? (
+                        <div className="mb-4">
+                          <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
+                            Configured Question Types ({asn.questionCount} Total Questions)
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {(asn.questionTypes || []).map((qt, idx) => (
+                              <span
+                                key={idx}
+                                className="bg-indigo-950/60 text-indigo-200 text-xs px-2.5 py-1 rounded-lg border border-indigo-800/50 font-medium"
+                              >
+                                {qt}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="mb-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                              Selected Questions from Bank ({(asn.selectedQuestionIds || []).length} Items)
+                            </p>
+                            <span className="font-mono text-xs font-bold text-violet-300 bg-violet-500/10 px-2 py-0.5 rounded border border-violet-500/20">
+                              {asn.totalMarks} Marks
+                            </span>
+                          </div>
+                          <div className="space-y-1">
+                            {(asn.selectedQuestionIds || []).map((qId) => {
+                              const item = QUESTION_BANK_ITEMS.find(q => q.id === qId);
+                              return (
+                                <div key={qId} className="flex items-center gap-2 text-xs bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                                  <span className="font-mono font-bold text-violet-300">{qId}</span>
+                                  <span className="text-slate-300 truncate">{item ? item.title : 'Question Item'}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
 
                       {/* Assigned Mapped Teachers */}
                       <div className="mb-4">
@@ -1232,10 +1332,10 @@ export default function TeacherManagement() {
 
                 <h2 className="text-xl font-bold text-slate-100 mb-1 flex items-center gap-2">
                   <Icon name="questionMarkCircle" className="w-5 h-5 text-violet-400" />
-                  Add Question Assignment
+                  {editingAssignment ? 'Edit Question Assignment' : 'Add Question Assignment'}
                 </h2>
                 <p className="text-xs text-slate-400 mb-6">
-                  Select specific questions from the bank and assign them directly to a teacher.
+                  {editingAssignment ? 'Modify assigned questions, marks, or target teacher.' : 'Select specific questions from the bank and assign them directly to a teacher.'}
                 </p>
 
                 <form onSubmit={handleSaveQuestionAssignment} className="space-y-4">
@@ -1328,8 +1428,8 @@ export default function TeacherManagement() {
                     <input
                       type="number"
                       name="totalMarks"
-                      defaultValue="50"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+                      defaultValue={editingAssignment ? editingAssignment.totalMarks : "50"}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-violet-500"
                     />
                   </div>
 
@@ -1339,8 +1439,9 @@ export default function TeacherManagement() {
                     <textarea
                       name="instructions"
                       rows="2"
+                      defaultValue={editingAssignment ? editingAssignment.instructions || "" : ""}
                       placeholder="e.g. Please review student solution submissions for these questions..."
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 resize-none"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-violet-500 resize-none"
                     />
                   </div>
 
@@ -1357,7 +1458,7 @@ export default function TeacherManagement() {
                       type="submit"
                       className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold transition-all shadow-lg shadow-violet-600/25"
                     >
-                      Create Question Assignment
+                      {editingAssignment ? 'Save Changes' : 'Create Question Assignment'}
                     </button>
                   </div>
                 </form>
