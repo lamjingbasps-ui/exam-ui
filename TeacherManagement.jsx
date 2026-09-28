@@ -105,6 +105,16 @@ const Icon = ({ name, className = "w-5 h-5", ...props }) => {
       <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h5m-5 0V11m0 4h.01M12 7h.01M12 15h.01M16 11h.01M16 15h.01M8 11h.01M8 15h.01" />
       </svg>
+    ),
+    clock: (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    activity: (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
     )
   };
 
@@ -112,7 +122,7 @@ const Icon = ({ name, className = "w-5 h-5", ...props }) => {
 };
 
 // ==========================================
-// MOCK INITIAL DATASET OF TEACHERS
+// MOCK INITIAL DATASETS
 // ==========================================
 const INITIAL_TEACHERS = [
   {
@@ -253,23 +263,131 @@ const INITIAL_TEACHERS = [
   }
 ];
 
+const INITIAL_ACTIVITY_LOGS = [
+  {
+    id: "LOG-5001",
+    teacherId: "TCH-1001",
+    teacherName: "Dr. Evelyn Vance",
+    teacherAvatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+    department: "Computer Science",
+    action: "Graded Midterm Exam",
+    category: "Grading",
+    details: "Published grades for 42 students in Artificial Intelligence (CS-401). Class average score: 87.4%.",
+    timestamp: "12 minutes ago",
+    status: "Completed"
+  },
+  {
+    id: "LOG-5002",
+    teacherId: "TCH-1002",
+    teacherName: "Prof. Marcus Thorne",
+    teacherAvatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80",
+    department: "Mathematics",
+    action: "Uploaded Course Material",
+    category: "Course Material",
+    details: "Added revised 2026 fall syllabus and problem set guidelines for Linear Algebra (MATH-302).",
+    timestamp: "45 minutes ago",
+    status: "Completed"
+  },
+  {
+    id: "LOG-5003",
+    teacherId: "TCH-1003",
+    teacherName: "Dr. Sarah Lin",
+    teacherAvatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+    department: "Physics",
+    action: "Marked Class Attendance",
+    category: "Attendance",
+    details: "Recorded attendance for Quantum Mechanics Lab - Section B. 28 present, 2 absent.",
+    timestamp: "1.5 hours ago",
+    status: "Completed"
+  },
+  {
+    id: "LOG-5004",
+    teacherId: "TCH-1005",
+    teacherName: "Dr. Aris Thorne",
+    teacherAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    department: "Chemistry",
+    action: "Scheduled Student Consultation",
+    category: "Consultation",
+    details: "Scheduled 1-on-1 office hour review sessions with 5 honors thesis students for tomorrow.",
+    timestamp: "3 hours ago",
+    status: "Scheduled"
+  },
+  {
+    id: "LOG-5005",
+    teacherId: "TCH-1006",
+    teacherName: "Elena Rostova",
+    teacherAvatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+    department: "Art & Design",
+    action: "Created Quiz Assessment",
+    category: "Assessment",
+    details: "Published online quiz: 'Principles of Modern UI/UX Wireframing'. Due date set for Oct 2.",
+    timestamp: "5 hours ago",
+    status: "Active"
+  },
+  {
+    id: "LOG-5006",
+    teacherId: "TCH-1004",
+    teacherName: "Robert Sterling",
+    teacherAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    department: "English Literature",
+    action: "Submitted Leave Application",
+    category: "Administrative",
+    details: "Submitted medical leave application for Oct 12 - Oct 16. Substitute cover requested.",
+    timestamp: "Yesterday at 4:30 PM",
+    status: "Pending Review"
+  },
+  {
+    id: "LOG-5007",
+    teacherId: "TCH-1008",
+    teacherName: "Dr. Maya Patel",
+    teacherAvatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=150&auto=format&fit=crop&q=80",
+    department: "Biology",
+    action: "Updated Lab Protocol Guide",
+    category: "Course Material",
+    details: "Uploaded step-by-step safety protocol for DNA Gel Electrophoresis Experiment 4.",
+    timestamp: "Yesterday at 2:15 PM",
+    status: "Completed"
+  },
+  {
+    id: "LOG-5008",
+    teacherId: "TCH-1007",
+    teacherName: "Dr. James O'Connor",
+    teacherAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    department: "History",
+    action: "Submitted Quarterly Research Report",
+    category: "Administrative",
+    details: "Filed quarterly research publication summary for European Civilizations department.",
+    timestamp: "2 days ago",
+    status: "Completed"
+  }
+];
+
 const DEPARTMENTS = ["All", "Computer Science", "Mathematics", "Physics", "Chemistry", "English Literature", "Art & Design", "History", "Biology"];
+const LOG_CATEGORIES = ["All Categories", "Grading", "Course Material", "Attendance", "Consultation", "Assessment", "Administrative"];
 
 // ==========================================
-// MAIN TEACHER MANAGEMENT COMPONENT
+// MAIN COMPONENT
 // ==========================================
 export default function TeacherManagement() {
   const [teachers, setTeachers] = useState(INITIAL_TEACHERS);
+  const [activityLogs, setActivityLogs] = useState(INITIAL_ACTIVITY_LOGS);
+  
+  // Search & Filters
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDept, setSelectedDept] = useState('All');
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [sortBy, setSortBy] = useState('name');
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'table' | 'analytics'
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'table' | 'logs' | 'analytics'
   
+  // Log Specific Filters
+  const [logCategory, setLogCategory] = useState('All Categories');
+  const [logTeacherId, setLogTeacherId] = useState('All');
+
   // Modals & Active Selections
   const [activeTeacher, setActiveTeacher] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isAddLogOpen, setIsAddLogOpen] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
@@ -284,7 +402,7 @@ export default function TeacherManagement() {
     }, 3500);
   };
 
-  // Filter & Search Logic
+  // Filter & Search Logic for Teachers
   const filteredTeachers = useMemo(() => {
     return teachers
       .filter(teacher => {
@@ -309,16 +427,33 @@ export default function TeacherManagement() {
       });
   }, [teachers, searchTerm, selectedDept, selectedStatus, sortBy]);
 
+  // Filter Logic for Activity Logs
+  const filteredLogs = useMemo(() => {
+    return activityLogs.filter(log => {
+      const matchesSearch = 
+        log.teacherName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        log.details.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        log.department.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesCategory = logCategory === 'All Categories' || log.category === logCategory;
+      const matchesTeacher = logTeacherId === 'All' || log.teacherId === logTeacherId;
+
+      return matchesSearch && matchesCategory && matchesTeacher;
+    });
+  }, [activityLogs, searchTerm, logCategory, logTeacherId]);
+
   // Analytics Stats
   const stats = useMemo(() => {
     const total = teachers.length;
     const active = teachers.filter(t => t.status === 'Active').length;
     const leave = teachers.filter(t => t.status === 'On Leave').length;
     const avgRating = (teachers.reduce((acc, t) => acc + t.rating, 0) / (total || 1)).toFixed(2);
-    return { total, active, leave, avgRating };
-  }, [teachers]);
+    const totalLogsToday = activityLogs.length;
+    return { total, active, leave, avgRating, totalLogsToday };
+  }, [teachers, activityLogs]);
 
-  // Handle Form Submission (Add / Edit)
+  // Handle Form Submission (Add / Edit Teacher)
   const handleSaveTeacher = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -347,11 +482,52 @@ export default function TeacherManagement() {
       showToast(`Updated details for ${teacherData.name}`, 'info');
     } else {
       setTeachers(prev => [teacherData, ...prev]);
+      
+      // Auto Add an Activity Log for New Teacher Registration
+      const newLog = {
+        id: `LOG-${5000 + activityLogs.length + 1}`,
+        teacherId: teacherData.id,
+        teacherName: teacherData.name,
+        teacherAvatar: teacherData.avatar,
+        department: teacherData.department,
+        action: "Joined Academic Staff",
+        category: "Administrative",
+        details: `Registered as new ${teacherData.designation} in ${teacherData.department} department.`,
+        timestamp: "Just now",
+        status: "Completed"
+      };
+      setActivityLogs(prev => [newLog, ...prev]);
+
       showToast(`Successfully added ${teacherData.name} to faculty list!`, 'success');
     }
 
     setIsFormOpen(false);
     setEditingTeacher(null);
+  };
+
+  // Add New Custom Activity Log
+  const handleSaveActivityLog = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const selectedTchId = formData.get('teacherId');
+    const targetTch = teachers.find(t => t.id === selectedTchId) || teachers[0];
+
+    const logEntry = {
+      id: `LOG-${5000 + activityLogs.length + 1}`,
+      teacherId: targetTch.id,
+      teacherName: targetTch.name,
+      teacherAvatar: targetTch.avatar,
+      department: targetTch.department,
+      action: formData.get('action'),
+      category: formData.get('category'),
+      details: formData.get('details'),
+      timestamp: "Just now",
+      status: formData.get('status') || "Completed"
+    };
+
+    setActivityLogs(prev => [logEntry, ...prev]);
+    setIsAddLogOpen(false);
+    showToast(`Logged new activity for ${targetTch.name}`, 'success');
   };
 
   // Delete Teacher
@@ -411,13 +587,21 @@ export default function TeacherManagement() {
                 Teacher Management System
               </h1>
               <p className="text-sm text-slate-400">
-                Manage academic staff roster, departments, workloads, and staff profiles.
+                Manage academic staff roster, departments, activity logs, and teacher profiles.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={() => setIsAddLogOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 border border-indigo-500/40 hover:border-indigo-500 text-indigo-300 hover:text-white transition-all text-sm font-semibold shadow-sm hover:shadow"
+          >
+            <Icon name="activity" className="w-4 h-4" />
+            Log Activity
+          </button>
+
           <button
             onClick={() => {
               const csvContent = "data:text/csv;charset=utf-8," 
@@ -481,6 +665,19 @@ export default function TeacherManagement() {
 
         <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-md shadow-xl flex items-center justify-between">
           <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Activity Logs</p>
+            <h3 className="text-3xl font-extrabold mt-1 text-violet-400">{stats.totalLogsToday}</h3>
+            <span className="inline-block mt-2 text-xs font-medium text-violet-400 bg-violet-500/10 px-2 py-0.5 rounded-md border border-violet-500/20">
+              Recorded Staff Actions
+            </span>
+          </div>
+          <div className="p-3 bg-violet-500/10 border border-violet-500/20 rounded-xl text-violet-400">
+            <Icon name="clock" className="w-7 h-7" />
+          </div>
+        </div>
+
+        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-md shadow-xl flex items-center justify-between">
+          <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Avg Performance</p>
             <div className="flex items-center gap-2 mt-1">
               <h3 className="text-3xl font-extrabold text-amber-400">{stats.avgRating}</h3>
@@ -494,19 +691,6 @@ export default function TeacherManagement() {
             <Icon name="star" className="w-7 h-7" />
           </div>
         </div>
-
-        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-md shadow-xl flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">On Leave / Other</p>
-            <h3 className="text-3xl font-extrabold mt-1 text-slate-300">{stats.leave}</h3>
-            <span className="inline-block mt-2 text-xs font-medium text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20">
-              Sabbatical / Leave
-            </span>
-          </div>
-          <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400">
-            <Icon name="calendar" className="w-7 h-7" />
-          </div>
-        </div>
       </section>
 
       {/* FILTER & SEARCH CONTROL SECTION */}
@@ -518,7 +702,11 @@ export default function TeacherManagement() {
             <Icon name="search" className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search by teacher name, subject, ID, email, or department..."
+              placeholder={
+                viewMode === 'logs'
+                  ? "Search activity logs by action, teacher, or detail..."
+                  : "Search by teacher name, subject, ID, email, or department..."
+              }
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all shadow-inner"
@@ -536,124 +724,171 @@ export default function TeacherManagement() {
 
           {/* Select Controls & View Switcher */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Status Filter Dropdown */}
-            <div className="flex items-center gap-2">
-              <Icon name="filter" className="w-4 h-4 text-slate-400 hidden sm:block" />
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
-              >
-                <option value="All">All Statuses</option>
-                <option value="Active">Active Only</option>
-                <option value="On Leave">On Leave</option>
-                <option value="Sabbatical">Sabbatical</option>
-              </select>
-            </div>
+            {/* View Mode Specific Filters */}
+            {viewMode !== 'logs' ? (
+              <>
+                {/* Status Filter Dropdown */}
+                <div className="flex items-center gap-2">
+                  <Icon name="filter" className="w-4 h-4 text-slate-400 hidden sm:block" />
+                  <select
+                    value={selectedStatus}
+                    onChange={(e) => setSelectedStatus(e.target.value)}
+                    className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
+                  >
+                    <option value="All">All Statuses</option>
+                    <option value="Active">Active Only</option>
+                    <option value="On Leave">On Leave</option>
+                    <option value="Sabbatical">Sabbatical</option>
+                  </select>
+                </div>
 
-            {/* Sort Dropdown */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
-            >
-              <option value="name">Sort by Name</option>
-              <option value="rating">Sort by Rating</option>
-              <option value="experience">Sort by Experience</option>
-              <option value="department">Sort by Dept</option>
-            </select>
+                {/* Sort Dropdown */}
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
+                >
+                  <option value="name">Sort by Name</option>
+                  <option value="rating">Sort by Rating</option>
+                  <option value="experience">Sort by Experience</option>
+                  <option value="department">Sort by Dept</option>
+                </select>
+              </>
+            ) : (
+              <>
+                {/* Log Category Filter */}
+                <select
+                  value={logCategory}
+                  onChange={(e) => setLogCategory(e.target.value)}
+                  className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
+                >
+                  {LOG_CATEGORIES.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
 
-            {/* View Switcher */}
+                {/* Log Teacher Filter */}
+                <select
+                  value={logTeacherId}
+                  onChange={(e) => setLogTeacherId(e.target.value)}
+                  className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
+                >
+                  <option value="All">All Teachers</option>
+                  {teachers.map(t => (
+                    <option key={t.id} value={t.id}>{t.name}</option>
+                  ))}
+                </select>
+              </>
+            )}
+
+            {/* View Switcher Tabs */}
             <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
               <button
                 onClick={() => setViewMode('grid')}
                 title="Grid View"
-                className={`p-2 rounded-lg text-sm font-medium transition-all ${
+                className={`p-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
                   viewMode === 'grid'
                     ? 'bg-indigo-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Icon name="grid" className="w-4 h-4" />
+                <span className="hidden md:inline">Grid</span>
               </button>
               <button
                 onClick={() => setViewMode('table')}
                 title="Table View"
-                className={`p-2 rounded-lg text-sm font-medium transition-all ${
+                className={`p-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
                   viewMode === 'table'
                     ? 'bg-indigo-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Icon name="list" className="w-4 h-4" />
+                <span className="hidden md:inline">Table</span>
+              </button>
+              <button
+                onClick={() => setViewMode('logs')}
+                title="Teacher Activity Logs"
+                className={`p-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
+                  viewMode === 'logs'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <Icon name="clock" className="w-4 h-4" />
+                <span className="hidden md:inline">Activity Logs</span>
               </button>
               <button
                 onClick={() => setViewMode('analytics')}
                 title="Analytics View"
-                className={`p-2 rounded-lg text-sm font-medium transition-all ${
+                className={`p-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
                   viewMode === 'analytics'
                     ? 'bg-indigo-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Icon name="chart" className="w-4 h-4" />
+                <span className="hidden md:inline">Analytics</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Quick Department Filter Chips */}
-        <div className="pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 mr-1 hidden sm:inline">
-              Departments:
-            </span>
-            {DEPARTMENTS.map(dept => (
-              <button
-                key={dept}
-                onClick={() => setSelectedDept(dept)}
-                className={`px-3 py-1 rounded-xl text-xs font-medium transition-all border ${
-                  selectedDept === dept
-                    ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/50 shadow-inner font-semibold'
-                    : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:text-slate-200 hover:border-slate-700'
-                }`}
-              >
-                {dept}
-              </button>
-            ))}
-          </div>
+        {/* Quick Department Filter Chips (For Grid & Table Views) */}
+        {viewMode !== 'logs' && viewMode !== 'analytics' && (
+          <div className="pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 mr-1 hidden sm:inline">
+                Departments:
+              </span>
+              {DEPARTMENTS.map(dept => (
+                <button
+                  key={dept}
+                  onClick={() => setSelectedDept(dept)}
+                  className={`px-3 py-1 rounded-xl text-xs font-medium transition-all border ${
+                    selectedDept === dept
+                      ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/50 shadow-inner font-semibold'
+                      : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:text-slate-200 hover:border-slate-700'
+                  }`}
+                >
+                  {dept}
+                </button>
+              ))}
+            </div>
 
-          {/* Results Summary Counter & Clear All Filters */}
-          <div className="flex items-center gap-3 text-xs text-slate-400">
-            <span>
-              Showing <strong className="text-indigo-400">{filteredTeachers.length}</strong> of {teachers.length} teachers
-            </span>
-            {(searchTerm || selectedDept !== 'All' || selectedStatus !== 'All') && (
-              <button
-                onClick={() => { setSearchTerm(''); setSelectedDept('All'); setSelectedStatus('All'); }}
-                className="text-xs text-rose-400 hover:text-rose-300 underline font-medium"
-              >
-                Reset All Filters
-              </button>
-            )}
+            {/* Results Summary Counter */}
+            <div className="flex items-center gap-3 text-xs text-slate-400">
+              <span>
+                Showing <strong className="text-indigo-400">{filteredTeachers.length}</strong> of {teachers.length} teachers
+              </span>
+              {(searchTerm || selectedDept !== 'All' || selectedStatus !== 'All') && (
+                <button
+                  onClick={() => { setSearchTerm(''); setSelectedDept('All'); setSelectedStatus('All'); }}
+                  className="text-xs text-rose-400 hover:text-rose-300 underline font-medium"
+                >
+                  Reset All Filters
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
-      {/* LIST OF TEACHERS CONTENT */}
+      {/* MAIN VIEW CONTENT */}
 
       {/* NO RESULTS FALLBACK */}
-      {filteredTeachers.length === 0 && viewMode !== 'analytics' && (
+      {((viewMode !== 'logs' && filteredTeachers.length === 0) || (viewMode === 'logs' && filteredLogs.length === 0)) && viewMode !== 'analytics' && (
         <div className="py-16 text-center border border-dashed border-slate-800 rounded-3xl bg-slate-900/30">
           <div className="w-16 h-16 bg-slate-800/60 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
             <Icon name="search" className="w-8 h-8" />
           </div>
-          <h3 className="text-lg font-semibold text-slate-200">No teachers found</h3>
+          <h3 className="text-lg font-semibold text-slate-200">No matching items found</h3>
           <p className="text-sm text-slate-400 max-w-md mx-auto mt-1">
-            We couldn't find any staff matching your current search term or filter criteria.
+            We couldn't find any records matching your current search term or filter criteria.
           </p>
           <button
-            onClick={() => { setSearchTerm(''); setSelectedDept('All'); setSelectedStatus('All'); }}
+            onClick={() => { setSearchTerm(''); setSelectedDept('All'); setSelectedStatus('All'); setLogCategory('All Categories'); setLogTeacherId('All'); }}
             className="mt-4 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium transition-all"
           >
             Reset Filters
@@ -726,7 +961,7 @@ export default function TeacherManagement() {
                   <button
                     onClick={() => { setActiveTeacher(teacher); setIsDetailOpen(true); }}
                     className="p-2 rounded-xl text-slate-400 hover:text-indigo-300 hover:bg-slate-800 transition-all"
-                    title="View Profile Details"
+                    title="View Profile & Activity"
                   >
                     <Icon name="eye" className="w-4 h-4" />
                   </button>
@@ -841,7 +1076,85 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* 3. ANALYTICS DASHBOARD VIEW */}
+      {/* 3. TEACHER ACTIVITY LOGS VIEW */}
+      {viewMode === 'logs' && filteredLogs.length > 0 && (
+        <div className="space-y-4">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md shadow-2xl">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+              <div>
+                <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+                  <Icon name="clock" className="w-5 h-5 text-indigo-400" />
+                  Staff Activity Timeline & Audit Logs
+                </h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  Track real-time actions, grading updates, course materials, and administrative submissions
+                </p>
+              </div>
+              <span className="text-xs font-medium px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                {filteredLogs.length} Events Listed
+              </span>
+            </div>
+
+            {/* Timeline Feed List */}
+            <div className="space-y-4 relative before:absolute before:left-6 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-800">
+              {filteredLogs.map(log => (
+                <div key={log.id} className="relative pl-12 group">
+                  {/* Timeline Dot Avatar */}
+                  <div className="absolute left-2.5 top-1 -translate-x-1/2 w-8 h-8 rounded-full ring-4 ring-slate-900 overflow-hidden z-10 bg-slate-800">
+                    <img src={log.teacherAvatar} alt="" className="w-full h-full object-cover" />
+                  </div>
+
+                  {/* Activity Card */}
+                  <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 group-hover:border-indigo-500/40 transition-all duration-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-bold text-slate-200 text-sm">{log.teacherName}</span>
+                        <span className="text-xs font-mono text-slate-500">({log.teacherId})</span>
+                        <span className="text-xs px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-indigo-300 font-medium">
+                          {log.department}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        {/* Category Badge */}
+                        <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
+                          log.category === 'Grading' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
+                          log.category === 'Course Material' ? 'bg-violet-500/10 text-violet-400 border-violet-500/30' :
+                          log.category === 'Attendance' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                          log.category === 'Administrative' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                          log.category === 'Consultation' ? 'bg-sky-500/10 text-sky-400 border-sky-500/30' :
+                          'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                        }`}>
+                          {log.category}
+                        </span>
+
+                        <span className="text-xs text-slate-500 font-mono">{log.timestamp}</span>
+                      </div>
+                    </div>
+
+                    <h4 className="text-sm font-semibold text-indigo-200 mb-1">{log.action}</h4>
+                    <p className="text-xs text-slate-300 leading-relaxed">{log.details}</p>
+
+                    <div className="mt-3 pt-2 border-t border-slate-900/60 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="font-mono">Log ID: {log.id}</span>
+                      <span className={`font-medium ${
+                        log.status === 'Completed' ? 'text-emerald-400' :
+                        log.status === 'Scheduled' ? 'text-sky-400' :
+                        log.status === 'Active' ? 'text-indigo-400' :
+                        'text-amber-400'
+                      }`}>
+                        Status: {log.status}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 4. ANALYTICS DASHBOARD VIEW */}
       {viewMode === 'analytics' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -906,10 +1219,10 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* MODAL 1: TEACHER PROFILE DETAILS */}
+      {/* MODAL 1: TEACHER PROFILE DETAILS & ACTIVITY HISTORY */}
       {isDetailOpen && activeTeacher && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative overflow-hidden max-h-[90vh] overflow-y-auto">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-6 md:p-8 shadow-2xl relative overflow-hidden max-h-[90vh] overflow-y-auto">
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
             <button
@@ -984,6 +1297,37 @@ export default function TeacherManagement() {
                   </span>
                 ))}
               </div>
+            </div>
+
+            {/* Teacher Specific Activity Logs */}
+            <div className="mb-6 border-t border-slate-800 pt-6">
+              <h4 className="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-4 flex items-center gap-2">
+                <Icon name="clock" className="w-4 h-4 text-indigo-400" />
+                Recent Teacher Activity History
+              </h4>
+              
+              {activityLogs.filter(l => l.teacherId === activeTeacher.id).length === 0 ? (
+                <p className="text-xs text-slate-500 italic">No activity logs recorded for this teacher yet.</p>
+              ) : (
+                <div className="space-y-3 max-h-56 overflow-y-auto pr-2">
+                  {activityLogs.filter(l => l.teacherId === activeTeacher.id).map(log => (
+                    <div key={log.id} className="p-3 bg-slate-950 rounded-xl border border-slate-800/80 flex items-start justify-between text-xs">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-bold text-indigo-300">{log.action}</span>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                            {log.category}
+                          </span>
+                        </div>
+                        <p className="text-slate-300 text-xs">{log.details}</p>
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-500 whitespace-nowrap ml-2">
+                        {log.timestamp}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
@@ -1200,7 +1544,112 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* MODAL 3: DELETE CONFIRMATION */}
+      {/* MODAL 3: LOG NEW ACTIVITY FORM */}
+      {isAddLogOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 md:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setIsAddLogOpen(false)}
+              className="absolute top-5 right-5 p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors"
+            >
+              <Icon name="close" className="w-5 h-5" />
+            </button>
+
+            <h2 className="text-2xl font-bold text-slate-100 mb-1">
+              Log Teacher Activity
+            </h2>
+            <p className="text-xs text-slate-400 mb-6">
+              Record a new staff action, grading submission, or administrative update into the audit log.
+            </p>
+
+            <form onSubmit={handleSaveActivityLog} className="space-y-4">
+              {/* Select Teacher */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Select Teacher</label>
+                <select
+                  name="teacherId"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 cursor-pointer"
+                >
+                  {teachers.map(t => (
+                    <option key={t.id} value={t.id}>{t.name} ({t.department})</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Category */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Category</label>
+                  <select
+                    name="category"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 cursor-pointer"
+                  >
+                    {LOG_CATEGORIES.filter(c => c !== 'All Categories').map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Status */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Status</label>
+                  <select
+                    name="status"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 cursor-pointer"
+                  >
+                    <option value="Completed">Completed</option>
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Active">Active</option>
+                    <option value="Pending Review">Pending Review</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Action Title */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Action Title</label>
+                <input
+                  type="text"
+                  name="action"
+                  required
+                  placeholder="e.g. Graded Final Term Exam"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+
+              {/* Activity Details */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Details & Description</label>
+                <textarea
+                  name="details"
+                  rows="3"
+                  required
+                  placeholder="Describe the action performed, affected course/section, or notes..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 resize-none"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setIsAddLogOpen(false)}
+                  className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-semibold transition-all shadow-lg shadow-indigo-600/25"
+                >
+                  Submit Activity Log
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 4: DELETE CONFIRMATION */}
       {deleteConfirmId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl text-center">
