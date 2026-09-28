@@ -112,7 +112,7 @@ const Icon = ({ name, className = "w-5 h-5", ...props }) => {
 };
 
 // ==========================================
-// MOCK INITIAL DATASET
+// MOCK INITIAL DATASET OF TEACHERS
 // ==========================================
 const INITIAL_TEACHERS = [
   {
@@ -256,7 +256,7 @@ const INITIAL_TEACHERS = [
 const DEPARTMENTS = ["All", "Computer Science", "Mathematics", "Physics", "Chemistry", "English Literature", "Art & Design", "History", "Biology"];
 
 // ==========================================
-// MAIN COMPONENT
+// MAIN TEACHER MANAGEMENT COMPONENT
 // ==========================================
 export default function TeacherManagement() {
   const [teachers, setTeachers] = useState(INITIAL_TEACHERS);
@@ -284,7 +284,7 @@ export default function TeacherManagement() {
     }, 3500);
   };
 
-  // Filter & Sort Logic
+  // Filter & Search Logic
   const filteredTeachers = useMemo(() => {
     return teachers
       .filter(teacher => {
@@ -309,7 +309,7 @@ export default function TeacherManagement() {
       });
   }, [teachers, searchTerm, selectedDept, selectedStatus, sortBy]);
 
-  // Analytics Aggregates
+  // Analytics Stats
   const stats = useMemo(() => {
     const total = teachers.length;
     const active = teachers.filter(t => t.status === 'Active').length;
@@ -368,9 +368,7 @@ export default function TeacherManagement() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans p-4 md:p-8 selection:bg-indigo-500 selection:text-white">
-      {/* ========================================== */}
-      {/* TOAST NOTIFICATION CONTAINER */}
-      {/* ========================================== */}
+      {/* TOAST NOTIFICATIONS */}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
         {toasts.map(toast => (
           <div
@@ -401,9 +399,7 @@ export default function TeacherManagement() {
         ))}
       </div>
 
-      {/* ========================================== */}
       {/* HEADER SECTION */}
-      {/* ========================================== */}
       <header className="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-800 pb-6">
         <div>
           <div className="flex items-center gap-3 mb-1">
@@ -455,9 +451,7 @@ export default function TeacherManagement() {
         </div>
       </header>
 
-      {/* ========================================== */}
       {/* STATS OVERVIEW CARDS */}
-      {/* ========================================== */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-md shadow-xl flex items-center justify-between">
           <div>
@@ -515,11 +509,138 @@ export default function TeacherManagement() {
         </div>
       </section>
 
+      {/* FILTER & SEARCH CONTROL SECTION */}
+      <section className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 mb-6 backdrop-blur-md shadow-xl space-y-4">
+        {/* Top Control Bar: Search Input, Filters & View Toggle */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          {/* Search Input */}
+          <div className="relative flex-1 min-w-[280px]">
+            <Icon name="search" className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search by teacher name, subject, ID, email, or department..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all shadow-inner"
+            />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-200 p-1"
+                title="Clear search"
+              >
+                <Icon name="close" className="w-4 h-4" />
+              </button>
+            )}
+          </div>
 
+          {/* Select Controls & View Switcher */}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Status Filter Dropdown */}
+            <div className="flex items-center gap-2">
+              <Icon name="filter" className="w-4 h-4 text-slate-400 hidden sm:block" />
+              <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
+              >
+                <option value="All">All Statuses</option>
+                <option value="Active">Active Only</option>
+                <option value="On Leave">On Leave</option>
+                <option value="Sabbatical">Sabbatical</option>
+              </select>
+            </div>
 
-      {/* ========================================== */}
-      {/* MAIN VIEW CONTENT */}
-      {/* ========================================== */}
+            {/* Sort Dropdown */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer"
+            >
+              <option value="name">Sort by Name</option>
+              <option value="rating">Sort by Rating</option>
+              <option value="experience">Sort by Experience</option>
+              <option value="department">Sort by Dept</option>
+            </select>
+
+            {/* View Switcher */}
+            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+              <button
+                onClick={() => setViewMode('grid')}
+                title="Grid View"
+                className={`p-2 rounded-lg text-sm font-medium transition-all ${
+                  viewMode === 'grid'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <Icon name="grid" className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('table')}
+                title="Table View"
+                className={`p-2 rounded-lg text-sm font-medium transition-all ${
+                  viewMode === 'table'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <Icon name="list" className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('analytics')}
+                title="Analytics View"
+                className={`p-2 rounded-lg text-sm font-medium transition-all ${
+                  viewMode === 'analytics'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <Icon name="chart" className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Department Filter Chips */}
+        <div className="pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 mr-1 hidden sm:inline">
+              Departments:
+            </span>
+            {DEPARTMENTS.map(dept => (
+              <button
+                key={dept}
+                onClick={() => setSelectedDept(dept)}
+                className={`px-3 py-1 rounded-xl text-xs font-medium transition-all border ${
+                  selectedDept === dept
+                    ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/50 shadow-inner font-semibold'
+                    : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:text-slate-200 hover:border-slate-700'
+                }`}
+              >
+                {dept}
+              </button>
+            ))}
+          </div>
+
+          {/* Results Summary Counter & Clear All Filters */}
+          <div className="flex items-center gap-3 text-xs text-slate-400">
+            <span>
+              Showing <strong className="text-indigo-400">{filteredTeachers.length}</strong> of {teachers.length} teachers
+            </span>
+            {(searchTerm || selectedDept !== 'All' || selectedStatus !== 'All') && (
+              <button
+                onClick={() => { setSearchTerm(''); setSelectedDept('All'); setSelectedStatus('All'); }}
+                className="text-xs text-rose-400 hover:text-rose-300 underline font-medium"
+              >
+                Reset All Filters
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* LIST OF TEACHERS CONTENT */}
 
       {/* NO RESULTS FALLBACK */}
       {filteredTeachers.length === 0 && viewMode !== 'analytics' && (
@@ -540,7 +661,7 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* 1. GRID VIEW */}
+      {/* 1. GRID VIEW - TEACHER LIST CARDS */}
       {viewMode === 'grid' && filteredTeachers.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredTeachers.map(teacher => (
@@ -548,7 +669,6 @@ export default function TeacherManagement() {
               key={teacher.id}
               className="group bg-slate-900/80 border border-slate-800/80 hover:border-indigo-500/40 rounded-2xl p-5 backdrop-blur-md shadow-xl hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 flex flex-col justify-between relative"
             >
-              {/* Top Bar / Status Badge */}
               <div>
                 <div className="flex items-start justify-between mb-4">
                   <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
@@ -565,7 +685,6 @@ export default function TeacherManagement() {
                   </div>
                 </div>
 
-                {/* Avatar & Info */}
                 <div className="flex items-center gap-4 mb-4">
                   <div className="relative">
                     <img
@@ -586,7 +705,6 @@ export default function TeacherManagement() {
                   </div>
                 </div>
 
-                {/* Subjects Tags */}
                 <div className="space-y-2 mb-4">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Subjects</p>
                   <div className="flex flex-wrap gap-1.5">
@@ -599,7 +717,6 @@ export default function TeacherManagement() {
                 </div>
               </div>
 
-              {/* Card Footer Actions */}
               <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between mt-2">
                 <span className="text-xs text-slate-400 font-medium">
                   <strong className="text-slate-200">{teacher.experienceYears} yrs</strong> Exp.
@@ -634,7 +751,7 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* 2. TABLE VIEW */}
+      {/* 2. TABLE VIEW - TEACHER ROSTER TABLE */}
       {viewMode === 'table' && filteredTeachers.length > 0 && (
         <div className="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur-md shadow-2xl">
           <div className="overflow-x-auto">
@@ -728,7 +845,6 @@ export default function TeacherManagement() {
       {viewMode === 'analytics' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Department Roster Breakdown */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md shadow-xl">
               <h3 className="text-lg font-bold text-slate-100 mb-1">Department Staff Count</h3>
               <p className="text-xs text-slate-400 mb-6">Distribution of faculty members across departments</p>
@@ -755,7 +871,6 @@ export default function TeacherManagement() {
               </div>
             </div>
 
-            {/* Experience & Seniority Distribution */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md shadow-xl flex flex-col justify-between">
               <div>
                 <h3 className="text-lg font-bold text-slate-100 mb-1">Seniority & Experience</h3>
@@ -777,7 +892,6 @@ export default function TeacherManagement() {
                 </div>
               </div>
 
-              {/* Quick Summary Cards */}
               <div className="p-4 rounded-xl bg-indigo-950/30 border border-indigo-500/20 text-xs text-indigo-300 space-y-2">
                 <div className="flex items-center gap-2 font-semibold text-indigo-200">
                   <Icon name="award" className="w-4 h-4 text-indigo-400" />
@@ -792,13 +906,10 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* ========================================== */}
-      {/* MODAL 1: TEACHER PROFILE / DETAILS DRAWER */}
-      {/* ========================================== */}
+      {/* MODAL 1: TEACHER PROFILE DETAILS */}
       {isDetailOpen && activeTeacher && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative overflow-hidden max-h-[90vh] overflow-y-auto">
-            {/* Background Glow Accent */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
             <button
@@ -808,7 +919,6 @@ export default function TeacherManagement() {
               <Icon name="close" className="w-5 h-5" />
             </button>
 
-            {/* Profile Header */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
               <img
                 src={activeTeacher.avatar}
@@ -838,7 +948,6 @@ export default function TeacherManagement() {
               </div>
             </div>
 
-            {/* Detailed Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800">
                 <p className="text-xs text-slate-500 uppercase font-semibold">Qualification</p>
@@ -863,7 +972,6 @@ export default function TeacherManagement() {
               </div>
             </div>
 
-            {/* Subjects Taught */}
             <div className="mb-6">
               <h4 className="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-2">
                 Assigned Subjects & Courses
@@ -878,7 +986,6 @@ export default function TeacherManagement() {
               </div>
             </div>
 
-            {/* Modal Actions */}
             <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
               <button
                 onClick={() => {
@@ -902,9 +1009,7 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* ========================================== */}
       {/* MODAL 2: ADD / EDIT TEACHER FORM */}
-      {/* ========================================== */}
       {isFormOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
@@ -924,7 +1029,6 @@ export default function TeacherManagement() {
 
             <form onSubmit={handleSaveTeacher} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Full Name */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Full Name</label>
                   <input
@@ -937,7 +1041,6 @@ export default function TeacherManagement() {
                   />
                 </div>
 
-                {/* Designation */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Designation</label>
                   <input
@@ -952,7 +1055,6 @@ export default function TeacherManagement() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Department */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Department</label>
                   <select
@@ -966,7 +1068,6 @@ export default function TeacherManagement() {
                   </select>
                 </div>
 
-                {/* Status */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Status</label>
                   <select
@@ -982,7 +1083,6 @@ export default function TeacherManagement() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Email */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Email Address</label>
                   <input
@@ -995,7 +1095,6 @@ export default function TeacherManagement() {
                   />
                 </div>
 
-                {/* Phone */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Phone Number</label>
                   <input
@@ -1008,7 +1107,6 @@ export default function TeacherManagement() {
                 </div>
               </div>
 
-              {/* Subjects (Comma separated) */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">
                   Subjects Taught (comma separated)
@@ -1023,7 +1121,6 @@ export default function TeacherManagement() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* Experience Years */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Experience (Yrs)</label>
                   <input
@@ -1036,7 +1133,6 @@ export default function TeacherManagement() {
                   />
                 </div>
 
-                {/* Qualification */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Qualification</label>
                   <input
@@ -1050,7 +1146,6 @@ export default function TeacherManagement() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Office */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Office Room</label>
                   <input
@@ -1062,7 +1157,6 @@ export default function TeacherManagement() {
                   />
                 </div>
 
-                {/* Payroll */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Payroll / Salary</label>
                   <input
@@ -1075,7 +1169,6 @@ export default function TeacherManagement() {
                 </div>
               </div>
 
-              {/* Avatar Image URL */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Avatar Image URL (Optional)</label>
                 <input
@@ -1087,7 +1180,6 @@ export default function TeacherManagement() {
                 />
               </div>
 
-              {/* Actions */}
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800 mt-6">
                 <button
                   type="button"
@@ -1108,9 +1200,7 @@ export default function TeacherManagement() {
         </div>
       )}
 
-      {/* ========================================== */}
       {/* MODAL 3: DELETE CONFIRMATION */}
-      {/* ========================================== */}
       {deleteConfirmId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl text-center">
