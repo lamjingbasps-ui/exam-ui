@@ -1,341 +1,18 @@
-import React, { useState, useMemo } from 'react';
-import spsLogo from '../assets/images/sps_logo.png';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import TopBar from '../components/layout/TopBar.jsx';
+import Sidebar from '../components/layout/Sidebar.jsx';
+import ComingSoonPlaceholder from '../components/layout/ComingSoonPlaceholder.jsx';
+import QuestionFilters from '../components/question-bank/QuestionFilters.jsx';
+import QuestionCard from '../components/question-bank/QuestionCard.jsx';
+import QuestionTable from '../components/question-bank/QuestionTable.jsx';
+import QuestionDetailsModal from '../components/modals/QuestionDetailsModal.jsx';
+import QuestionEditModal from '../components/modals/QuestionEditModal.jsx';
+import QuestionHistoryModal from '../components/modals/QuestionHistoryModal.jsx';
+import QuestionDeleteModal from '../components/modals/QuestionDeleteModal.jsx';
+import Icon from '../components/common/Icon.jsx';
+import { INITIAL_QUESTIONS } from '../data/mockQuestions.js';
+import { NAV_ITEMS } from '../data/navigation.js';
 
-// ============================================
-// SVG ICONS
-// ============================================
-const Icon = ({ name, className = 'w-5 h-5', ...props }) => {
-  const icons = {
-    search: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-    ),
-    plus: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-      </svg>
-    ),
-    eye: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-      </svg>
-    ),
-    edit: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-      </svg>
-    ),
-    history: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-    trash: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-      </svg>
-    ),
-    sendBack: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-      </svg>
-    ),
-    download: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-      </svg>
-    ),
-    check: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-      </svg>
-    ),
-    close: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    ),
-    book: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-      </svg>
-    ),
-    grid: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-      </svg>
-    ),
-    list: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-      </svg>
-    ),
-    dashboard: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-      </svg>
-    ),
-    academic: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
-      </svg>
-    ),
-    clipboard: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-      </svg>
-    ),
-    users: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ),
-    logout: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-      </svg>
-    ),
-    chevronRight: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    ),
-    tag: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5a1.99 1.99 0 011.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z" />
-      </svg>
-    ),
-    refresh: (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-      </svg>
-    ),
-  };
-  return icons[name] || null;
-};
-
-// ============================================
-// SIDEBAR NAV ITEMS
-// ============================================
-const NAV_ITEMS = [
-  { id: 'questionBank',         label: 'Question Bank',             icon: 'book' },
-  { id: 'teacherManagement',    label: 'Teacher Management',        icon: 'users' },
-  { id: 'examBlueprint',        label: 'Exam Question Blueprint',   icon: 'clipboard' },
-  { id: 'questionCreation',     label: 'Question Creation',         icon: 'plus' },
-  { id: 'generatePaper',        label: 'Generate Question Paper',   icon: 'refresh' },
-  { id: 'paperManagement',      label: 'Question Paper Management', icon: 'grid' },
-];
-
-// ============================================
-// MOCK QUESTION DATA
-// ============================================
-const INITIAL_QUESTIONS = [
-  {
-    id: 'QB-PHY-2041',
-    version: 'v2.1',
-    type: 'Multiple Choice (MCQ)',
-    typeCategory: 'mcq',
-    subject: 'Physics',
-    grade: 'Grade 10',
-    chapter: 'Optics & Light Reflection',
-    bookReference: 'NCERT Science Class 10 (Ch 10)',
-    marks: 1,
-    negativeMarks: 0.25,
-    difficulty: 'Medium',
-    cognitiveLevel: 'Application',
-    estimatedTimeMin: 2,
-    status: 'Active',
-    questionText:
-      'An object is placed at a distance of 12 cm in front of a concave mirror. It forms a real image four times larger than the object. Calculate the distance of the image from the mirror.',
-    options: [
-      { id: 'optA', text: '-48 cm', isCorrect: true },
-      { id: 'optB', text: '-36 cm', isCorrect: false },
-      { id: 'optC', text: '+48 cm', isCorrect: false },
-      { id: 'optD', text: '+12 cm', isCorrect: false },
-    ],
-    correctAnswer: 'Option A (-48 cm)',
-    explanation:
-      'Magnification m = -v/u. Since image is real and magnified 4 times, m = -4. Given u = -12 cm. Therefore v = -48 cm.',
-    rubric: '1 Mark for correct magnification formula and sign convention.',
-    author: 'Dr. Evelyn Vance',
-    history: [
-      { action: 'Created', date: '2026-01-15 09:30 AM', user: 'Dr. Evelyn Vance', note: 'Created for NCERT-based question set.' },
-      { action: 'Edited', date: '2026-02-04 03:15 PM', user: 'Prof. Marcus Thorne', note: 'Clarified sign convention wording.' },
-      { action: 'Versioned', date: '2026-02-04 03:16 PM', user: 'System', note: 'Bumped from v1.0 to v2.1.' },
-      { action: 'Downloaded', date: '2026-03-10 11:20 AM', user: 'Exam Cell', note: 'Included in Mid-Term Exam 2026 Set B.' },
-    ],
-  },
-  {
-    id: 'QB-MTH-1082',
-    version: 'v1.4',
-    type: 'Long Essay / Problem',
-    typeCategory: 'long',
-    subject: 'Mathematics',
-    grade: 'Grade 10',
-    chapter: 'Quadratic Equations & Roots',
-    bookReference: 'Oxford Mathematics v2 (Ch 4)',
-    marks: 5,
-    negativeMarks: 0,
-    difficulty: 'Hard',
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 8,
-    status: 'Active',
-    questionText:
-      'A motor boat whose speed is 18 km/h in still water takes 1 hour more to go 24 km upstream than to return downstream. Find the speed of the stream.',
-    options: [],
-    correctAnswer: 'Speed of stream = 6 km/h',
-    explanation:
-      'Let stream speed be x. 24/(18-x) - 24/(18+x) = 1 → x² + 48x - 324 = 0 → x = 6 km/h.',
-    rubric: '1M variables; 2M equation; 2M factorization.',
-    author: 'Prof. Marcus Thorne',
-    history: [
-      { action: 'Created', date: '2025-11-20 10:15 AM', user: 'Prof. Marcus Thorne', note: 'Authored for Term Exam QB.' },
-      { action: 'Versioned', date: '2026-01-08 02:40 PM', user: 'Prof. Marcus Thorne', note: 'Added marking rubric.' },
-      { action: 'Downloaded', date: '2026-02-12 04:00 PM', user: 'Teacher Staff', note: 'Grade 10 Practice Worksheet.' },
-    ],
-  },
-  {
-    id: 'QB-CHE-3105',
-    version: 'v1.0',
-    type: 'Assertion & Reasoning',
-    typeCategory: 'assertion',
-    subject: 'Chemistry',
-    grade: 'Grade 11',
-    chapter: 'Chemical Bonding & Molecular Structure',
-    bookReference: 'NCERT Chemistry Vol 1 (Ch 4)',
-    marks: 2,
-    negativeMarks: 0.5,
-    difficulty: 'Medium',
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 3,
-    status: 'Active',
-    questionText:
-      'Assertion (A): The bond angle in NH₃ is larger than in PH₃.\nReason (R): Nitrogen is more electronegative than phosphorus, causing stronger bond pair repulsion in NH₃.',
-    options: [
-      { id: 'optA', text: 'Both (A) and (R) are true and (R) correctly explains (A)', isCorrect: true },
-      { id: 'optB', text: 'Both (A) and (R) are true but (R) is not the correct explanation', isCorrect: false },
-      { id: 'optC', text: '(A) is true but (R) is false', isCorrect: false },
-      { id: 'optD', text: '(A) is false but (R) is true', isCorrect: false },
-    ],
-    correctAnswer: 'Option A',
-    explanation: 'N is more electronegative → electron density closer to N → greater bp-bp repulsion → larger bond angle (107° vs 93.5°).',
-    rubric: '2 Marks for correct option.',
-    author: 'Dr. Alistair Finch',
-    history: [
-      { action: 'Created', date: '2026-02-10 11:00 AM', user: 'Dr. Alistair Finch', note: 'Extracted from 2025 Board Paper.' },
-      { action: 'Downloaded', date: '2026-02-28 09:30 AM', user: 'Dr. Alistair Finch', note: 'Exported to Weekly Quiz.' },
-    ],
-  },
-  {
-    id: 'QB-BIO-4099',
-    version: 'v3.0',
-    type: 'Short Answer',
-    typeCategory: 'short',
-    subject: 'Biology',
-    grade: 'Grade 10',
-    chapter: 'Life Processes & Photosynthesis',
-    bookReference: 'Oxford Living Science (Ch 6)',
-    marks: 3,
-    negativeMarks: 0,
-    difficulty: 'Easy',
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 4,
-    status: 'Active',
-    questionText:
-      'State the three events that occur during photosynthesis. Write the balanced chemical equation.',
-    options: [],
-    correctAnswer: '1. Light absorption by chlorophyll. 2. Light → chemical energy + water splitting. 3. CO₂ → carbohydrates. Equation: 6CO₂ + 12H₂O → C₆H₁₂O₆ + 6O₂ + 6H₂O',
-    explanation: 'Equation must be balanced with 12H₂O for full marks.',
-    rubric: '1M equation; 2M for 3 events.',
-    author: 'Ms. Sarah Jenkins',
-    history: [
-      { action: 'Created', date: '2025-09-12 08:45 AM', user: 'Ms. Sarah Jenkins', note: 'Unit Test 1.' },
-      { action: 'Edited', date: '2025-10-18 01:20 PM', user: 'Ms. Sarah Jenkins', note: 'Updated to balanced equation.' },
-      { action: 'Versioned', date: '2025-10-18 01:22 PM', user: 'System', note: 'Promoted to v3.0.' },
-      { action: 'Edited', date: '2026-03-01 10:10 AM', user: 'Academic Reviewer', note: 'Sent back: needs 2026 curriculum code.' },
-    ],
-  },
-  {
-    id: 'QB-CSC-5120',
-    version: 'v1.2',
-    type: 'Multiple Choice (MCQ)',
-    typeCategory: 'mcq',
-    subject: 'Computer Science',
-    grade: 'Grade 12',
-    chapter: 'Data Structures & Python Stacks',
-    bookReference: 'Sumita Arora Python CS (Ch 7)',
-    marks: 1,
-    negativeMarks: 0.25,
-    difficulty: 'Easy',
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 1.5,
-    status: 'Active',
-    questionText:
-      'Which operation in a Python Stack peeks the topmost element without removing it?',
-    options: [
-      { id: 'optA', text: 'stack.pop()', isCorrect: false },
-      { id: 'optB', text: 'stack[-1] — Peek operation', isCorrect: true },
-      { id: 'optC', text: 'stack.append()', isCorrect: false },
-      { id: 'optD', text: 'stack.shift()', isCorrect: false },
-    ],
-    correctAnswer: 'Option B (stack[-1])',
-    explanation: 'list[-1] accesses the last element without mutating the stack.',
-    rubric: '1 Mark.',
-    author: 'Dr. Evelyn Vance',
-    history: [
-      { action: 'Created', date: '2026-01-20 04:10 PM', user: 'Dr. Evelyn Vance', note: 'Grade 12 CS repository.' },
-    ],
-  },
-  {
-    id: 'QB-ENG-6021',
-    version: 'v1.0',
-    type: 'Short Answer',
-    typeCategory: 'short',
-    subject: 'English Literature',
-    grade: 'Grade 9',
-    chapter: 'The Road Not Taken — Robert Frost',
-    bookReference: 'Beehive English Reader (Poem 1)',
-    marks: 2,
-    negativeMarks: 0,
-    difficulty: 'Easy',
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 3,
-    status: 'Active',
-    questionText:
-      "What do the 'two roads diverged in a yellow wood' symbolize? How does the speaker make his choice?",
-    options: [],
-    correctAnswer: "The roads symbolize life's choices. The speaker chooses the road 'less traveled by', showing individuality.",
-    explanation: 'Metaphor of paths representing life decisions.',
-    rubric: '1M symbolism; 1M choice rationale.',
-    author: 'Prof. Jonathan Blake',
-    history: [
-      { action: 'Created', date: '2026-02-14 10:00 AM', user: 'Prof. Jonathan Blake', note: 'Poetry Assessment.' },
-    ],
-  },
-];
-
-// ============================================
-// STYLE CONSTANTS
-// ============================================
-const TYPE_BADGES = {
-  'Multiple Choice (MCQ)': { cls: 'bg-emerald-100 text-emerald-700 border-emerald-200', label: 'MCQ' },
-  'Short Answer': { cls: 'bg-blue-100 text-blue-700 border-blue-200', label: 'Short Answer' },
-  'Long Essay / Problem': { cls: 'bg-purple-100 text-purple-700 border-purple-200', label: 'Long Essay' },
-  'Assertion & Reasoning': { cls: 'bg-amber-100 text-amber-700 border-amber-200', label: 'A & R' },
-  'True / False': { cls: 'bg-teal-100 text-teal-700 border-teal-200', label: 'True/False' },
-};
-
-const DIFFICULTY_CLS = {
-  Easy: 'bg-green-100 text-green-700 border-green-200',
-  Medium: 'bg-amber-100 text-amber-700 border-amber-200',
-  Hard: 'bg-red-100 text-red-700 border-red-200',
-};
-
-// ============================================
-// MAIN COMPONENT
-// ============================================
 export default function QuestionBank() {
   const [questions, setQuestions] = useState(INITIAL_QUESTIONS);
   const [searchTerm, setSearchTerm] = useState('');
@@ -347,18 +24,69 @@ export default function QuestionBank() {
   const [viewMode, setViewMode] = useState('card');
   const [activeNav, setActiveNav] = useState('questionBank');
 
-  const [modal, setModal] = useState(null); // 'details' | 'edit' | 'history' | 'delete' | 'export'
+  const [modal, setModal] = useState(null); // 'details' | 'edit' | 'history' | 'delete'
   const [current, setCurrent] = useState(null);
   const [toast, setToast] = useState(null);
   const [editForm, setEditForm] = useState(null);
+
+  const navButtonRefs = useRef([]);
 
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(null), 3200);
   };
 
-  const openModal = (type, q) => { setCurrent(q); setModal(type); };
-  const closeModal = () => { setModal(null); setCurrent(null); };
+  const openModal = (type, q) => {
+    setCurrent(q);
+    setModal(type);
+  };
+
+  const closeModal = () => {
+    setModal(null);
+    setCurrent(null);
+  };
+
+  // Keyboard navigation for sidebar (ArrowUp, ArrowDown, Home, End)
+  const handleNavKeyDown = (e, index) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      const nextIndex = (index + 1) % NAV_ITEMS.length;
+      navButtonRefs.current[nextIndex]?.focus();
+      setActiveNav(NAV_ITEMS[nextIndex].id);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prevIndex = (index - 1 + NAV_ITEMS.length) % NAV_ITEMS.length;
+      navButtonRefs.current[prevIndex]?.focus();
+      setActiveNav(NAV_ITEMS[prevIndex].id);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      navButtonRefs.current[0]?.focus();
+      setActiveNav(NAV_ITEMS[0].id);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      navButtonRefs.current[NAV_ITEMS.length - 1]?.focus();
+      setActiveNav(NAV_ITEMS[NAV_ITEMS.length - 1].id);
+    }
+  };
+
+  // Global hotkeys: Alt + 1..6 jumps directly to sidebar sections
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+        return;
+      }
+      if (e.altKey && e.key >= '1' && e.key <= String(NAV_ITEMS.length)) {
+        e.preventDefault();
+        const targetIndex = Number(e.key) - 1;
+        if (NAV_ITEMS[targetIndex]) {
+          setActiveNav(NAV_ITEMS[targetIndex].id);
+          navButtonRefs.current[targetIndex]?.focus();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   const filtered = useMemo(() => {
     return questions.filter((q) => {
@@ -379,7 +107,7 @@ export default function QuestionBank() {
     });
   }, [questions, searchTerm, filterSubject, filterGrade, filterType, filterDifficulty, filterStatus]);
 
-  // ---- Edit / Save ----
+  // Edit Handlers
   const handleOpenEdit = (q) => {
     setEditForm({ ...q, options: q.options ? JSON.parse(JSON.stringify(q.options)) : [], changelogNote: '' });
     openModal('edit', q);
@@ -403,7 +131,7 @@ export default function QuestionBank() {
     showToast(`✓ Question ${updated.id} saved as ${newVer}`);
   };
 
-  // ---- Delete ----
+  // Delete Handler
   const handleConfirmDelete = () => {
     if (!current) return;
     setQuestions((prev) => prev.filter((q) => q.id !== current.id));
@@ -411,168 +139,39 @@ export default function QuestionBank() {
     showToast(`✓ Question ${current.id} deleted.`);
   };
 
-  // ---- Stats ----
-  const stats = useMemo(() => ({
-    total: questions.length,
-    active: questions.filter((q) => q.status === 'Active').length,
-    mcq:       questions.filter((q) => q.typeCategory === 'mcq').length,
-    short:     questions.filter((q) => q.typeCategory === 'short').length,
-    long:      questions.filter((q) => q.typeCategory === 'long').length,
-    assertion: questions.filter((q) => q.typeCategory === 'assertion').length,
-    trueFalse: questions.filter((q) => q.typeCategory === 'truefalse').length,
-    easy:      questions.filter((q) => q.difficulty === 'Easy').length,
-    medium:    questions.filter((q) => q.difficulty === 'Medium').length,
-    hard:      questions.filter((q) => q.difficulty === 'Hard').length,
-    totalMarks: questions.reduce((sum, q) => sum + (q.marks || 0), 0),
-  }), [questions]);
+  const handleResetFilters = () => {
+    setSearchTerm('');
+    setFilterSubject('All');
+    setFilterGrade('All');
+    setFilterType('All');
+    setFilterDifficulty('All');
+    setFilterStatus('All');
+  };
 
-  // ============================================
-  // ============================================
-  // RENDER
-  // ============================================
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        background: 'rgb(250, 248, 245)',
-        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+        background: '#faf8f5',
+        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
       }}
     >
+      {/* Top Bar Header */}
+      <TopBar />
 
-      {/* =================== TOP BAR =================== */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, rgb(114, 16, 42) 0%, rgb(139, 31, 58) 100%)',
-          borderBottom: '2px solid rgb(201, 168, 76)',
-          padding: '0px 24px',
-          height: '60px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexShrink: 0,
-          boxShadow: 'rgba(0, 0, 0, 0.15) 0px 4px 20px',
-          zIndex: 100,
-        }}
-      >
-        {/* Left: School Crest + Name & Location */}
-        <div className="flex items-center gap-3">
-          <img
-            src={spsLogo}
-            alt="South Point School Crest"
-            className="h-10 w-auto object-contain flex-shrink-0 drop-shadow"
-          />
-          <div className="flex flex-col">
-            <span
-              className="font-bold text-[15px] leading-tight tracking-wide"
-              style={{ color: 'rgb(201, 168, 76)', fontFamily: "'Cinzel', serif" }}
-            >
-              South Point School
-            </span>
-            <span className="text-[10px] uppercase font-semibold text-white/90 tracking-widest leading-none mt-0.5">
-              GUWAHATI, ASSAM
-            </span>
-          </div>
-        </div>
-
-        {/* Right: Back Button */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => window.history.back()}
-            className="px-4 py-1.5 rounded text-xs font-medium text-white transition-all shadow-sm"
-            style={{
-              backgroundColor: 'rgba(114, 16, 42, 0.75)',
-              border: '1px solid rgba(201, 168, 76, 0.4)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)';
-              e.currentTarget.style.borderColor = 'rgb(201, 168, 76)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(114, 16, 42, 0.75)';
-              e.currentTarget.style.borderColor = 'rgba(201, 168, 76, 0.4)';
-            }}
-            title="Back"
-          >
-            Back
-          </button>
-        </div>
-      </div>
-
-      {/* =================== BODY: SIDEBAR + MAIN CONTENT =================== */}
+      {/* Main Body */}
       <div style={{ display: 'flex', flex: '1 1 0%', minHeight: '0px' }}>
+        {/* Sidebar */}
+        <Sidebar
+          activeNav={activeNav}
+          setActiveNav={setActiveNav}
+          navButtonRefs={navButtonRefs}
+          handleNavKeyDown={handleNavKeyDown}
+        />
 
-        {/* =================== SIDEBAR =================== */}
-        <div
-          style={{
-            width: '240px',
-            background: 'linear-gradient(rgb(114, 16, 42) 0%, rgb(72, 10, 26) 100%)',
-            display: 'flex',
-            flexDirection: 'column',
-            flexShrink: 0,
-            boxShadow: 'rgba(0, 0, 0, 0.15) 4px 0px 20px',
-          }}
-        >
-          {/* Nav Links */}
-          <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
-            {NAV_ITEMS.map((item) => {
-              const isActive = activeNav === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveNav(item.id)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all text-left ${
-                    isActive
-                      ? 'text-white shadow-sm'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
-                  }`}
-                  style={
-                    isActive
-                      ? {
-                          backgroundColor: 'rgba(255, 255, 255, 0.14)',
-                          border: '1px solid rgba(201, 168, 76, 0.45)',
-                          color: '#ffffff',
-                        }
-                      : {}
-                  }
-                >
-                  <Icon
-                    name={item.icon}
-                    className="w-4 h-4 flex-shrink-0"
-                    style={{ color: isActive ? 'rgb(201, 168, 76)' : 'currentColor' }}
-                  />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* User Footer */}
-          <div className="px-3 py-3 border-t border-white/10 mt-auto">
-            <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-white/10 cursor-pointer transition-colors">
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs"
-                style={{
-                  backgroundColor: 'rgba(201, 168, 76, 0.25)',
-                  color: 'rgb(201, 168, 76)',
-                  border: '1px solid rgba(201, 168, 76, 0.5)',
-                }}
-              >
-                LM
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-white text-xs font-semibold truncate">lam rin</div>
-                <div className="text-white/60 text-[10px] truncate">lam@sps@gmail...</div>
-              </div>
-              <button className="text-white/60 hover:text-white transition-colors" title="Log Out">
-                <Icon name="logout" className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* =================== MAIN CONTENT =================== */}
+        {/* Content Area */}
         <main
           id="main-content"
           tabIndex={-1}
@@ -585,7 +184,7 @@ export default function QuestionBank() {
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Toast */}
+            {/* Toast Notification */}
             {toast && (
               <div className="fixed top-16 right-4 z-50 flex items-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium">
                 <Icon name="check" className="w-4 h-4" />
@@ -593,636 +192,150 @@ export default function QuestionBank() {
               </div>
             )}
 
-            {/* Sub-Header: Page Title & Actions Card */}
-            <div
-              className="bg-white border rounded-xl px-6 py-4 flex items-center justify-between flex-shrink-0"
-              style={{
-                borderColor: '#E8E2D8',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-              }}
-            >
+            {/* Sub-Header: Page Title & Actions */}
+            <div className="flex items-center justify-between flex-shrink-0">
               <div>
-                <h1 className="text-xl font-bold leading-tight" style={{ color: 'rgb(26, 26, 26)' }}>
+                <h1
+                  style={{
+                    fontFamily: "'Outfit', 'Inter', system-ui, sans-serif",
+                    fontSize: '32px',
+                    fontWeight: 800,
+                    color: '#1A1A1A',
+                    lineHeight: 1.2,
+                    letterSpacing: '-0.025em',
+                  }}
+                >
                   {NAV_ITEMS.find((n) => n.id === activeNav)?.label || 'Question Bank'}
                 </h1>
-                <p className="text-[11px] text-gray-500 mt-0.5">
+                <p
+                  className="mt-1"
+                  style={{
+                    fontFamily: "'Inter', system-ui, sans-serif",
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    color: '#6B6B6B',
+                  }}
+                >
                   South Point School · Exam Management System
                 </p>
               </div>
+
               <div className="flex items-center gap-2.5">
                 <button
                   disabled
                   className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all shadow-sm cursor-not-allowed opacity-50 pointer-events-none"
-                  style={{ backgroundColor: 'rgb(114, 16, 42)' }}
+                  style={{ backgroundColor: '#72102a' }}
                 >
                   <Icon name="plus" className="w-4 h-4" />
                   New Question
                 </button>
-
               </div>
             </div>
 
-        {/* ── QUESTION BANK VIEW ── */}
-        {activeNav === 'questionBank' && (
-          <>
-
-
-            {/* Search + Filters */}
-            <div className="flex flex-col gap-3">
-              {/* Search */}
-              <div className="relative">
-                <Icon name="search" className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search by question text, ID, chapter, or author..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-white border rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none transition-all"
-                  style={{ borderColor: '#E8E2D8' }}
-                  onFocus={(e) => { e.target.style.boxShadow = '0 0 0 3px rgba(58,9,23,0.12)'; e.target.style.borderColor = 'rgb(58, 9, 23)'; }}
-                  onBlur={(e) => { e.target.style.boxShadow = 'none'; e.target.style.borderColor = '#E8E2D8'; }}
+            {/* View Switcher */}
+            {activeNav === 'questionBank' ? (
+              <>
+                {/* Search & Filter Controls */}
+                <QuestionFilters
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  filterSubject={filterSubject}
+                  setFilterSubject={setFilterSubject}
+                  filterGrade={filterGrade}
+                  setFilterGrade={setFilterGrade}
+                  filterType={filterType}
+                  setFilterType={setFilterType}
+                  filterDifficulty={filterDifficulty}
+                  setFilterDifficulty={setFilterDifficulty}
+                  viewMode={viewMode}
+                  setViewMode={setViewMode}
                 />
-                {searchTerm && (
-                  <button onClick={() => setSearchTerm('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                    <Icon name="close" className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
 
-              {/* Filters Row */}
-              <div className="flex flex-wrap items-center gap-2">
-                {[
-                  { label: 'Subject', value: filterSubject, set: setFilterSubject, opts: ['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology', 'Computer Science', 'English Literature'] },
-                  { label: 'Grade', value: filterGrade, set: setFilterGrade, opts: ['All', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'] },
-                  { label: 'Type', value: filterType, set: setFilterType, opts: ['All', 'Multiple Choice (MCQ)', 'Short Answer', 'Long Essay / Problem', 'Assertion & Reasoning', 'True / False'] },
-                  { label: 'Difficulty', value: filterDifficulty, set: setFilterDifficulty, opts: ['All', 'Easy', 'Medium', 'Hard'] },
-                ].map((f) => (
-                  <select
-                    key={f.label}
-                    value={f.value}
-                    onChange={(e) => f.set(e.target.value)}
-                    className="bg-white border rounded-lg px-2.5 py-1.5 text-xs text-gray-700 focus:outline-none hover:border-gray-300 transition-colors"
-                    style={{ borderColor: '#E8E2D8', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}
-                  >
-                    {f.opts.map((o) => (
-                      <option key={o} value={o}>{o === 'All' ? `All ${f.label}s` : o}</option>
+                {/* Results Count */}
+                <div>
+                  <p className="text-xs text-gray-500">
+                    Showing <span className="font-semibold text-gray-800">{filtered.length}</span> of {questions.length} questions
+                  </p>
+                </div>
+
+                {/* Questions Display */}
+                {viewMode === 'card' ? (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {filtered.map((q) => (
+                      <QuestionCard
+                        key={q.id}
+                        question={q}
+                        onOpenModal={openModal}
+                        onOpenEdit={handleOpenEdit}
+                      />
                     ))}
-                  </select>
-                ))}
-
-                <div className="ml-auto flex items-center gap-1 bg-white p-1 rounded-lg border" style={{ borderColor: '#E8E2D8', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-                  <button
-                    onClick={() => setViewMode('card')}
-                    className={`p-1.5 rounded transition-colors ${viewMode === 'card' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
-                    style={viewMode === 'card' ? { backgroundColor: 'rgb(114, 16, 42)' } : {}}
-                    title="Card View"
-                  >
-                    <Icon name="grid" className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('table')}
-                    className={`p-1.5 rounded transition-colors ${viewMode === 'table' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
-                    style={viewMode === 'table' ? { backgroundColor: 'rgb(114, 16, 42)' } : {}}
-                    title="Table View"
-                  >
-                    <Icon name="list" className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Results Count */}
-            <div>
-              <p className="text-xs text-gray-500">
-                Showing <span className="font-semibold text-gray-800">{filtered.length}</span> of {questions.length} questions
-              </p>
-            </div>
-
-            {/* Questions List / Grid */}
-            <div>
-              {/* CARD VIEW */}
-              {viewMode === 'card' && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  {filtered.map((q) => {
-                    const typeBadge = TYPE_BADGES[q.type] || { cls: 'bg-gray-100 text-gray-600 border-gray-200', label: q.type };
-                    return (
-                      <div key={q.id} className="bg-white rounded-xl border flex flex-col" style={{ borderColor: '#E8E2D8', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-                        {/* Card Header */}
-                        <div className="px-4 py-3 border-b border-gray-100 flex items-start justify-between gap-3">
-                          <div>
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="font-mono text-xs font-bold text-gray-500">{q.id}</span>
-                              <span
-                                className="text-[11px] px-2 py-0.5 rounded-full font-semibold border"
-                                style={{
-                                  backgroundColor: 'rgba(114, 16, 42, 0.08)',
-                                  color: 'rgb(114, 16, 42)',
-                                  borderColor: 'rgba(114, 16, 42, 0.2)',
-                                }}
-                              >
-                                {q.version}
-                              </span>
-                            </div>
-                            <p className="text-xs text-gray-500 mt-0.5">
-                              <span className="font-medium text-gray-700">{q.subject}</span> • {q.grade} • {q.chapter}
-                            </p>
-                          </div>
-                          <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                            <span className={`text-[11px] px-2 py-0.5 rounded-full border font-semibold ${typeBadge.cls}`}>
-                              {typeBadge.label}
-                            </span>
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-[11px] font-bold px-2 py-0.5 rounded border bg-amber-50 text-amber-700 border-amber-200">
-                                {q.marks}M
-                              </span>
-                              <span className={`text-[11px] px-2 py-0.5 rounded border font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
-                                {q.difficulty}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Question Stem */}
-                        <div className="px-4 py-3 flex-1">
-                          <p className="text-sm text-gray-800 leading-relaxed line-clamp-3">{q.questionText}</p>
-
-                          {/* MCQ mini-options */}
-                          {q.options && q.options.length > 0 && (
-                            <div className="mt-2 grid grid-cols-2 gap-1.5">
-                              {q.options.map((opt) => (
-                                <div
-                                  key={opt.id}
-                                  className={`text-[11px] px-2 py-1 rounded border flex items-center gap-1 ${
-                                    opt.isCorrect ? 'bg-green-50 text-green-700 border-green-200 font-medium' : 'bg-gray-50 text-gray-500 border-gray-200'
-                                  }`}
-                                >
-                                  <span className="font-semibold">{opt.id.slice(-1)}.</span>
-                                  <span className="truncate">{opt.text}</span>
-                                  {opt.isCorrect && <Icon name="check" className="w-3 h-3 ml-auto flex-shrink-0 text-green-600" />}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-
-                          <div className="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-400">
-                            <span className="truncate max-w-[180px]" title={q.bookReference}>{q.bookReference}</span>
-                            <span>Est: {q.estimatedTimeMin}m • {q.cognitiveLevel}</span>
-                          </div>
-                        </div>
-
-                        {/* Action Bar */}
-                        <div className="px-3 py-2.5 bg-[#FBF9F6] border-t border-[#E8E2D8] rounded-b-xl flex items-center justify-between">
-                          <div className="flex items-center gap-0.5">
-                            <ActionBtn icon="eye" label="View" color="#3B82F6" onClick={() => openModal('details', q)} />
-                            <ActionBtn icon="edit" label="Edit" color="#C9A84C" onClick={() => handleOpenEdit(q)} />
-                            <ActionBtn icon="history" label="History" color="#0D9488" onClick={() => openModal('history', q)} />
-                          </div>
-                          <div className="flex items-center gap-0.5">
-                            <ActionBtn icon="trash" label="Delete" color="#DC2626" onClick={() => openModal('delete', q)} />
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* TABLE VIEW */}
-              {viewMode === 'table' && (
-                <div className="bg-white rounded-xl border shadow-sm overflow-hidden" style={{ borderColor: '#E8E2D8' }}>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs">
-                      <thead>
-                        <tr className="bg-[#FBF9F6] border-b border-[#E8E2D8] text-gray-500 uppercase tracking-wide text-[11px]">
-                          <th className="px-4 py-3">ID & Type</th>
-                          <th className="px-4 py-3">Subject / Chapter</th>
-                          <th className="px-4 py-3 max-w-xs">Question</th>
-                          <th className="px-4 py-3">Marks</th>
-                          <th className="px-4 py-3">Difficulty</th>
-                          <th className="px-4 py-3">Version</th>
-                          <th className="px-4 py-3">Status</th>
-                          <th className="px-4 py-3 text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100">
-                        {filtered.map((q) => (
-                          <tr key={q.id} className="hover:bg-gray-50/70 transition-colors">
-                            <td className="px-4 py-3">
-                              <div className="font-mono font-bold text-gray-700">{q.id}</div>
-                              <div className="text-[11px] text-gray-400 mt-0.5">{TYPE_BADGES[q.type]?.label || q.type}</div>
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="font-medium text-gray-700">{q.subject}</div>
-                              <div className="text-[11px] text-gray-400 truncate max-w-[140px]">{q.chapter}</div>
-                            </td>
-                            <td className="px-4 py-3 max-w-xs">
-                              <p className="text-gray-700 line-clamp-2">{q.questionText}</p>
-                            </td>
-                            <td className="px-4 py-3">
-                              <span className="font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
-                                {q.marks}M
-                              </span>
-                            </td>
-                            <td className="px-4 py-3">
-                              <span className={`px-2 py-0.5 rounded border text-[11px] font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
-                                {q.difficulty}
-                              </span>
-                            </td>
-                            <td className="px-4 py-3">
-                              <span
-                                className="text-[11px] font-semibold px-2 py-0.5 rounded border"
-                                style={{
-                                  backgroundColor: 'rgba(114, 16, 42, 0.08)',
-                                  color: 'rgb(114, 16, 42)',
-                                  borderColor: 'rgba(114, 16, 42, 0.2)',
-                                }}
-                              >
-                                {q.version}
-                              </span>
-                            </td>
-                            <td className="px-4 py-3">
-                              <span className={`text-[11px] px-2 py-0.5 rounded border font-medium ${
-                                q.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-amber-50 text-amber-700 border-amber-200'
-                              }`}>
-                                {q.status}
-                              </span>
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="flex items-center justify-end gap-1">
-                                {[
-                                  { icon: 'eye', color: '#3B82F6' },
-                                  { icon: 'edit', color: '#C9A84C' },
-                                  { icon: 'history', color: '#0D9488' },
-                                  { icon: 'trash', color: '#DC2626' },
-                                ].map((btn, i) => (
-                                  <button
-                                    key={i}
-                                    disabled
-                                    className="p-1.5 rounded-lg transition-colors cursor-not-allowed opacity-40 pointer-events-none"
-                                    style={{ color: btn.color }}
-                                  >
-                                    <Icon name={btn.icon} className="w-3.5 h-3.5" />
-                                  </button>
-                                ))}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <QuestionTable
+                    questions={filtered}
+                    onOpenModal={openModal}
+                    onOpenEdit={handleOpenEdit}
+                  />
+                )}
 
-              {/* Empty State */}
-              {filtered.length === 0 && (
-                <div className="bg-white rounded-xl border p-14 text-center shadow-sm" style={{ borderColor: '#E8E2D8' }}>
-                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
-                    <Icon name="search" className="w-6 h-6 text-gray-400" />
+                {/* Empty State */}
+                {filtered.length === 0 && (
+                  <div className="bg-white rounded-xl border p-14 text-center shadow-sm" style={{ borderColor: '#E8E2D9' }}>
+                    <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                      <Icon name="search" className="w-6 h-6 text-gray-400" />
+                    </div>
+                    <h3 className="text-sm font-semibold text-gray-700 mb-1">No questions found</h3>
+                    <p className="text-xs text-gray-400 mb-4">Try adjusting your search or filter criteria.</p>
+                    <button
+                      onClick={handleResetFilters}
+                      className="px-4 py-2 rounded-lg text-xs font-semibold text-white transition-colors"
+                      style={{ backgroundColor: '#72102a' }}
+                    >
+                      Reset Filters
+                    </button>
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-700 mb-1">No questions found</h3>
-                  <p className="text-xs text-gray-400 mb-4">Try adjusting your search or filter criteria.</p>
-                  <button
-                    onClick={() => { setSearchTerm(''); setFilterSubject('All'); setFilterGrade('All'); setFilterType('All'); setFilterDifficulty('All'); setFilterStatus('All'); }}
-                    className="px-4 py-2 rounded-lg text-xs font-semibold text-white transition-colors"
-                    style={{ backgroundColor: 'rgb(114, 16, 42)' }}
-                  >
-                    Reset Filters
-                  </button>
-                </div>
-              )}
-            </div>
-          </>
-        )}
-
-        {/* ── COMING SOON PLACEHOLDER ── */}
-        {activeNav !== 'questionBank' && (() => {
-          const pages = {
-            teacherManagement: { icon: 'users',     label: 'Teacher Management',        desc: 'Manage teacher profiles, subject assignments, and workload tracking.' },
-            examBlueprint:     { icon: 'clipboard', label: 'Exam Question Blueprint',   desc: 'Design and manage structured blueprints for exam papers by subject and grade.' },
-            questionCreation:  { icon: 'plus',      label: 'Question Creation',         desc: 'Author new exam questions with rich formatting, options, and rubrics.' },
-            generatePaper:     { icon: 'refresh',   label: 'Generate Question Paper',   desc: 'Auto-generate balanced question papers based on syllabus and difficulty criteria.' },
-            paperManagement:   { icon: 'grid',      label: 'Question Paper Management', desc: 'Review, approve, version-control, and archive finalised exam papers.' },
-          };
-          const meta = pages[activeNav];
-          if (!meta) return null;
-          return (
-            <div className="flex flex-col items-center justify-center px-8 py-28">
-              <div
-                className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6"
-                style={{
-                  background: 'linear-gradient(135deg, rgb(114, 16, 42) 0%, rgb(72, 10, 26) 100%)',
-                  boxShadow: '0 8px 24px rgba(114, 16, 42, 0.25)',
-                }}
-              >
-                <Icon name={meta.icon} className="w-10 h-10 text-white" />
-              </div>
-              <h2 className="text-2xl font-extrabold text-gray-800 mb-2 text-center">{meta.label}</h2>
-              <p className="text-sm text-gray-500 max-w-sm text-center mb-8 leading-relaxed">{meta.desc}</p>
-              <div
-                className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-semibold"
-                style={{
-                  backgroundColor: 'rgba(114, 16, 42, 0.08)',
-                  color: 'rgb(114, 16, 42)',
-                  border: '1.5px solid rgba(114, 16, 42, 0.2)',
-                }}
-              >
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(201, 168, 76)', animation: 'pulse 1.5s infinite' }} />
-                Coming Soon
-              </div>
-            </div>
-          );
-        })()}
+                )}
+              </>
+            ) : (
+              <ComingSoonPlaceholder activeNav={activeNav} />
+            )}
           </div>
         </main>
       </div>
 
-      {/* ============================================ */}
-      {/* MODAL: VIEW DETAILS                         */}
-      {/* ============================================ */}
-      {modal === 'details' && current && (
-        <ModalWrapper title="Question Details" subtitle={`${current.id} • ${current.version}`} onClose={closeModal}>
-          <div className="space-y-4">
-            {/* Meta grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                ['Subject', current.subject],
-                ['Grade', current.grade],
-                ['Marks', `${current.marks}M (Neg: ${current.negativeMarks})`],
-                ['Difficulty', current.difficulty],
-                ['Type', TYPE_BADGES[current.type]?.label || current.type],
-                ['Cognitive Level', current.cognitiveLevel],
-                ['Est. Time', `${current.estimatedTimeMin} min`],
-                ['Status', current.status],
-              ].map(([k, v]) => (
-                <div key={k} className="bg-gray-50 rounded-lg px-3 py-2">
-                  <div className="text-[11px] text-gray-400 mb-0.5">{k}</div>
-                  <div className="text-xs font-semibold text-gray-700">{v}</div>
-                </div>
-              ))}
-            </div>
-
-            <div>
-              <Label>Question Content</Label>
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-3.5 text-sm text-gray-800 leading-relaxed whitespace-pre-line">
-                {current.questionText}
-              </div>
-            </div>
-
-            {current.options && current.options.length > 0 && (
-              <div>
-                <Label>Answer Options</Label>
-                <div className="space-y-1.5">
-                  {current.options.map((opt) => (
-                    <div key={opt.id} className={`flex items-center justify-between px-3 py-2 rounded-lg border text-xs ${opt.isCorrect ? 'bg-green-50 border-green-200 text-green-800 font-medium' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-white border flex items-center justify-center font-bold text-[11px]">{opt.id.slice(-1)}</span>
-                        {opt.text}
-                      </div>
-                      {opt.isCorrect && <span className="flex items-center gap-1 text-green-700 font-semibold"><Icon name="check" className="w-3.5 h-3.5" /> Correct</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <InfoBox title="💡 Model Answer" content={current.correctAnswer || current.explanation} />
-              <InfoBox title="📋 Marking Rubric" content={current.rubric || 'Standard marking scheme.'} />
-            </div>
-
-            <div className="flex items-center justify-between text-xs text-gray-400 pt-1 border-t border-gray-100">
-              <span>📚 {current.bookReference}</span>
-              <span>✍️ {current.author}</span>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-100">
-            <button onClick={() => openModal('history', current)} className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
-              <Icon name="history" className="w-4 h-4" /> View Activity History
-            </button>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleOpenEdit(current)}
-                className="px-4 py-2 rounded-lg text-xs font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
-                style={{ backgroundColor: 'rgb(114, 16, 42)' }}
-              >
-                Edit Question
-              </button>
-              <button onClick={closeModal} className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200">Close</button>
-            </div>
-          </div>
-        </ModalWrapper>
+      {/* Modals */}
+      {modal === 'details' && (
+        <QuestionDetailsModal
+          current={current}
+          onClose={closeModal}
+          onOpenEdit={handleOpenEdit}
+          onOpenHistory={(q) => openModal('history', q)}
+        />
       )}
 
-      {/* ============================================ */}
-      {/* MODAL: EDIT → SAVE → NEW VERSION            */}
-      {/* ============================================ */}
-      {modal === 'edit' && editForm && (
-        <ModalWrapper title="Edit Question" subtitle={`Current: ${editForm.version} → New version on save`} onClose={closeModal} wide>
-          <form onSubmit={handleSaveEdit} className="space-y-4">
-            <div>
-              <Label>Question Text *</Label>
-              <textarea rows={4} required value={editForm.questionText} onChange={(e) => setEditForm({ ...editForm, questionText: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg p-3 text-sm text-gray-800 focus:outline-none leading-relaxed resize-none"
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                { label: 'Subject', val: editForm.subject, key: 'subject', type: 'text' },
-                { label: 'Grade', val: editForm.grade, key: 'grade', type: 'text' },
-                { label: 'Marks', val: editForm.marks, key: 'marks', type: 'number' },
-                { label: 'Neg. Marks', val: editForm.negativeMarks, key: 'negativeMarks', type: 'number' },
-              ].map((f) => (
-                <div key={f.key}>
-                  <Label>{f.label}</Label>
-                  <input type={f.type} value={f.val} min={f.type === 'number' ? 0 : undefined} step={f.type === 'number' ? 0.25 : undefined}
-                    onChange={(e) => setEditForm({ ...editForm, [f.key]: f.type === 'number' ? Number(e.target.value) : e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none"
-                    onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
-                </div>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label>Difficulty</Label>
-                <select value={editForm.difficulty} onChange={(e) => setEditForm({ ...editForm, difficulty: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none">
-                  {['Easy', 'Medium', 'Hard'].map((d) => <option key={d}>{d}</option>)}
-                </select>
-              </div>
-              <div>
-                <Label>Chapter</Label>
-                <input type="text" value={editForm.chapter} onChange={(e) => setEditForm({ ...editForm, chapter: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none"
-                  onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
-              </div>
-            </div>
-
-            {editForm.options && editForm.options.length > 0 && (
-              <div>
-                <Label>Options & Correct Answer</Label>
-                <div className="space-y-2">
-                  {editForm.options.map((opt, idx) => (
-                    <div key={opt.id} className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
-                      <input type="radio" name="correctOpt" checked={opt.isCorrect}
-                        onChange={() => { const newOpts = editForm.options.map((o, i) => ({ ...o, isCorrect: i === idx })); setEditForm({ ...editForm, options: newOpts }); }}
-                        className="cursor-pointer" style={{ accentColor: 'rgb(58, 9, 23)' }} />
-                      <span className="font-bold text-gray-400 w-5 text-xs">{opt.id.slice(-1)}.</span>
-                      <input type="text" value={opt.text} placeholder={`Option ${opt.id.slice(-1)}`}
-                        onChange={(e) => { const newOpts = [...editForm.options]; newOpts[idx].text = e.target.value; setEditForm({ ...editForm, options: newOpts }); }}
-                        className="flex-1 bg-transparent border-none text-xs text-gray-800 focus:outline-none" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div>
-              <Label>Model Answer / Explanation</Label>
-              <textarea rows={2} value={editForm.explanation} onChange={(e) => setEditForm({ ...editForm, explanation: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg p-2.5 text-xs text-gray-800 focus:outline-none resize-none"
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
-            </div>
-
-            <div className="rounded-lg p-3 border" style={{ backgroundColor: 'rgba(114, 16, 42, 0.04)', borderColor: 'rgba(114, 16, 42, 0.2)' }}>
-              <Label>Changelog / Version Note</Label>
-              <input type="text" placeholder="e.g. Corrected option B phrasing and updated rubric."
-                value={editForm.changelogNote} onChange={(e) => setEditForm({ ...editForm, changelogNote: e.target.value })}
-                className="w-full bg-white border rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none mt-1"
-                style={{ borderColor: 'rgba(114, 16, 42, 0.25)' }}
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
-              <p className="text-[11px] mt-1" style={{ color: 'rgb(114, 16, 42)' }}>This note will be logged in the activity history ledger.</p>
-            </div>
-
-            <div className="flex justify-end gap-2 pt-2">
-              <button type="button" onClick={closeModal} className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200">Cancel</button>
-              <button
-                type="submit"
-                className="px-5 py-2 rounded-lg text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90"
-                style={{ backgroundColor: 'rgb(114, 16, 42)' }}
-              >
-                Save & Publish New Version
-              </button>
-            </div>
-          </form>
-        </ModalWrapper>
+      {modal === 'edit' && (
+        <QuestionEditModal
+          editForm={editForm}
+          setEditForm={setEditForm}
+          onSave={handleSaveEdit}
+          onClose={closeModal}
+        />
       )}
 
-      {/* ============================================ */}
-      {/* MODAL: ACTIVITY HISTORY                     */}
-      {/* ============================================ */}
-      {modal === 'history' && current && (
-        <ModalWrapper title="Activity History" subtitle={`${current.id} • ${current.version} — Full audit trail`} onClose={closeModal}>
-          <div className="relative pl-6 space-y-5 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200">
-            {current.history.map((log, i) => {
-              const colors = {
-                Created: { dot: '#16a34a', badge: 'bg-green-100 text-green-700 border-green-200' },
-                Edited: { dot: '#2563EB', badge: 'bg-blue-100 text-blue-700 border-blue-200' },
-                Versioned: { dot: '#7C3AED', badge: 'bg-purple-100 text-purple-700 border-purple-200' },
-                Downloaded: { dot: '#D97706', badge: 'bg-amber-100 text-amber-700 border-amber-200' },
-                'Sent Back': { dot: '#DC2626', badge: 'bg-red-100 text-red-700 border-red-200' },
-              };
-              const style = colors[log.action] || { dot: '#6B7280', badge: 'bg-gray-100 text-gray-600 border-gray-200' };
-              return (
-                <div key={i} className="relative">
-                  <div className="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full border-2 border-white shadow" style={{ backgroundColor: style.dot }} />
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className={`text-[11px] font-bold px-2 py-0.5 rounded border ${style.badge}`}>{log.action}</span>
-                      <span className="text-[11px] text-gray-400">{log.date}</span>
-                    </div>
-                    <p className="text-xs text-gray-700">{log.note}</p>
-                    <p className="text-[11px] text-gray-400 mt-1">By: <span className="font-medium text-gray-500">{log.user}</span></p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex justify-end pt-4 mt-4 border-t border-gray-100">
-            <button onClick={closeModal} className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200">Close</button>
-          </div>
-        </ModalWrapper>
+      {modal === 'history' && (
+        <QuestionHistoryModal
+          current={current}
+          onClose={closeModal}
+        />
       )}
 
-      {/* ============================================ */}
-      {/* MODAL: DELETE CONFIRM                       */}
-      {/* ============================================ */}
-      {modal === 'delete' && current && (
-        <ModalWrapper title="Delete Question" onClose={closeModal} narrow>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)' }}>
-              <Icon name="trash" className="w-5 h-5" style={{ color: '#DC2626' }} />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-800">Are you sure?</p>
-              <p className="text-xs text-gray-500">This will permanently remove <span className="font-mono font-bold text-gray-700">{current.id}</span> from the Question Bank.</p>
-            </div>
-          </div>
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4 text-xs text-gray-600 italic">
-            "{current.questionText.slice(0, 100)}..."
-          </div>
-          <div className="flex justify-end gap-2">
-            <button onClick={closeModal} className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200">Cancel</button>
-            <button onClick={handleConfirmDelete} className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-red-600 hover:bg-red-700">Confirm Delete</button>
-          </div>
-        </ModalWrapper>
+      {modal === 'delete' && (
+        <QuestionDeleteModal
+          current={current}
+          onConfirm={handleConfirmDelete}
+          onClose={closeModal}
+        />
       )}
-
-
     </div>
   );
 }
-
-// ============================================
-// HELPER COMPONENTS
-// ============================================
-function ActionBtn({ icon, label, color }) {
-  return (
-    <button
-      disabled
-      className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all cursor-not-allowed opacity-40 pointer-events-none"
-      style={{ color }}
-      title={label}
-    >
-      <Icon name={icon} className="w-3.5 h-3.5" />
-      <span className="hidden sm:inline">{label}</span>
-    </button>
-  );
-}
-
-function ModalWrapper({ title, subtitle, onClose, children, wide, narrow }) {
-  const w = wide ? 'max-w-2xl' : narrow ? 'max-w-md' : 'max-w-xl';
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-      <div className={`bg-white rounded-2xl shadow-2xl w-full ${w} max-h-[90vh] overflow-y-auto flex flex-col`}>
-        <div className="px-6 py-4 border-b border-gray-100 flex items-start justify-between gap-4 sticky top-0 bg-white z-10">
-          <div>
-            <h3 className="text-base font-bold text-gray-800">{title}</h3>
-            {subtitle && <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>}
-          </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors flex-shrink-0">
-            <Icon name="close" className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="px-6 py-5">{children}</div>
-      </div>
-    </div>
-  );
-}
-
-function Label({ children }) {
-  return <label className="block text-xs font-semibold text-gray-600 mb-1">{children}</label>;
-}
-
-function InfoBox({ title, content }) {
-  return (
-    <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-      <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5">{title}</div>
-      <p className="text-xs text-gray-700 leading-relaxed">{content}</p>
-    </div>
-  );
-}
-
