@@ -1161,12 +1161,12 @@ export default function TeacherManagement() {
       {/* MODAL: CREATE NEW TEACHER ASSIGNMENT */}
       {/* ========================================== */}
       {isAssignmentModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white border border-stone-200 rounded-3xl max-w-xl w-full p-6 md:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto text-[#1A1A1A]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-stone-900/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white border border-stone-200 rounded-3xl max-w-3xl md:max-w-4xl w-full p-6 sm:p-8 md:p-10 shadow-2xl relative max-h-[92vh] overflow-y-auto text-[#1A1A1A]">
             {/* Close Button */}
             <button
               onClick={() => setIsAssignmentModalOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-xl bg-[#FAF8F5] text-stone-400 hover:text-stone-700 transition-colors border border-stone-200"
+              className="absolute top-6 right-6 p-2 rounded-xl bg-[#FAF8F5] text-stone-400 hover:text-stone-700 transition-colors border border-stone-200"
             >
               <Icon name="close" className="w-5 h-5" />
             </button>
@@ -1174,13 +1174,13 @@ export default function TeacherManagement() {
             {/* STEP 1: CHOICE SELECTION (ASK 2 QUESTIONS / MODES) */}
             {assignmentStep === 'selectOption' && (
               <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2.5 bg-[#F5E6EA] border border-[#E6C4CD] rounded-xl text-[#72102A]">
+                <div className="flex items-center gap-3.5 mb-6 pb-4 border-b border-stone-200">
+                  <div className="p-3 bg-[#F5E6EA] border border-[#E6C4CD] rounded-xl text-[#72102A]">
                     <Icon name="clipboard" className="w-6 h-6" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-[#1A1A1A]">Create Teacher Assignment</h2>
-                    <p className="text-xs text-stone-500">Select how you want to structure this assignment</p>
+                    <h2 className="text-2xl font-bold text-[#1A1A1A]">Create Teacher Assignment</h2>
+                    <p className="text-sm text-stone-500 mt-0.5">Select how you want to structure this assignment for faculty members</p>
                   </div>
                 </div>
 
@@ -1188,22 +1188,22 @@ export default function TeacherManagement() {
                   {/* CHOICE 1: ADD QUESTION TYPE ASSIGNMENT */}
                   <button
                     onClick={() => setAssignmentStep('questionTypeForm')}
-                    className="w-full text-left p-5 rounded-2xl bg-[#FAF8F5] border border-stone-200 hover:border-[#72102A] hover:bg-[#FDF5F7] transition-all group flex items-start gap-4 shadow-sm"
+                    className="w-full text-left p-6 rounded-2xl bg-[#FAF8F5] border border-stone-200 hover:border-[#72102A] hover:bg-[#FDF5F7] transition-all group flex items-start gap-5 shadow-sm"
                   >
-                    <div className="p-3 rounded-xl bg-[#F5E6EA] border border-[#E6C4CD] text-[#72102A] group-hover:scale-110 transition-transform">
-                      <Icon name="documentText" className="w-6 h-6" />
+                    <div className="p-3.5 rounded-xl bg-[#F5E6EA] border border-[#E6C4CD] text-[#72102A] group-hover:scale-105 transition-transform flex-shrink-0">
+                      <Icon name="documentText" className="w-7 h-7" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-[#1A1A1A] text-base group-hover:text-[#72102A] transition-colors">
+                        <h3 className="font-bold text-[#1A1A1A] text-lg group-hover:text-[#72102A] transition-colors">
                           Add Question Type Assignment
                         </h3>
-                        <span className="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-[#F5E6EA] text-[#72102A] border border-[#E6C4CD]">
+                        <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-[#F5E6EA] text-[#72102A] border border-[#E6C4CD]">
                           Option 1
                         </span>
                       </div>
-                      <p className="text-xs text-stone-600 mt-1 leading-relaxed">
-                        Assign tasks based on question formats (Multiple Choice, Essay, Short Answer, True/False, or Coding Tasks).
+                      <p className="text-sm text-stone-600 mt-1.5 leading-relaxed">
+                        Assign tasks based on question formats (Multiple Choice, Essay, Short Answer, True/False, or Coding Tasks) mapped to curriculum courses.
                       </p>
                     </div>
                   </button>
@@ -1211,21 +1211,21 @@ export default function TeacherManagement() {
                   {/* CHOICE 2: ADD QUESTION ASSIGNMENT */}
                   <button
                     onClick={() => setAssignmentStep('questionForm')}
-                    className="w-full text-left p-5 rounded-2xl bg-[#FAF8F5] border border-stone-200 hover:border-[#C9A84C] hover:bg-[#FDF8E8] transition-all group flex items-start gap-4 shadow-sm"
+                    className="w-full text-left p-6 rounded-2xl bg-[#FAF8F5] border border-stone-200 hover:border-[#C9A84C] hover:bg-[#FDF8E8] transition-all group flex items-start gap-5 shadow-sm"
                   >
-                    <div className="p-3 rounded-xl bg-[#FDF8E8] border border-[#C9A84C]/40 text-[#A68A3D] group-hover:scale-110 transition-transform">
-                      <Icon name="questionMarkCircle" className="w-6 h-6" />
+                    <div className="p-3.5 rounded-xl bg-[#FDF8E8] border border-[#C9A84C]/40 text-[#A68A3D] group-hover:scale-105 transition-transform flex-shrink-0">
+                      <Icon name="questionMarkCircle" className="w-7 h-7" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-[#1A1A1A] text-base group-hover:text-[#A68A3D] transition-colors">
+                        <h3 className="font-bold text-[#1A1A1A] text-lg group-hover:text-[#A68A3D] transition-colors">
                           Add Question Assignment
                         </h3>
-                        <span className="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-[#FDF8E8] text-[#A68A3D] border border-[#C9A84C]/40">
+                        <span className="text-xs font-bold uppercase px-3 py-1 rounded-full bg-[#FDF8E8] text-[#A68A3D] border border-[#C9A84C]/40">
                           Option 2
                         </span>
                       </div>
-                      <p className="text-xs text-stone-600 mt-1 leading-relaxed">
+                      <p className="text-sm text-stone-600 mt-1.5 leading-relaxed">
                         Assign specific questions selected directly from the Question Bank to a teacher for evaluation or grading.
                       </p>
                     </div>
@@ -1239,76 +1239,81 @@ export default function TeacherManagement() {
               <div>
                 <button
                   onClick={() => setAssignmentStep('selectOption')}
-                  className="flex items-center gap-1 text-xs text-stone-500 hover:text-[#72102A] mb-4 transition-colors font-medium"
+                  className="flex items-center gap-1.5 text-xs text-stone-500 hover:text-[#72102A] mb-4 transition-colors font-medium"
                 >
-                  <Icon name="arrowLeft" className="w-3.5 h-3.5" />
+                  <Icon name="arrowLeft" className="w-4 h-4" />
                   Back to options
                 </button>
 
-                <h2 className="text-xl font-bold text-[#1A1A1A] mb-1 flex items-center gap-2">
-                  <Icon name="documentText" className="w-5 h-5 text-[#72102A]" />
-                  {editingAssignment ? 'Edit Question Type Assignment' : 'Add Question Type Assignment'}
-                </h2>
-                <p className="text-xs text-stone-500 mb-6">
-                  {editingAssignment ? 'Modify configuration for this assignment.' : 'Structure assignment by specifying allowed question formats and counts.'}
-                </p>
+                <div className="mb-6 pb-4 border-b border-stone-200">
+                  <h2 className="text-2xl font-bold text-[#1A1A1A] flex items-center gap-2">
+                    <Icon name="documentText" className="w-6 h-6 text-[#72102A]" />
+                    {editingAssignment ? 'Edit Question Type Assignment' : 'Add Question Type Assignment'}
+                  </h2>
+                  <p className="text-sm text-stone-500 mt-1">
+                    {editingAssignment ? 'Modify configuration for this assignment.' : 'Structure assignment by specifying allowed question formats, subject blueprints, and mapped teachers.'}
+                  </p>
+                </div>
 
-                <form onSubmit={handleSaveQuestionTypeAssignment} className="space-y-4">
-                  {/* Select Class / Program */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">
-                      1. Select Class / Program
-                    </label>
-                    <select
-                      name="program"
-                      value={selectedProgram}
-                      onChange={handleProgramChange}
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer"
-                    >
-                      {Object.keys(PROGRAM_SUBJECT_MAP).map(prog => (
-                        <option key={prog} value={prog}>{prog}</option>
-                      ))}
-                    </select>
-                  </div>
+                <form onSubmit={handleSaveQuestionTypeAssignment} className="space-y-6">
+                  {/* Responsive 2-column grid for Class / Program & Subject selection */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* 1. Select Class / Program */}
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
+                        1. Select Class / Program
+                      </label>
+                      <select
+                        name="program"
+                        value={selectedProgram}
+                        onChange={handleProgramChange}
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer"
+                      >
+                        {Object.keys(PROGRAM_SUBJECT_MAP).map(prog => (
+                          <option key={prog} value={prog}>{prog}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                  {/* 2. Select Subject / Course */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">
-                      2. Select Subject / Course
-                    </label>
-                    <select
-                      name="subject"
-                      value={selectedSubject}
-                      onChange={(e) => setSelectedSubject(e.target.value)}
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer font-medium"
-                    >
-                      {(PROGRAM_SUBJECT_MAP[selectedProgram] || []).map(sub => (
-                        <option key={sub} value={sub}>{sub}</option>
-                      ))}
-                    </select>
+                    {/* 2. Select Subject / Course */}
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
+                        2. Select Subject / Course
+                      </label>
+                      <select
+                        name="subject"
+                        value={selectedSubject}
+                        onChange={(e) => setSelectedSubject(e.target.value)}
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer font-medium"
+                      >
+                        {(PROGRAM_SUBJECT_MAP[selectedProgram] || []).map(sub => (
+                          <option key={sub} value={sub}>{sub}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   {/* 3. Loaded Exam Question Blueprint */}
                   {currentBlueprint && (
-                    <div className="p-4 rounded-2xl bg-[#FDF8E8] border border-[#C9A84C]/40 shadow-sm">
-                      <div className="flex items-center justify-between mb-3 border-b border-[#C9A84C]/20 pb-2.5">
-                        <div className="flex items-center gap-2">
-                          <span className="p-1 rounded-lg bg-[#C9A84C]/20 text-[#A68A3D]">
-                            <Icon name="documentText" className="w-4 h-4" />
+                    <div className="p-4 sm:p-5 rounded-2xl bg-[#FDF8E8] border border-[#C9A84C]/40 shadow-sm">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 border-b border-[#C9A84C]/20 pb-3">
+                        <div className="flex items-center gap-2.5">
+                          <span className="p-1.5 rounded-lg bg-[#C9A84C]/20 text-[#A68A3D]">
+                            <Icon name="documentText" className="w-5 h-5" />
                           </span>
                           <div>
                             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#A68A3D]">Exam Question Blueprint (Auto-Loaded)</span>
-                            <h4 className="text-xs font-bold text-[#1A1A1A]">{selectedSubject}</h4>
+                            <h4 className="text-sm font-bold text-[#1A1A1A]">{selectedSubject}</h4>
                           </div>
                         </div>
-                        <span className="text-[11px] font-bold text-[#72102A] bg-[#F5E6EA] px-2.5 py-1 rounded-lg border border-[#E6C4CD]">
+                        <span className="text-xs font-bold text-[#72102A] bg-[#F5E6EA] px-3 py-1 rounded-lg border border-[#E6C4CD] self-start sm:self-auto">
                           {currentBlueprint.totalMarks} Total Marks ({currentBlueprint.duration})
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                         {currentBlueprint.sections.map((sec, idx) => (
-                          <div key={idx} className="p-2.5 rounded-xl bg-white border border-stone-200 text-xs flex items-center justify-between">
+                          <div key={idx} className="p-3 rounded-xl bg-white border border-stone-200 text-xs flex items-center justify-between">
                             <div>
                               <p className="font-semibold text-[#1A1A1A]">{sec.name}</p>
                               <p className="text-[11px] text-stone-500">{sec.count} Qs ({sec.type})</p>
@@ -1325,7 +1330,7 @@ export default function TeacherManagement() {
                   {/* 4. Loaded Mapped Teachers (Loaded & Selected by Default) */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label className="block text-xs font-semibold text-stone-700 uppercase">
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide">
                         4. Mapped Teachers ({selectedTeacherIds.length} / {mappedTeachers.length} selected by default)
                       </label>
                       <button
@@ -1337,11 +1342,11 @@ export default function TeacherManagement() {
                       </button>
                     </div>
 
-                    <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
+                    <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1">
                       {mappedTeachers.map(teacher => (
                         <label
                           key={teacher.id}
-                          className={`flex items-center justify-between p-3 rounded-xl border text-xs cursor-pointer transition-all ${
+                          className={`flex items-center justify-between p-3.5 rounded-xl border text-xs sm:text-sm cursor-pointer transition-all ${
                             selectedTeacherIds.includes(teacher.id)
                               ? 'bg-[#F5E6EA] text-[#72102A] border-[#E6C4CD]'
                               : 'bg-[#FAF8F5] text-stone-600 border-stone-200 hover:border-stone-300'
@@ -1354,13 +1359,13 @@ export default function TeacherManagement() {
                               onChange={() => toggleTeacherSelection(teacher.id)}
                               className="w-4 h-4 rounded accent-[#72102A] cursor-pointer flex-shrink-0"
                             />
-                            <img src={teacher.avatar} alt="" className="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
+                            <img src={teacher.avatar} alt="" className="w-8 h-8 rounded-lg object-cover flex-shrink-0 ring-1 ring-stone-200" />
                             <div>
                               <p className="font-bold text-[#1A1A1A]">{teacher.name}</p>
-                              <p className="text-[11px] text-stone-500">{teacher.designation} • {teacher.department}</p>
+                              <p className="text-[11px] sm:text-xs text-stone-500">{teacher.designation} • {teacher.department}</p>
                             </div>
                           </div>
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-white text-[#72102A] border border-[#E6C4CD]">
+                          <span className="text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded bg-white text-[#72102A] border border-[#E6C4CD]">
                             Mapped
                           </span>
                         </label>
@@ -1370,12 +1375,12 @@ export default function TeacherManagement() {
 
                   {/* Question Types Checkboxes */}
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-2">Select Question Types</label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-2">Select Question Types</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
                       {['Multiple Choice (MCQ)', 'Essay', 'Short Answer', 'True / False', 'Coding Task'].map(type => (
                         <label
                           key={type}
-                          className={`flex items-center gap-2.5 p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${
+                          className={`flex items-center gap-2.5 p-3 rounded-xl border text-xs sm:text-sm font-semibold cursor-pointer transition-all ${
                             selectedQuestionTypes.includes(type)
                               ? 'bg-[#F5E6EA] text-[#72102A] border-[#E6C4CD]'
                               : 'bg-[#FAF8F5] text-stone-600 border-stone-200 hover:border-stone-300'
@@ -1393,42 +1398,45 @@ export default function TeacherManagement() {
                     </div>
                   </div>
 
-                  {/* Question Count */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">Total Question Count</label>
-                    <input
-                      type="number"
-                      name="questionCount"
-                      defaultValue={editingAssignment ? editingAssignment.questionCount : "15"}
-                      min="1"
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A]"
-                    />
-                  </div>
+                  {/* Question Count & Instructions Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    {/* Question Count */}
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">Total Question Count</label>
+                      <input
+                        type="number"
+                        name="questionCount"
+                        defaultValue={editingAssignment ? editingAssignment.questionCount : "15"}
+                        min="1"
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A]"
+                      />
+                    </div>
 
-                  {/* Instructions */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">Instructions & Guidelines</label>
-                    <textarea
-                      name="instructions"
-                      rows="3"
-                      defaultValue={editingAssignment ? editingAssignment.instructions || "" : ""}
-                      placeholder="e.g. Prepare 10 MCQs and 5 Essay questions for the upcoming midterm exam..."
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] resize-none"
-                    />
+                    {/* Instructions */}
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">Instructions & Guidelines</label>
+                      <textarea
+                        name="instructions"
+                        rows="3"
+                        defaultValue={editingAssignment ? editingAssignment.instructions || "" : ""}
+                        placeholder="e.g. Prepare 10 MCQs and 5 Essay questions for the upcoming midterm exam..."
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] resize-none"
+                      />
+                    </div>
                   </div>
 
                   {/* Submit buttons */}
-                  <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-200 mt-6">
+                  <div className="flex items-center justify-end gap-3 pt-5 border-t border-stone-200 mt-6">
                     <button
                       type="button"
                       onClick={() => setAssignmentStep('selectOption')}
-                      className="px-4 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-sm font-semibold transition-all"
+                      className="px-5 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-sm font-semibold transition-all"
                     >
                       Back
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-[#72102A] hover:bg-[#8B1F3A] text-white text-sm font-semibold transition-all shadow-md shadow-[#72102A]/20"
+                      className="px-6 py-2.5 rounded-xl bg-[#72102A] hover:bg-[#8B1F3A] text-white text-sm font-semibold transition-all shadow-md shadow-[#72102A]/20"
                     >
                       {editingAssignment ? 'Save Changes' : 'Create Question Type Assignment'}
                     </button>
@@ -1442,81 +1450,86 @@ export default function TeacherManagement() {
               <div>
                 <button
                   onClick={() => setAssignmentStep('selectOption')}
-                  className="flex items-center gap-1 text-xs text-stone-500 hover:text-[#72102A] mb-4 transition-colors font-medium"
+                  className="flex items-center gap-1.5 text-xs text-stone-500 hover:text-[#72102A] mb-4 transition-colors font-medium"
                 >
-                  <Icon name="arrowLeft" className="w-3.5 h-3.5" />
+                  <Icon name="arrowLeft" className="w-4 h-4" />
                   Back to options
                 </button>
 
-                <h2 className="text-xl font-bold text-[#1A1A1A] mb-1 flex items-center gap-2">
-                  <Icon name="questionMarkCircle" className="w-5 h-5 text-[#A68A3D]" />
-                  {editingAssignment ? 'Edit Question Assignment' : 'Add Question Assignment'}
-                </h2>
-                <p className="text-xs text-stone-500 mb-6">
-                  {editingAssignment ? 'Modify assigned questions, marks, or target teacher.' : 'Select specific questions from the bank and assign them directly to a teacher.'}
-                </p>
+                <div className="mb-6 pb-4 border-b border-stone-200">
+                  <h2 className="text-2xl font-bold text-[#1A1A1A] flex items-center gap-2">
+                    <Icon name="questionMarkCircle" className="w-6 h-6 text-[#A68A3D]" />
+                    {editingAssignment ? 'Edit Question Assignment' : 'Add Question Assignment'}
+                  </h2>
+                  <p className="text-sm text-stone-500 mt-1">
+                    {editingAssignment ? 'Modify assigned questions, marks, or target teacher.' : 'Select specific questions from the bank and assign them directly to a teacher.'}
+                  </p>
+                </div>
 
-                <form onSubmit={handleSaveQuestionAssignment} className="space-y-4">
-                  {/* 1. Select Class / Program */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">
-                      1. Select Class / Program
-                    </label>
-                    <select
-                      name="program"
-                      value={selectedProgram}
-                      onChange={handleProgramChange}
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer"
-                    >
-                      {Object.keys(PROGRAM_SUBJECT_MAP).map(prog => (
-                        <option key={prog} value={prog}>{prog}</option>
-                      ))}
-                    </select>
-                  </div>
+                <form onSubmit={handleSaveQuestionAssignment} className="space-y-6">
+                  {/* Grid for Program & Subject */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* 1. Select Class / Program */}
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
+                        1. Select Class / Program
+                      </label>
+                      <select
+                        name="program"
+                        value={selectedProgram}
+                        onChange={handleProgramChange}
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer"
+                      >
+                        {Object.keys(PROGRAM_SUBJECT_MAP).map(prog => (
+                          <option key={prog} value={prog}>{prog}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                  {/* 2. Select Subject / Course */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">
-                      2. Select Subject / Course
-                    </label>
-                    <select
-                      name="subject"
-                      value={selectedSubject}
-                      onChange={(e) => setSelectedSubject(e.target.value)}
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer"
-                    >
-                      {(PROGRAM_SUBJECT_MAP[selectedProgram] || []).map(sub => (
-                        <option key={sub} value={sub}>{sub}</option>
-                      ))}
-                    </select>
+                    {/* 2. Select Subject / Course */}
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
+                        2. Select Subject / Course
+                      </label>
+                      <select
+                        name="subject"
+                        value={selectedSubject}
+                        onChange={(e) => setSelectedSubject(e.target.value)}
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer font-medium"
+                      >
+                        {(PROGRAM_SUBJECT_MAP[selectedProgram] || []).map(sub => (
+                          <option key={sub} value={sub}>{sub}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   {/* 3. Select Teacher */}
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">3. Assign To Teacher</label>
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">3. Assign To Teacher</label>
                     <select
                       name="teacherId"
                       defaultValue={selectedTeacherForAssignment ? selectedTeacherForAssignment.id : teachers[0].id}
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer"
+                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] cursor-pointer font-medium"
                     >
                       {teachers.map(t => (
-                        <option key={t.id} value={t.id}>{t.name} ({t.department})</option>
+                        <option key={t.id} value={t.id}>{t.name} ({t.department} - {t.designation})</option>
                       ))}
                     </select>
                   </div>
 
                   {/* Select Specific Questions from Question Bank */}
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-2">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-2">
                       Select Questions from Question Bank ({selectedQuestionIds.length} selected)
                     </label>
-                    <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
                       {QUESTION_BANK_ITEMS.map(q => (
                         <label
                           key={q.id}
-                          className={`flex items-start gap-3 p-3 rounded-xl border text-xs cursor-pointer transition-all ${
+                          className={`flex items-start gap-3 p-3.5 rounded-xl border text-xs sm:text-sm cursor-pointer transition-all ${
                             selectedQuestionIds.includes(q.id)
-                              ? 'bg-[#FDF8E8] text-stone-900 border-[#C9A84C]/50'
+                              ? 'bg-[#FDF8E8] text-stone-900 border-[#C9A84C]/50 shadow-xs'
                               : 'bg-[#FAF8F5] text-stone-600 border-stone-200 hover:border-stone-300'
                           }`}
                         >
@@ -1528,53 +1541,56 @@ export default function TeacherManagement() {
                           />
                           <div>
                             <div className="flex items-center gap-2 mb-0.5">
-                              <span className="font-mono font-bold text-[#72102A]">{q.id}</span>
-                              <span className="text-[10px] bg-white border border-stone-200 text-stone-600 px-1.5 py-0.5 rounded">
+                              <span className="font-mono font-bold text-[#72102A] text-xs">{q.id}</span>
+                              <span className="text-[10px] bg-white border border-stone-200 text-stone-600 px-2 py-0.5 rounded font-semibold">
                                 {q.type}
                               </span>
                             </div>
-                            <p className="text-[#1A1A1A] font-medium">{q.title}</p>
+                            <p className="text-[#1A1A1A] font-semibold">{q.title}</p>
                           </div>
                         </label>
                       ))}
                     </div>
                   </div>
 
-                  {/* Total Marks */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">Total Assigned Marks</label>
-                    <input
-                      type="number"
-                      name="totalMarks"
-                      defaultValue={editingAssignment ? editingAssignment.totalMarks : "50"}
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A]"
-                    />
-                  </div>
+                  {/* Marks & Evaluation Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    {/* Total Marks */}
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">Total Assigned Marks</label>
+                      <input
+                        type="number"
+                        name="totalMarks"
+                        defaultValue={editingAssignment ? editingAssignment.totalMarks : "50"}
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A]"
+                      />
+                    </div>
 
-                  {/* Instructions */}
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-700 uppercase mb-1">Evaluation Instructions</label>
-                    <textarea
-                      name="instructions"
-                      rows="2"
-                      defaultValue={editingAssignment ? editingAssignment.instructions || "" : ""}
-                      placeholder="e.g. Please review student solution submissions for these questions..."
-                      className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] resize-none"
-                    />
+                    {/* Instructions */}
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">Evaluation Instructions</label>
+                      <textarea
+                        name="instructions"
+                        rows="2"
+                        defaultValue={editingAssignment ? editingAssignment.instructions || "" : ""}
+                        placeholder="e.g. Please review student solution submissions for these questions..."
+                        className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-3 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#72102A] resize-none"
+                      />
+                    </div>
                   </div>
 
                   {/* Submit buttons */}
-                  <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-200 mt-6">
+                  <div className="flex items-center justify-end gap-3 pt-5 border-t border-stone-200 mt-6">
                     <button
                       type="button"
                       onClick={() => setAssignmentStep('selectOption')}
-                      className="px-4 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-sm font-semibold transition-all"
+                      className="px-5 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-sm font-semibold transition-all"
                     >
                       Back
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-[#72102A] hover:bg-[#8B1F3A] text-white text-sm font-semibold transition-all shadow-md shadow-[#72102A]/20"
+                      className="px-6 py-2.5 rounded-xl bg-[#72102A] hover:bg-[#8B1F3A] text-white text-sm font-semibold transition-all shadow-md shadow-[#72102A]/20"
                     >
                       {editingAssignment ? 'Save Changes' : 'Create Question Assignment'}
                     </button>
