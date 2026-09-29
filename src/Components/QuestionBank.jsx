@@ -427,18 +427,33 @@ export default function QuestionBank() {
   }), [questions]);
 
   // ============================================
+  // ============================================
   // RENDER
   // ============================================
   return (
-    <div className="flex flex-col min-h-screen font-sans" style={{ backgroundColor: '#f1f5f9' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        background: 'rgb(250, 248, 245)',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      }}
+    >
 
-      {/* =================== TOP BAR (Recruitment Model Style) =================== */}
-      <header
-        className="w-full flex items-center justify-between px-5 sticky top-0 z-40 shadow-sm"
+      {/* =================== TOP BAR =================== */}
+      <div
         style={{
-          backgroundColor: '#6B1124',
-          height: '56px',
-          borderBottom: '2.5px solid #D4AF37',
+          background: 'linear-gradient(135deg, rgb(114, 16, 42) 0%, rgb(139, 31, 58) 100%)',
+          borderBottom: '2px solid rgb(201, 168, 76)',
+          padding: '0px 24px',
+          height: '60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexShrink: 0,
+          boxShadow: 'rgba(0, 0, 0, 0.15) 0px 4px 20px',
+          zIndex: 100,
         }}
       >
         {/* Left: School Crest + Name & Location */}
@@ -451,7 +466,7 @@ export default function QuestionBank() {
           <div className="flex flex-col">
             <span
               className="font-bold text-[15px] leading-tight tracking-wide"
-              style={{ color: '#EAB308' }}
+              style={{ color: 'rgb(201, 168, 76)', fontFamily: "'Cinzel', serif" }}
             >
               South Point School
             </span>
@@ -467,31 +482,37 @@ export default function QuestionBank() {
             onClick={() => window.history.back()}
             className="px-4 py-1.5 rounded text-xs font-medium text-white transition-all shadow-sm"
             style={{
-              backgroundColor: '#520D1B',
-              border: '1px solid rgba(255, 255, 255, 0.35)',
+              backgroundColor: 'rgba(114, 16, 42, 0.75)',
+              border: '1px solid rgba(201, 168, 76, 0.4)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)';
+              e.currentTarget.style.borderColor = 'rgb(201, 168, 76)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#520D1B';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+              e.currentTarget.style.backgroundColor = 'rgba(114, 16, 42, 0.75)';
+              e.currentTarget.style.borderColor = 'rgba(201, 168, 76, 0.4)';
             }}
             title="Back"
           >
             Back
           </button>
         </div>
-      </header>
+      </div>
 
-      {/* =================== BODY: SIDEBAR + CONTENT =================== */}
-      <div className="flex flex-1 min-h-[calc(100vh-56px)]">
+      {/* =================== BODY: SIDEBAR + MAIN CONTENT =================== */}
+      <div style={{ display: 'flex', flex: '1 1 0%', minHeight: '0px' }}>
 
         {/* =================== SIDEBAR =================== */}
-        <aside
-          className="w-60 flex-shrink-0 flex flex-col sticky top-14 h-[calc(100vh-56px)] z-20"
-          style={{ backgroundColor: '#6B1124', borderRight: '1px solid rgba(0,0,0,0.06)' }}
+        <div
+          style={{
+            width: '240px',
+            background: 'linear-gradient(rgb(114, 16, 42) 0%, rgb(72, 10, 26) 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            flexShrink: 0,
+            boxShadow: 'rgba(0, 0, 0, 0.15) 4px 0px 20px',
+          }}
         >
           {/* Nav Links */}
           <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
@@ -509,13 +530,18 @@ export default function QuestionBank() {
                   style={
                     isActive
                       ? {
-                          backgroundColor: '#520D1B',
-                          border: '1px solid rgba(255, 255, 255, 0.18)',
+                          backgroundColor: 'rgba(255, 255, 255, 0.14)',
+                          border: '1px solid rgba(201, 168, 76, 0.45)',
+                          color: '#ffffff',
                         }
                       : {}
                   }
                 >
-                  <Icon name={item.icon} className="w-4 h-4 flex-shrink-0" />
+                  <Icon
+                    name={item.icon}
+                    className="w-4 h-4 flex-shrink-0"
+                    style={{ color: isActive ? 'rgb(201, 168, 76)' : 'currentColor' }}
+                  />
                   <span>{item.label}</span>
                 </button>
               );
@@ -525,7 +551,14 @@ export default function QuestionBank() {
           {/* User Footer */}
           <div className="px-3 py-3 border-t border-white/10 mt-auto">
             <div className="flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-white/10 cursor-pointer transition-colors">
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xs">
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs"
+                style={{
+                  backgroundColor: 'rgba(201, 168, 76, 0.25)',
+                  color: 'rgb(201, 168, 76)',
+                  border: '1px solid rgba(201, 168, 76, 0.5)',
+                }}
+              >
                 LM
               </div>
               <div className="flex-1 min-w-0">
@@ -537,412 +570,328 @@ export default function QuestionBank() {
               </button>
             </div>
           </div>
-        </aside>
+        </div>
 
         {/* =================== MAIN CONTENT =================== */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="animate-fade-in-up"
+          style={{
+            flex: '1 1 0%',
+            overflowY: 'auto',
+            padding: '28px 32px',
+            outline: 'none',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {/* Toast */}
+            {toast && (
+              <div className="fixed top-16 right-4 z-50 flex items-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium">
+                <Icon name="check" className="w-4 h-4" />
+                {toast}
+              </div>
+            )}
 
-          {/* Toast */}
-          {toast && (
-            <div className="fixed top-16 right-4 z-50 flex items-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium">
-              <Icon name="check" className="w-4 h-4" />
-              {toast}
-            </div>
-          )}
+            {/* Sub-Header: Page Title & Actions Card */}
+            <div
+              className="bg-white border rounded-xl px-6 py-4 flex items-center justify-between flex-shrink-0"
+              style={{
+                borderColor: '#E8E2D8',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              }}
+            >
+              <div>
+                <h1 className="text-xl font-bold leading-tight" style={{ color: 'rgb(26, 26, 26)' }}>
+                  {NAV_ITEMS.find((n) => n.id === activeNav)?.label || 'Question Bank'}
+                </h1>
+                <p className="text-[11px] text-gray-500 mt-0.5">
+                  South Point School · Exam Management System
+                </p>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <button
+                  disabled
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all shadow-sm cursor-not-allowed opacity-50 pointer-events-none"
+                  style={{ backgroundColor: 'rgb(114, 16, 42)' }}
+                >
+                  <Icon name="plus" className="w-4 h-4" />
+                  New Question
+                </button>
 
-          {/* Sub-Header: Page Title & Actions (White Bar matching Recruitment Model) */}
-          <div className="bg-white border-b border-gray-200 px-6 py-3.5 flex items-center justify-between flex-shrink-0 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-            <div>
-              <h1 className="text-xl font-bold text-gray-900 leading-tight">
-                {NAV_ITEMS.find((n) => n.id === activeNav)?.label || 'Question Bank'}
-              </h1>
-              <p className="text-[11px] text-gray-500 mt-0.5">
-                South Point School · Exam Management System
-              </p>
+              </div>
             </div>
-            <div className="flex items-center gap-2.5">
-              <button
-                onClick={() => {
-                  handleOpenEdit({
-                    id: `QB-NEW-${Math.floor(1000 + Math.random() * 9000)}`,
-                    version: 'v1.0',
-                    type: 'Multiple Choice (MCQ)',
-                    typeCategory: 'mcq',
-                    subject: 'General',
-                    grade: 'Grade 10',
-                    chapter: '',
-                    bookReference: '',
-                    marks: 1,
-                    negativeMarks: 0,
-                    difficulty: 'Medium',
-                    cognitiveLevel: 'Application',
-                    estimatedTimeMin: 2,
-                    status: 'Active',
-                    questionText: '',
-                    options: [
-                      { id: 'optA', text: '', isCorrect: true },
-                      { id: 'optB', text: '', isCorrect: false },
-                      { id: 'optC', text: '', isCorrect: false },
-                      { id: 'optD', text: '', isCorrect: false },
-                    ],
-                    correctAnswer: '',
-                    explanation: '',
-                    rubric: '',
-                    author: 'Current Teacher',
-                    history: [
-                      {
-                        action: 'Created',
-                        date: new Date().toLocaleString(),
-                        user: 'Teacher',
-                        note: 'Manually added.',
-                      },
-                    ],
-                  });
-                }}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold text-white transition-all shadow-sm hover:shadow"
-                style={{ backgroundColor: '#7B1A2B' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#651423';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#7B1A2B';
-                }}
-              >
-                <Icon name="plus" className="w-4 h-4" />
-                New Question
-              </button>
-              <button
-                onClick={() => openModal('export', null)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all border"
-                style={{
-                  borderColor: '#7B1A2B',
-                  color: '#7B1A2B',
-                  backgroundColor: 'transparent',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(123, 26, 43, 0.05)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
-              >
-                <Icon name="download" className="w-4 h-4" />
-                Export
-              </button>
-            </div>
-          </div>
 
         {/* ── QUESTION BANK VIEW ── */}
         {activeNav === 'questionBank' && (
           <>
-        {/* ══ DASHBOARD ══ */}
-        <div className="px-6 pt-5 pb-4 space-y-4">
 
 
-          {/* ── Row 2: Question Type Cards ── */}
-          <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2.5">By Question Type</p>
-            <div className="grid grid-cols-5 gap-3">
-              {[
-                { label: 'MCQ',          value: stats.mcq,       accent: '#059669', bg: '#ecfdf5', border: '#6ee7b7', dot: '#10b981' },
-                { label: 'Short Answer', value: stats.short,     accent: '#2563eb', bg: '#eff6ff', border: '#93c5fd', dot: '#3b82f6' },
-                { label: 'Long Essay',   value: stats.long,      accent: '#7c3aed', bg: '#f5f3ff', border: '#c4b5fd', dot: '#8b5cf6' },
-                { label: 'A & R',        value: stats.assertion, accent: '#d97706', bg: '#fffbeb', border: '#fcd34d', dot: '#f59e0b' },
-                { label: 'True / False', value: stats.trueFalse, accent: '#0d9488', bg: '#f0fdfa', border: '#99f6e4', dot: '#14b8a6' },
-              ].map((t) => (
-                <div
-                  key={t.label}
-                  className="bg-white rounded-xl px-4 py-4 border flex flex-col items-center text-center cursor-default hover:scale-[1.02] transition-transform"
-                  style={{ borderColor: t.border, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}
-                >
-                  <div className="w-3 h-3 rounded-full mb-3" style={{ backgroundColor: t.dot }} />
-                  <div className="text-3xl font-extrabold" style={{ color: t.accent }}>{t.value}</div>
-                  <div className="text-xs font-semibold mt-1" style={{ color: t.accent }}>{t.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Row 3: Difficulty Breakdown ── */}
-          <div className="bg-white rounded-xl border border-gray-200 px-5 py-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Difficulty Breakdown</p>
-            <div className="flex items-center gap-6">
-              {[
-                { label: 'Easy',   value: stats.easy,   color: '#16a34a' },
-                { label: 'Medium', value: stats.medium, color: '#d97706' },
-                { label: 'Hard',   value: stats.hard,   color: '#dc2626' },
-              ].map((d) => (
-                <div key={d.label} className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }} />
-                  <span className="text-xs text-gray-500 font-medium">{d.label}</span>
-                  <span className="text-base font-extrabold" style={{ color: d.color }}>{d.value}</span>
-                </div>
-              ))}
-              <div className="flex-1 ml-2">
-                {stats.total > 0 && (
-                  <div className="flex rounded-full overflow-hidden h-3 gap-px">
-                    {stats.easy   > 0 && <div style={{ width: `${(stats.easy   / stats.total) * 100}%`, backgroundColor: '#16a34a' }} />}
-                    {stats.medium > 0 && <div style={{ width: `${(stats.medium / stats.total) * 100}%`, backgroundColor: '#d97706' }} />}
-                    {stats.hard   > 0 && <div style={{ width: `${(stats.hard   / stats.total) * 100}%`, backgroundColor: '#dc2626' }} />}
-                  </div>
+            {/* Search + Filters */}
+            <div className="flex flex-col gap-3">
+              {/* Search */}
+              <div className="relative">
+                <Icon name="search" className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search by question text, ID, chapter, or author..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-white border rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none transition-all"
+                  style={{ borderColor: '#E8E2D8' }}
+                  onFocus={(e) => { e.target.style.boxShadow = '0 0 0 3px rgba(58,9,23,0.12)'; e.target.style.borderColor = 'rgb(58, 9, 23)'; }}
+                  onBlur={(e) => { e.target.style.boxShadow = 'none'; e.target.style.borderColor = '#E8E2D8'; }}
+                />
+                {searchTerm && (
+                  <button onClick={() => setSearchTerm('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                    <Icon name="close" className="w-4 h-4" />
+                  </button>
                 )}
               </div>
-              <div className="text-xs text-gray-400 font-semibold">{stats.total} total</div>
-            </div>
-          </div>
-        </div>
 
-        {/* Search + Filters */}
-        <div className="px-6 py-3">
-          <div className="flex flex-col gap-3">
-            {/* Search */}
-            <div className="relative">
-              <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search by question text, ID, chapter, or author..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none transition-all"
-                onFocus={(e) => { e.target.style.boxShadow = '0 0 0 3px rgba(123,26,43,0.12)'; e.target.style.borderColor = '#7B1A2B'; }}
-                onBlur={(e) => { e.target.style.boxShadow = 'none'; e.target.style.borderColor = '#e5e7eb'; }}
-              />
-              {searchTerm && (
-                <button onClick={() => setSearchTerm('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                  <Icon name="close" className="w-4 h-4" />
-                </button>
+              {/* Filters Row */}
+              <div className="flex flex-wrap items-center gap-2">
+                {[
+                  { label: 'Subject', value: filterSubject, set: setFilterSubject, opts: ['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology', 'Computer Science', 'English Literature'] },
+                  { label: 'Grade', value: filterGrade, set: setFilterGrade, opts: ['All', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'] },
+                  { label: 'Type', value: filterType, set: setFilterType, opts: ['All', 'Multiple Choice (MCQ)', 'Short Answer', 'Long Essay / Problem', 'Assertion & Reasoning', 'True / False'] },
+                  { label: 'Difficulty', value: filterDifficulty, set: setFilterDifficulty, opts: ['All', 'Easy', 'Medium', 'Hard'] },
+                ].map((f) => (
+                  <select
+                    key={f.label}
+                    value={f.value}
+                    onChange={(e) => f.set(e.target.value)}
+                    className="bg-white border rounded-lg px-2.5 py-1.5 text-xs text-gray-700 focus:outline-none hover:border-gray-300 transition-colors"
+                    style={{ borderColor: '#E8E2D8', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}
+                  >
+                    {f.opts.map((o) => (
+                      <option key={o} value={o}>{o === 'All' ? `All ${f.label}s` : o}</option>
+                    ))}
+                  </select>
+                ))}
+
+                <div className="ml-auto flex items-center gap-1 bg-white p-1 rounded-lg border" style={{ borderColor: '#E8E2D8', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+                  <button
+                    onClick={() => setViewMode('card')}
+                    className={`p-1.5 rounded transition-colors ${viewMode === 'card' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                    style={viewMode === 'card' ? { backgroundColor: 'rgb(114, 16, 42)' } : {}}
+                    title="Card View"
+                  >
+                    <Icon name="grid" className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('table')}
+                    className={`p-1.5 rounded transition-colors ${viewMode === 'table' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                    style={viewMode === 'table' ? { backgroundColor: 'rgb(114, 16, 42)' } : {}}
+                    title="Table View"
+                  >
+                    <Icon name="list" className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Results Count */}
+            <div>
+              <p className="text-xs text-gray-500">
+                Showing <span className="font-semibold text-gray-800">{filtered.length}</span> of {questions.length} questions
+              </p>
+            </div>
+
+            {/* Questions List / Grid */}
+            <div>
+              {/* CARD VIEW */}
+              {viewMode === 'card' && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {filtered.map((q) => {
+                    const typeBadge = TYPE_BADGES[q.type] || { cls: 'bg-gray-100 text-gray-600 border-gray-200', label: q.type };
+                    return (
+                      <div key={q.id} className="bg-white rounded-xl border flex flex-col" style={{ borderColor: '#E8E2D8', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                        {/* Card Header */}
+                        <div className="px-4 py-3 border-b border-gray-100 flex items-start justify-between gap-3">
+                          <div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-mono text-xs font-bold text-gray-500">{q.id}</span>
+                              <span
+                                className="text-[11px] px-2 py-0.5 rounded-full font-semibold border"
+                                style={{
+                                  backgroundColor: 'rgba(114, 16, 42, 0.08)',
+                                  color: 'rgb(114, 16, 42)',
+                                  borderColor: 'rgba(114, 16, 42, 0.2)',
+                                }}
+                              >
+                                {q.version}
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                              <span className="font-medium text-gray-700">{q.subject}</span> • {q.grade} • {q.chapter}
+                            </p>
+                          </div>
+                          <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                            <span className={`text-[11px] px-2 py-0.5 rounded-full border font-semibold ${typeBadge.cls}`}>
+                              {typeBadge.label}
+                            </span>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[11px] font-bold px-2 py-0.5 rounded border bg-amber-50 text-amber-700 border-amber-200">
+                                {q.marks}M
+                              </span>
+                              <span className={`text-[11px] px-2 py-0.5 rounded border font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
+                                {q.difficulty}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Question Stem */}
+                        <div className="px-4 py-3 flex-1">
+                          <p className="text-sm text-gray-800 leading-relaxed line-clamp-3">{q.questionText}</p>
+
+                          {/* MCQ mini-options */}
+                          {q.options && q.options.length > 0 && (
+                            <div className="mt-2 grid grid-cols-2 gap-1.5">
+                              {q.options.map((opt) => (
+                                <div
+                                  key={opt.id}
+                                  className={`text-[11px] px-2 py-1 rounded border flex items-center gap-1 ${
+                                    opt.isCorrect ? 'bg-green-50 text-green-700 border-green-200 font-medium' : 'bg-gray-50 text-gray-500 border-gray-200'
+                                  }`}
+                                >
+                                  <span className="font-semibold">{opt.id.slice(-1)}.</span>
+                                  <span className="truncate">{opt.text}</span>
+                                  {opt.isCorrect && <Icon name="check" className="w-3 h-3 ml-auto flex-shrink-0 text-green-600" />}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          <div className="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-400">
+                            <span className="truncate max-w-[180px]" title={q.bookReference}>{q.bookReference}</span>
+                            <span>Est: {q.estimatedTimeMin}m • {q.cognitiveLevel}</span>
+                          </div>
+                        </div>
+
+                        {/* Action Bar */}
+                        <div className="px-3 py-2.5 bg-[#FBF9F6] border-t border-[#E8E2D8] rounded-b-xl flex items-center justify-between">
+                          <div className="flex items-center gap-0.5">
+                            <ActionBtn icon="eye" label="View" color="#3B82F6" onClick={() => openModal('details', q)} />
+                            <ActionBtn icon="edit" label="Edit" color="#C9A84C" onClick={() => handleOpenEdit(q)} />
+                            <ActionBtn icon="history" label="History" color="#0D9488" onClick={() => openModal('history', q)} />
+                          </div>
+                          <div className="flex items-center gap-0.5">
+                            <ActionBtn icon="trash" label="Delete" color="#DC2626" onClick={() => openModal('delete', q)} />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* TABLE VIEW */}
+              {viewMode === 'table' && (
+                <div className="bg-white rounded-xl border shadow-sm overflow-hidden" style={{ borderColor: '#E8E2D8' }}>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead>
+                        <tr className="bg-[#FBF9F6] border-b border-[#E8E2D8] text-gray-500 uppercase tracking-wide text-[11px]">
+                          <th className="px-4 py-3">ID & Type</th>
+                          <th className="px-4 py-3">Subject / Chapter</th>
+                          <th className="px-4 py-3 max-w-xs">Question</th>
+                          <th className="px-4 py-3">Marks</th>
+                          <th className="px-4 py-3">Difficulty</th>
+                          <th className="px-4 py-3">Version</th>
+                          <th className="px-4 py-3">Status</th>
+                          <th className="px-4 py-3 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {filtered.map((q) => (
+                          <tr key={q.id} className="hover:bg-gray-50/70 transition-colors">
+                            <td className="px-4 py-3">
+                              <div className="font-mono font-bold text-gray-700">{q.id}</div>
+                              <div className="text-[11px] text-gray-400 mt-0.5">{TYPE_BADGES[q.type]?.label || q.type}</div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="font-medium text-gray-700">{q.subject}</div>
+                              <div className="text-[11px] text-gray-400 truncate max-w-[140px]">{q.chapter}</div>
+                            </td>
+                            <td className="px-4 py-3 max-w-xs">
+                              <p className="text-gray-700 line-clamp-2">{q.questionText}</p>
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className="font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
+                                {q.marks}M
+                              </span>
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className={`px-2 py-0.5 rounded border text-[11px] font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
+                                {q.difficulty}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3">
+                              <span
+                                className="text-[11px] font-semibold px-2 py-0.5 rounded border"
+                                style={{
+                                  backgroundColor: 'rgba(114, 16, 42, 0.08)',
+                                  color: 'rgb(114, 16, 42)',
+                                  borderColor: 'rgba(114, 16, 42, 0.2)',
+                                }}
+                              >
+                                {q.version}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className={`text-[11px] px-2 py-0.5 rounded border font-medium ${
+                                q.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+                              }`}>
+                                {q.status}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="flex items-center justify-end gap-1">
+                                {[
+                                  { icon: 'eye', color: '#3B82F6' },
+                                  { icon: 'edit', color: '#C9A84C' },
+                                  { icon: 'history', color: '#0D9488' },
+                                  { icon: 'trash', color: '#DC2626' },
+                                ].map((btn, i) => (
+                                  <button
+                                    key={i}
+                                    disabled
+                                    className="p-1.5 rounded-lg transition-colors cursor-not-allowed opacity-40 pointer-events-none"
+                                    style={{ color: btn.color }}
+                                  >
+                                    <Icon name={btn.icon} className="w-3.5 h-3.5" />
+                                  </button>
+                                ))}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Empty State */}
+              {filtered.length === 0 && (
+                <div className="bg-white rounded-xl border p-14 text-center shadow-sm" style={{ borderColor: '#E8E2D8' }}>
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                    <Icon name="search" className="w-6 h-6 text-gray-400" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-gray-700 mb-1">No questions found</h3>
+                  <p className="text-xs text-gray-400 mb-4">Try adjusting your search or filter criteria.</p>
+                  <button
+                    onClick={() => { setSearchTerm(''); setFilterSubject('All'); setFilterGrade('All'); setFilterType('All'); setFilterDifficulty('All'); setFilterStatus('All'); }}
+                    className="px-4 py-2 rounded-lg text-xs font-semibold text-white transition-colors"
+                    style={{ backgroundColor: 'rgb(114, 16, 42)' }}
+                  >
+                    Reset Filters
+                  </button>
+                </div>
               )}
             </div>
-
-            {/* Filters Row */}
-            <div className="flex flex-wrap items-center gap-2">
-              {[
-                { label: 'Subject', value: filterSubject, set: setFilterSubject, opts: ['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology', 'Computer Science', 'English Literature'] },
-                { label: 'Grade', value: filterGrade, set: setFilterGrade, opts: ['All', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'] },
-                { label: 'Type', value: filterType, set: setFilterType, opts: ['All', 'Multiple Choice (MCQ)', 'Short Answer', 'Long Essay / Problem', 'Assertion & Reasoning', 'True / False'] },
-                { label: 'Difficulty', value: filterDifficulty, set: setFilterDifficulty, opts: ['All', 'Easy', 'Medium', 'Hard'] },
-              ].map((f) => (
-                <select
-                  key={f.label}
-                  value={f.value}
-                  onChange={(e) => f.set(e.target.value)}
-                  className="bg-white border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-700 focus:outline-none hover:border-gray-300 transition-colors"
-                  style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}
-                >
-                  {f.opts.map((o) => (
-                    <option key={o} value={o}>{o === 'All' ? `All ${f.label}s` : o}</option>
-                  ))}
-                </select>
-              ))}
-
-              <div className="ml-auto flex items-center gap-1 bg-white p-1 rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
-                <button
-                  onClick={() => setViewMode('card')}
-                  className={`p-1.5 rounded transition-colors ${viewMode === 'card' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
-                  style={viewMode === 'card' ? { backgroundColor: '#7B1A2B' } : {}}
-                  title="Card View"
-                >
-                  <Icon name="grid" className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('table')}
-                  className={`p-1.5 rounded transition-colors ${viewMode === 'table' ? 'text-white' : 'text-gray-500 hover:text-gray-700'}`}
-                  style={viewMode === 'table' ? { backgroundColor: '#7B1A2B' } : {}}
-                  title="Table View"
-                >
-                  <Icon name="list" className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Results Count */}
-        <div className="px-6 pt-3 pb-1 flex-shrink-0">
-          <p className="text-xs text-gray-500">
-            Showing <span className="font-semibold text-gray-700">{filtered.length}</span> of {questions.length} questions
-          </p>
-        </div>
-
-        {/* Questions List / Grid */}
-        <div className="px-6 pb-6 pt-2">
-
-          {/* CARD VIEW */}
-          {viewMode === 'card' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {filtered.map((q) => {
-                const typeBadge = TYPE_BADGES[q.type] || { cls: 'bg-gray-100 text-gray-600 border-gray-200', label: q.type };
-                return (
-                  <div key={q.id} className="bg-white rounded-xl border border-gray-200 flex flex-col" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-                    {/* Card Header */}
-                    <div className="px-4 py-3 border-b border-gray-100 flex items-start justify-between gap-3">
-                      <div>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-xs font-bold text-gray-500">{q.id}</span>
-                          <span className="text-[11px] px-2 py-0.5 rounded-full font-semibold border" style={{ backgroundColor: '#FEF2F2', color: '#7B1A2B', borderColor: '#FECACA' }}>
-                            {q.version}
-                          </span>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-0.5">
-                          <span className="font-medium text-gray-700">{q.subject}</span> • {q.grade} • {q.chapter}
-                        </p>
-                      </div>
-                      <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                        <span className={`text-[11px] px-2 py-0.5 rounded-full border font-semibold ${typeBadge.cls}`}>
-                          {typeBadge.label}
-                        </span>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[11px] font-bold px-2 py-0.5 rounded border bg-amber-50 text-amber-700 border-amber-200">
-                            {q.marks}M
-                          </span>
-                          <span className={`text-[11px] px-2 py-0.5 rounded border font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
-                            {q.difficulty}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Question Stem */}
-                    <div className="px-4 py-3 flex-1">
-                      <p className="text-sm text-gray-800 leading-relaxed line-clamp-3">{q.questionText}</p>
-
-                      {/* MCQ mini-options */}
-                      {q.options && q.options.length > 0 && (
-                        <div className="mt-2 grid grid-cols-2 gap-1.5">
-                          {q.options.map((opt) => (
-                            <div
-                              key={opt.id}
-                              className={`text-[11px] px-2 py-1 rounded border flex items-center gap-1 ${opt.isCorrect ? 'bg-green-50 text-green-700 border-green-200 font-medium' : 'bg-gray-50 text-gray-500 border-gray-200'
-                                }`}
-                            >
-                              <span className="font-semibold">{opt.id.slice(-1)}.</span>
-                              <span className="truncate">{opt.text}</span>
-                              {opt.isCorrect && <Icon name="check" className="w-3 h-3 ml-auto flex-shrink-0 text-green-600" />}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-400">
-                        <span className="truncate max-w-[180px]" title={q.bookReference}>{q.bookReference}</span>
-                        <span>Est: {q.estimatedTimeMin}m • {q.cognitiveLevel}</span>
-                      </div>
-                    </div>
-
-                    {/* Action Bar */}
-                    <div className="px-3 py-2.5 bg-gray-50 border-t border-gray-100 rounded-b-xl flex items-center justify-between">
-                      <div className="flex items-center gap-0.5">
-                        <ActionBtn icon="eye" label="View" color="#3B82F6" onClick={() => openModal('details', q)} />
-                        <ActionBtn icon="edit" label="Edit" color="#D97706" onClick={() => handleOpenEdit(q)} />
-                        <ActionBtn icon="history" label="History" color="#0D9488" onClick={() => openModal('history', q)} />
-                      </div>
-                      <div className="flex items-center gap-0.5">
-                        <ActionBtn icon="trash" label="Delete" color="#DC2626" onClick={() => openModal('delete', q)} />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* TABLE VIEW */}
-          {viewMode === 'table' && (
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 uppercase tracking-wide text-[11px]">
-                      <th className="px-4 py-3">ID & Type</th>
-                      <th className="px-4 py-3">Subject / Chapter</th>
-                      <th className="px-4 py-3 max-w-xs">Question</th>
-                      <th className="px-4 py-3">Marks</th>
-                      <th className="px-4 py-3">Difficulty</th>
-                      <th className="px-4 py-3">Version</th>
-                      <th className="px-4 py-3">Status</th>
-                      <th className="px-4 py-3 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {filtered.map((q) => (
-                      <tr key={q.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-4 py-3">
-                          <div className="font-mono font-bold text-gray-700">{q.id}</div>
-                          <div className="text-[11px] text-gray-400 mt-0.5">{TYPE_BADGES[q.type]?.label || q.type}</div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="font-medium text-gray-700">{q.subject}</div>
-                          <div className="text-[11px] text-gray-400 truncate max-w-[140px]">{q.chapter}</div>
-                        </td>
-                        <td className="px-4 py-3 max-w-xs">
-                          <p className="text-gray-700 line-clamp-2">{q.questionText}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className="font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
-                            {q.marks}M
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className={`px-2 py-0.5 rounded border text-[11px] font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
-                            {q.difficulty}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className="text-[11px] font-semibold px-2 py-0.5 rounded border" style={{ backgroundColor: '#FEF2F2', color: '#7B1A2B', borderColor: '#FECACA' }}>
-                            {q.version}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className={`text-[11px] px-2 py-0.5 rounded border font-medium ${q.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-amber-50 text-amber-700 border-amber-200'
-                            }`}>
-                            {q.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center justify-end gap-1">
-                            {[
-                              { icon: 'eye', color: '#3B82F6', action: () => openModal('details', q) },
-                              { icon: 'edit', color: '#D97706', action: () => handleOpenEdit(q) },
-                              { icon: 'history', color: '#0D9488', action: () => openModal('history', q) },
-                              { icon: 'trash', color: '#DC2626', action: () => openModal('delete', q) },
-                            ].map((btn, i) => (
-                              <button
-                                key={i}
-                                onClick={btn.action}
-                                className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-                                style={{ color: btn.color }}
-                              >
-                                <Icon name={btn.icon} className="w-3.5 h-3.5" />
-                              </button>
-                            ))}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* Empty State */}
-          {filtered.length === 0 && (
-            <div className="bg-white rounded-xl border border-gray-200 p-14 text-center shadow-sm">
-              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
-                <Icon name="search" className="w-6 h-6 text-gray-400" />
-              </div>
-              <h3 className="text-sm font-semibold text-gray-700 mb-1">No questions found</h3>
-              <p className="text-xs text-gray-400 mb-4">Try adjusting your search or filter criteria.</p>
-              <button
-                onClick={() => { setSearchTerm(''); setFilterSubject('All'); setFilterGrade('All'); setFilterType('All'); setFilterDifficulty('All'); setFilterStatus('All'); }}
-                className="px-4 py-2 rounded-lg text-xs font-semibold text-white transition-colors"
-                style={{ backgroundColor: '#7B1A2B' }}
-              >
-                Reset Filters
-              </button>
-            </div>
-          )}
-        </div>
           </>
         )}
 
@@ -961,7 +910,10 @@ export default function QuestionBank() {
             <div className="flex flex-col items-center justify-center px-8 py-28">
               <div
                 className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6"
-                style={{ backgroundColor: '#4D0E1A', boxShadow: '0 8px 24px rgba(77,14,26,0.25)' }}
+                style={{
+                  background: 'linear-gradient(135deg, rgb(114, 16, 42) 0%, rgb(72, 10, 26) 100%)',
+                  boxShadow: '0 8px 24px rgba(114, 16, 42, 0.25)',
+                }}
               >
                 <Icon name={meta.icon} className="w-10 h-10 text-white" />
               </div>
@@ -969,15 +921,20 @@ export default function QuestionBank() {
               <p className="text-sm text-gray-500 max-w-sm text-center mb-8 leading-relaxed">{meta.desc}</p>
               <div
                 className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-semibold"
-                style={{ backgroundColor: '#FEF2F2', color: '#4D0E1A', border: '1.5px solid #FECACA' }}
+                style={{
+                  backgroundColor: 'rgba(114, 16, 42, 0.08)',
+                  color: 'rgb(114, 16, 42)',
+                  border: '1.5px solid rgba(114, 16, 42, 0.2)',
+                }}
               >
-                <span className="w-2 h-2 rounded-full bg-amber-400" style={{ animation: 'pulse 1.5s infinite' }} />
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(201, 168, 76)', animation: 'pulse 1.5s infinite' }} />
                 Coming Soon
               </div>
             </div>
           );
         })()}
-      </div>
+          </div>
+        </main>
       </div>
 
       {/* ============================================ */}
@@ -1045,7 +1002,13 @@ export default function QuestionBank() {
               <Icon name="history" className="w-4 h-4" /> View Activity History
             </button>
             <div className="flex gap-2">
-              <button onClick={() => handleOpenEdit(current)} className="px-4 py-2 rounded-lg text-xs font-semibold text-white" style={{ backgroundColor: '#7B1A2B' }}>Edit Question</button>
+              <button
+                onClick={() => handleOpenEdit(current)}
+                className="px-4 py-2 rounded-lg text-xs font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
+                style={{ backgroundColor: 'rgb(114, 16, 42)' }}
+              >
+                Edit Question
+              </button>
               <button onClick={closeModal} className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200">Close</button>
             </div>
           </div>
@@ -1062,7 +1025,7 @@ export default function QuestionBank() {
               <Label>Question Text *</Label>
               <textarea rows={4} required value={editForm.questionText} onChange={(e) => setEditForm({ ...editForm, questionText: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg p-3 text-sm text-gray-800 focus:outline-none leading-relaxed resize-none"
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7B1A2B40'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
+                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1077,7 +1040,7 @@ export default function QuestionBank() {
                   <input type={f.type} value={f.val} min={f.type === 'number' ? 0 : undefined} step={f.type === 'number' ? 0.25 : undefined}
                     onChange={(e) => setEditForm({ ...editForm, [f.key]: f.type === 'number' ? Number(e.target.value) : e.target.value })}
                     className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none"
-                    onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7B1A2B40'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
+                    onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
                 </div>
               ))}
             </div>
@@ -1094,7 +1057,7 @@ export default function QuestionBank() {
                 <Label>Chapter</Label>
                 <input type="text" value={editForm.chapter} onChange={(e) => setEditForm({ ...editForm, chapter: e.target.value })}
                   className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none"
-                  onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7B1A2B40'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
+                  onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
               </div>
             </div>
 
@@ -1106,7 +1069,7 @@ export default function QuestionBank() {
                     <div key={opt.id} className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
                       <input type="radio" name="correctOpt" checked={opt.isCorrect}
                         onChange={() => { const newOpts = editForm.options.map((o, i) => ({ ...o, isCorrect: i === idx })); setEditForm({ ...editForm, options: newOpts }); }}
-                        className="cursor-pointer accent-red-800" />
+                        className="cursor-pointer" style={{ accentColor: 'rgb(58, 9, 23)' }} />
                       <span className="font-bold text-gray-400 w-5 text-xs">{opt.id.slice(-1)}.</span>
                       <input type="text" value={opt.text} placeholder={`Option ${opt.id.slice(-1)}`}
                         onChange={(e) => { const newOpts = [...editForm.options]; newOpts[idx].text = e.target.value; setEditForm({ ...editForm, options: newOpts }); }}
@@ -1121,21 +1084,26 @@ export default function QuestionBank() {
               <Label>Model Answer / Explanation</Label>
               <textarea rows={2} value={editForm.explanation} onChange={(e) => setEditForm({ ...editForm, explanation: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg p-2.5 text-xs text-gray-800 focus:outline-none resize-none"
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7B1A2B40'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
+                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
             </div>
 
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+            <div className="rounded-lg p-3 border" style={{ backgroundColor: 'rgba(114, 16, 42, 0.04)', borderColor: 'rgba(114, 16, 42, 0.2)' }}>
               <Label>Changelog / Version Note</Label>
               <input type="text" placeholder="e.g. Corrected option B phrasing and updated rubric."
                 value={editForm.changelogNote} onChange={(e) => setEditForm({ ...editForm, changelogNote: e.target.value })}
-                className="w-full bg-white border border-red-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none mt-1"
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7B1A2B40'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
-              <p className="text-[11px] text-red-500 mt-1">This note will be logged in the activity history ledger.</p>
+                className="w-full bg-white border rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none mt-1"
+                style={{ borderColor: 'rgba(114, 16, 42, 0.25)' }}
+                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(58, 9, 23, 0.25)'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
+              <p className="text-[11px] mt-1" style={{ color: 'rgb(114, 16, 42)' }}>This note will be logged in the activity history ledger.</p>
             </div>
 
             <div className="flex justify-end gap-2 pt-2">
               <button type="button" onClick={closeModal} className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200">Cancel</button>
-              <button type="submit" className="px-5 py-2 rounded-lg text-xs font-bold text-white shadow-sm" style={{ backgroundColor: '#7B1A2B' }}>
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-lg text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90"
+                style={{ backgroundColor: 'rgb(114, 16, 42)' }}
+              >
                 Save & Publish New Version
               </button>
             </div>
@@ -1185,7 +1153,7 @@ export default function QuestionBank() {
       {modal === 'delete' && current && (
         <ModalWrapper title="Delete Question" onClose={closeModal} narrow>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#FEF2F2' }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)' }}>
               <Icon name="trash" className="w-5 h-5" style={{ color: '#DC2626' }} />
             </div>
             <div>
@@ -1204,37 +1172,6 @@ export default function QuestionBank() {
       )}
 
 
-
-      {/* ============================================ */}
-      {/* MODAL: EXPORT PAPER                         */}
-      {/* ============================================ */}
-      {modal === 'export' && (
-        <ModalWrapper title="Export Examination Paper" subtitle="Generate formatted exam paper" onClose={closeModal} narrow>
-          <div className="space-y-3">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-2 text-xs">
-              <div className="flex justify-between text-gray-600"><span>Questions:</span><span className="font-bold text-gray-800">{filtered.length}</span></div>
-              <div className="flex justify-between text-gray-600"><span>Total Marks:</span><span className="font-bold text-amber-700">{filtered.reduce((a, c) => a + (c.marks || 1), 0)} Marks</span></div>
-              <div className="flex justify-between text-gray-600"><span>School:</span><span className="font-semibold text-gray-700">South Point School, Guwahati</span></div>
-            </div>
-            <div>
-              <Label>Paper Title</Label>
-              <input type="text" defaultValue="Annual Term Examination 2026 — Standard Assessment"
-                className="w-full border border-gray-300 rounded-lg px-2.5 py-2 text-xs text-gray-800 focus:outline-none"
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7B1A2B40'} onBlur={(e) => e.target.style.boxShadow = 'none'} />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3 pt-4">
-            <button onClick={() => { showToast('✓ PDF downloaded!'); closeModal(); }}
-              className="py-2.5 rounded-lg text-xs font-bold text-white flex items-center justify-center gap-2 shadow-sm" style={{ backgroundColor: '#7B1A2B' }}>
-              <Icon name="download" className="w-4 h-4" /> Download PDF
-            </button>
-            <button onClick={() => { showToast('✓ Exported to Word.'); closeModal(); }}
-              className="py-2.5 rounded-lg text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 border border-gray-300 flex items-center justify-center gap-2">
-              <Icon name="download" className="w-4 h-4" /> Export Word
-            </button>
-          </div>
-        </ModalWrapper>
-      )}
     </div>
   );
 }
@@ -1242,11 +1179,11 @@ export default function QuestionBank() {
 // ============================================
 // HELPER COMPONENTS
 // ============================================
-function ActionBtn({ icon, label, color, onClick }) {
+function ActionBtn({ icon, label, color }) {
   return (
     <button
-      onClick={onClick}
-      className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium text-gray-600 hover:bg-white hover:shadow-sm transition-all"
+      disabled
+      className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all cursor-not-allowed opacity-40 pointer-events-none"
       style={{ color }}
       title={label}
     >
@@ -1288,3 +1225,4 @@ function InfoBox({ title, content }) {
     </div>
   );
 }
+
