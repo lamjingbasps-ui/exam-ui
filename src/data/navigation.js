@@ -26,7 +26,7 @@ export const COMING_SOON_PAGES = {
   generatePaper: {
     icon: 'refresh',
     label: 'Generate Question Paper',
-    desc: 'Auto-generate balanced question papers based on syllabus and difficulty criteria.',
+    desc: 'Auto-generate balanced question papers based on syllabus and blueprint criteria.',
   },
   paperManagement: {
     icon: 'grid',

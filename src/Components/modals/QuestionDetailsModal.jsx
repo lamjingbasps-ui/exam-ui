@@ -19,7 +19,6 @@ export default function QuestionDetailsModal({ current, onClose, onOpenEdit, onO
             ['Subject', current.subject],
             ['Grade', current.grade],
             ['Marks', `${current.marks}M (Neg: ${current.negativeMarks})`],
-            ['Difficulty', current.difficulty],
             ['Type', TYPE_BADGES[current.type]?.label || current.type],
             ['Cognitive Level', current.cognitiveLevel],
             ['Est. Time', `${current.estimatedTimeMin} min`],
@@ -83,21 +82,23 @@ export default function QuestionDetailsModal({ current, onClose, onOpenEdit, onO
       <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-100">
         <button
           onClick={() => onOpenHistory(current)}
-          className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+          style={{ padding: '8px 12px', borderRadius: '8px', gap: '8px' }}
+          className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 flex items-center transition-colors"
         >
-          <Icon name="history" className="w-4 h-4" /> View Activity History
+          <Icon name="history" className="w-4 h-4" /> <span>View Activity History</span>
         </button>
         <div className="flex gap-2">
           <button
             onClick={() => onOpenEdit(current)}
-            className="px-4 py-2 rounded-lg text-xs font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
-            style={{ backgroundColor: '#72102a' }}
+            style={{ backgroundColor: '#72102a', padding: '10px 14px', borderRadius: '8px' }}
+            className="text-xs font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
           >
             Edit Question
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200"
+            style={{ padding: '10px 14px', borderRadius: '8px' }}
+            className="text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
           >
             Close
           </button>

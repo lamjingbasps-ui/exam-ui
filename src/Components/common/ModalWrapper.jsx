@@ -25,7 +25,10 @@ export function ModalWrapper({ title, subtitle, onClose, children, wide, narrow 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
       <div className={`bg-white rounded-2xl shadow-2xl w-full ${w} max-h-[90vh] overflow-y-auto flex flex-col`}>
-        <div className="px-6 py-4 border-b border-gray-100 flex items-start justify-between gap-4 sticky top-0 bg-white z-10">
+        <div
+          className="border-b border-gray-100 flex items-start justify-between gap-4 sticky top-0 bg-white z-10"
+          style={{ padding: '16px 20px 14px 20px' }}
+        >
           <div>
             <h3 className="text-base font-bold text-gray-800" style={{ fontFamily: "'Outfit', sans-serif" }}>
               {title}
@@ -34,13 +37,13 @@ export function ModalWrapper({ title, subtitle, onClose, children, wide, narrow 
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors flex-shrink-0"
+            className="p-1.5 rounded-[8px] text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors flex-shrink-0"
             aria-label="Close"
           >
             <Icon name="close" className="w-5 h-5" />
           </button>
         </div>
-        <div className="px-6 py-5">{children}</div>
+        <div style={{ padding: '18px 20px' }}>{children}</div>
       </div>
     </div>
   );

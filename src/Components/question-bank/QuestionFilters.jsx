@@ -10,8 +10,6 @@ export default function QuestionFilters({
   setFilterGrade,
   filterType,
   setFilterType,
-  filterDifficulty,
-  setFilterDifficulty,
   viewMode,
   setViewMode,
 }) {
@@ -33,12 +31,6 @@ export default function QuestionFilters({
       value: filterType,
       set: setFilterType,
       opts: ['All', 'Multiple Choice (MCQ)', 'Short Answer', 'Long Essay / Problem', 'Assertion & Reasoning', 'True / False'],
-    },
-    {
-      label: 'Difficulty',
-      value: filterDifficulty,
-      set: setFilterDifficulty,
-      opts: ['All', 'Easy', 'Medium', 'Hard'],
     },
   ];
 

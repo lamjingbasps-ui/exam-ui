@@ -27,13 +27,15 @@ export default function QuestionDeleteModal({ current, onConfirm, onClose }) {
       <div className="flex justify-end gap-2">
         <button
           onClick={onClose}
-          className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200"
+          style={{ padding: '10px 14px', borderRadius: '8px' }}
+          className="text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
         >
           Cancel
         </button>
         <button
           onClick={onConfirm}
-          className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-red-600 hover:bg-red-700 shadow-sm transition-colors"
+          style={{ padding: '10px 14px', borderRadius: '8px' }}
+          className="text-xs font-bold text-white bg-red-600 hover:bg-red-700 shadow-sm transition-colors"
         >
           Confirm Delete
         </button>

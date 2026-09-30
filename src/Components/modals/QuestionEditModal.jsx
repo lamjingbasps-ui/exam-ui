@@ -53,30 +53,16 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label>Difficulty</Label>
-            <select
-              value={editForm.difficulty}
-              onChange={(e) => setEditForm({ ...editForm, difficulty: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none cursor-pointer"
-            >
-              {['Easy', 'Medium', 'Hard'].map((d) => (
-                <option key={d}>{d}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <Label>Chapter</Label>
-            <input
-              type="text"
-              value={editForm.chapter}
-              onChange={(e) => setEditForm({ ...editForm, chapter: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none"
-              onFocus={(e) => (e.target.style.boxShadow = '0 0 0 2px rgba(114, 16, 42, 0.25)')}
-              onBlur={(e) => (e.target.style.boxShadow = 'none')}
-            />
-          </div>
+        <div>
+          <Label>Chapter</Label>
+          <input
+            type="text"
+            value={editForm.chapter}
+            onChange={(e) => setEditForm({ ...editForm, chapter: e.target.value })}
+            className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none"
+            onFocus={(e) => (e.target.style.boxShadow = '0 0 0 2px rgba(114, 16, 42, 0.25)')}
+            onBlur={(e) => (e.target.style.boxShadow = 'none')}
+          />
         </div>
 
         {editForm.options && editForm.options.length > 0 && (
@@ -147,14 +133,15 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-lg text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200"
+            style={{ padding: '10px 14px', borderRadius: '8px' }}
+            className="text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-5 py-2 rounded-lg text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90"
-            style={{ backgroundColor: '#72102a' }}
+            style={{ backgroundColor: '#72102a', padding: '10px 14px', borderRadius: '8px' }}
+            className="text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90"
           >
             Save & Publish New Version
           </button>

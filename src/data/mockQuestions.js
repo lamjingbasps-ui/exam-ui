@@ -10,7 +10,6 @@ export const INITIAL_QUESTIONS = [
     bookReference: 'NCERT Science Class 10 (Ch 10)',
     marks: 1,
     negativeMarks: 0.25,
-    difficulty: 'Medium',
     cognitiveLevel: 'Application',
     estimatedTimeMin: 2,
     status: 'Active',
@@ -45,7 +44,6 @@ export const INITIAL_QUESTIONS = [
     bookReference: 'Oxford Mathematics v2 (Ch 4)',
     marks: 5,
     negativeMarks: 0,
-    difficulty: 'Hard',
     cognitiveLevel: 'Analytical',
     estimatedTimeMin: 8,
     status: 'Active',
@@ -74,7 +72,6 @@ export const INITIAL_QUESTIONS = [
     bookReference: 'NCERT Chemistry Vol 1 (Ch 4)',
     marks: 2,
     negativeMarks: 0.5,
-    difficulty: 'Medium',
     cognitiveLevel: 'Comprehension',
     estimatedTimeMin: 3,
     status: 'Active',
@@ -106,7 +103,6 @@ export const INITIAL_QUESTIONS = [
     bookReference: 'Oxford Living Science (Ch 6)',
     marks: 3,
     negativeMarks: 0,
-    difficulty: 'Easy',
     cognitiveLevel: 'Knowledge',
     estimatedTimeMin: 4,
     status: 'Active',
@@ -135,7 +131,6 @@ export const INITIAL_QUESTIONS = [
     bookReference: 'Sumita Arora Python CS (Ch 7)',
     marks: 1,
     negativeMarks: 0.25,
-    difficulty: 'Easy',
     cognitiveLevel: 'Comprehension',
     estimatedTimeMin: 1.5,
     status: 'Active',
@@ -166,7 +161,6 @@ export const INITIAL_QUESTIONS = [
     bookReference: 'Beehive English Reader (Poem 1)',
     marks: 2,
     negativeMarks: 0,
-    difficulty: 'Easy',
     cognitiveLevel: 'Comprehension',
     estimatedTimeMin: 3,
     status: 'Active',
@@ -189,10 +183,4 @@ export const TYPE_BADGES = {
   'Long Essay / Problem': { cls: 'bg-purple-100 text-purple-700 border-purple-200', label: 'Long Essay' },
   'Assertion & Reasoning': { cls: 'bg-amber-100 text-amber-700 border-amber-200', label: 'A & R' },
   'True / False': { cls: 'bg-teal-100 text-teal-700 border-teal-200', label: 'True/False' },
-};
-
-export const DIFFICULTY_CLS = {
-  Easy: 'bg-green-100 text-green-700 border-green-200',
-  Medium: 'bg-amber-100 text-amber-700 border-amber-200',
-  Hard: 'bg-red-100 text-red-700 border-red-200',
 };

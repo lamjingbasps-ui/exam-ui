@@ -1,15 +1,15 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import TopBar from '../components/layout/TopBar.jsx';
-import Sidebar from '../components/layout/Sidebar.jsx';
-import ComingSoonPlaceholder from '../components/layout/ComingSoonPlaceholder.jsx';
-import QuestionFilters from '../components/question-bank/QuestionFilters.jsx';
-import QuestionCard from '../components/question-bank/QuestionCard.jsx';
-import QuestionTable from '../components/question-bank/QuestionTable.jsx';
-import QuestionDetailsModal from '../components/modals/QuestionDetailsModal.jsx';
-import QuestionEditModal from '../components/modals/QuestionEditModal.jsx';
-import QuestionHistoryModal from '../components/modals/QuestionHistoryModal.jsx';
-import QuestionDeleteModal from '../components/modals/QuestionDeleteModal.jsx';
-import Icon from '../components/common/Icon.jsx';
+import TopBar from './layout/TopBar.jsx';
+import Sidebar from './layout/Sidebar.jsx';
+import ComingSoonPlaceholder from './layout/ComingSoonPlaceholder.jsx';
+import QuestionFilters from './question-bank/QuestionFilters.jsx';
+import QuestionCard from './question-bank/QuestionCard.jsx';
+import QuestionTable from './question-bank/QuestionTable.jsx';
+import QuestionDetailsModal from './modals/QuestionDetailsModal.jsx';
+import QuestionEditModal from './modals/QuestionEditModal.jsx';
+import QuestionHistoryModal from './modals/QuestionHistoryModal.jsx';
+import QuestionDeleteModal from './modals/QuestionDeleteModal.jsx';
+import Icon from './common/Icon.jsx';
 import { INITIAL_QUESTIONS } from '../data/mockQuestions.js';
 import { NAV_ITEMS } from '../data/navigation.js';
 
@@ -19,7 +19,6 @@ export default function QuestionBank() {
   const [filterSubject, setFilterSubject] = useState('All');
   const [filterGrade, setFilterGrade] = useState('All');
   const [filterType, setFilterType] = useState('All');
-  const [filterDifficulty, setFilterDifficulty] = useState('All');
   const [filterStatus, setFilterStatus] = useState('All');
   const [viewMode, setViewMode] = useState('card');
   const [activeNav, setActiveNav] = useState('questionBank');
@@ -101,11 +100,10 @@ export default function QuestionBank() {
         (filterSubject === 'All' || q.subject === filterSubject) &&
         (filterGrade === 'All' || q.grade === filterGrade) &&
         (filterType === 'All' || q.type === filterType) &&
-        (filterDifficulty === 'All' || q.difficulty === filterDifficulty) &&
         (filterStatus === 'All' || q.status === filterStatus)
       );
     });
-  }, [questions, searchTerm, filterSubject, filterGrade, filterType, filterDifficulty, filterStatus]);
+  }, [questions, searchTerm, filterSubject, filterGrade, filterType, filterStatus]);
 
   // Edit Handlers
   const handleOpenEdit = (q) => {
@@ -144,7 +142,6 @@ export default function QuestionBank() {
     setFilterSubject('All');
     setFilterGrade('All');
     setFilterType('All');
-    setFilterDifficulty('All');
     setFilterStatus('All');
   };
 
@@ -245,8 +242,6 @@ export default function QuestionBank() {
                   setFilterGrade={setFilterGrade}
                   filterType={filterType}
                   setFilterType={setFilterType}
-                  filterDifficulty={filterDifficulty}
-                  setFilterDifficulty={setFilterDifficulty}
                   viewMode={viewMode}
                   setViewMode={setViewMode}
                 />

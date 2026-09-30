@@ -17,61 +17,78 @@ export default function Sidebar({ activeNav, setActiveNav, navButtonRefs, handle
     >
       {/* Nav Links */}
       <nav
-        className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto"
+        className="flex-1 overflow-y-auto"
+        style={{
+          padding: '24px 10px 12px 10px',
+        }}
         role="tablist"
         aria-label="Sidebar Navigation"
       >
-        {NAV_ITEMS.map((item, index) => {
-          const isActive = activeNav === item.id;
-          return (
-            <button
-              key={item.id}
-              ref={(el) => {
-                if (navButtonRefs?.current) {
-                  navButtonRefs.current[index] = el;
-                }
-              }}
-              role="tab"
-              aria-selected={isActive}
-              tabIndex={isActive ? 0 : 0}
-              onClick={() => setActiveNav(item.id)}
-              onKeyDown={(e) => handleNavKeyDown && handleNavKeyDown(e, index)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] transition-all text-left relative outline-none focus-visible:ring-2 focus-visible:ring-[#c9a84c] focus-visible:ring-offset-1 focus-visible:ring-offset-[#72102a] ${
-                isActive
-                  ? 'font-bold text-white shadow-sm'
-                  : 'font-medium text-white/90 hover:bg-white/10 hover:text-white'
-              }`}
-              style={
-                isActive
-                  ? {
-                      backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                      color: '#ffffff',
-                    }
-                  : {}
-              }
-            >
-              {/* Active gold vertical bar indicator */}
-              {isActive && (
-                <span
-                  className="absolute left-1 top-2 bottom-2 w-1 rounded-full"
-                  style={{ backgroundColor: '#c9a84c' }}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          {NAV_ITEMS.map((item, index) => {
+            const isActive = activeNav === item.id;
+            return (
+              <button
+                key={item.id}
+                ref={(el) => {
+                  if (navButtonRefs?.current) {
+                    navButtonRefs.current[index] = el;
+                  }
+                }}
+                role="tab"
+                aria-selected={isActive}
+                tabIndex={isActive ? 0 : 0}
+                onClick={() => setActiveNav(item.id)}
+                onKeyDown={(e) => handleNavKeyDown && handleNavKeyDown(e, index)}
+                className={`w-full flex items-center text-[13px] transition-all text-left relative outline-none focus:outline-none ${
+                  isActive
+                    ? 'font-bold text-white'
+                    : 'font-medium text-white/90 hover:bg-white/10 hover:text-white'
+                }`}
+                style={{
+                  padding: '10px 14px',
+                  borderRadius: '9px',
+                  gap: '11px',
+                  outline: 'none',
+                  ...(isActive
+                    ? {
+                        color: '#ffffff',
+                      }
+                    : {}),
+                }}
+              >
+                {/* Active gold vertical bar indicator */}
+                {isActive && (
+                  <span
+                    className="absolute left-1 top-2 bottom-2 w-1 rounded-full"
+                    style={{ backgroundColor: '#c9a84c' }}
+                  />
+                )}
+                <Icon
+                  name={item.icon}
+                  className="w-4 h-4 flex-shrink-0"
+                  style={{ color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.85)' }}
                 />
-              )}
-              <Icon
-                name={item.icon}
-                className="w-4 h-4 flex-shrink-0 ml-1"
-                style={{ color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.85)' }}
-              />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
+                <span className="truncate">{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </nav>
 
-      {/* User Footer */}
-      <div className="px-3 py-3 border-t border-white/[0.08] mt-auto">
-        <div className="flex items-center justify-between gap-2.5 px-1">
-          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+      {/* User Footer with small top border line separator */}
+      <div
+        className="mt-auto"
+        style={{
+          padding: '14px 18px',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        }}
+      >
+        <div className="flex items-center justify-between">
+          <div
+            className="flex items-center min-w-0 flex-1"
+            style={{ gap: '10px' }}
+          >
             {/* 32x32 Avatar with white-ish transparency gradient */}
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 text-white shadow-sm"

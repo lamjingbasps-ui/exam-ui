@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../common/Icon.jsx';
 import { ActionBtn } from '../common/ModalWrapper.jsx';
-import { TYPE_BADGES, DIFFICULTY_CLS } from '../../data/mockQuestions.js';
+import { TYPE_BADGES } from '../../data/mockQuestions.js';
 
 export default function QuestionCard({ question, onOpenModal, onOpenEdit }) {
   const q = question;
@@ -40,9 +40,6 @@ export default function QuestionCard({ question, onOpenModal, onOpenEdit }) {
           <div className="flex items-center gap-1.5">
             <span className="text-[11px] font-bold px-2 py-0.5 rounded border bg-amber-50 text-amber-700 border-amber-200">
               {q.marks}M
-            </span>
-            <span className={`text-[11px] px-2 py-0.5 rounded border font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
-              {q.difficulty}
             </span>
           </div>
         </div>

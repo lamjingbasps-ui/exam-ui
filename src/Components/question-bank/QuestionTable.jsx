@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '../common/Icon.jsx';
-import { TYPE_BADGES, DIFFICULTY_CLS } from '../../data/mockQuestions.js';
+import { TYPE_BADGES } from '../../data/mockQuestions.js';
 
 export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
   return (
@@ -13,7 +13,6 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
               <th className="px-4 py-3">Subject / Chapter</th>
               <th className="px-4 py-3 max-w-xs">Question</th>
               <th className="px-4 py-3">Marks</th>
-              <th className="px-4 py-3">Difficulty</th>
               <th className="px-4 py-3">Version</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3 text-right">Actions</th>
@@ -36,11 +35,6 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
                 <td className="px-4 py-3">
                   <span className="font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
                     {q.marks}M
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  <span className={`px-2 py-0.5 rounded border text-[11px] font-medium ${DIFFICULTY_CLS[q.difficulty]}`}>
-                    {q.difficulty}
                   </span>
                 </td>
                 <td className="px-4 py-3">
