@@ -1,6 +1,16 @@
 import React from 'react';
 import Icon from '../common/Icon.jsx';
 
+function getOptionLabel(label, option) {
+  if (option === 'All') {
+    return label === 'Marks' ? 'All Marks' : `All ${label}s`;
+  }
+  if (label === 'Marks') {
+    return `${option} Mark${option === '1' ? '' : 's'}`;
+  }
+  return option;
+}
+
 export default function QuestionFilters({
   searchTerm,
   setSearchTerm,
@@ -10,8 +20,8 @@ export default function QuestionFilters({
   setFilterGrade,
   filterType,
   setFilterType,
-  viewMode,
-  setViewMode,
+  filterMarks,
+  setFilterMarks,
 }) {
   const filterConfigs = [
     {
@@ -32,34 +42,81 @@ export default function QuestionFilters({
       set: setFilterType,
       opts: ['All', 'Multiple Choice (MCQ)', 'Short Answer', 'Long Essay / Problem', 'Assertion & Reasoning', 'True / False'],
     },
+    {
+      label: 'Marks',
+      value: filterMarks,
+      set: setFilterMarks,
+      opts: ['All', '1', '2', '3', '5'],
+    },
   ];
 
+  const activeFiltersCount = [filterSubject, filterGrade, filterType, filterMarks].filter(v => v !== 'All').length;
+
   return (
-    <div className="flex flex-col gap-3">
+    <div
+      style={{
+        background: '#ffffff',
+        border: '1px solid #E8E2D9',
+        borderRadius: '14px',
+        padding: '16px 18px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+      }}
+    >
       {/* Search */}
-      <div className="relative">
-        <Icon name="search" className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+      <div style={{ position: 'relative' }}>
+        <Icon
+          name="search"
+          className="w-4 h-4"
+          style={{
+            position: 'absolute', left: '14px', top: '50%',
+            transform: 'translateY(-50%)', color: '#9CA3AF', pointerEvents: 'none',
+          }}
+        />
         <input
           type="text"
-          placeholder="Search by question text, ID, chapter, or author..."
+          placeholder="Search by question text, ID, chapter, or author…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-white border rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none transition-all"
-          style={{ borderColor: '#E8E2D9' }}
+          style={{
+            width: '100%',
+            paddingLeft: '42px',
+            paddingRight: searchTerm ? '40px' : '16px',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+            fontSize: '13px',
+            color: '#1A1A1A',
+            background: '#FAFAF9',
+            border: '1.5px solid #E8E2D9',
+            borderRadius: '10px',
+            outline: 'none',
+            transition: 'border-color 0.18s, box-shadow 0.18s',
+            boxSizing: 'border-box',
+          }}
           onFocus={(e) => {
-            e.target.style.boxShadow = '0 0 0 3px rgba(114,16,42,0.12)';
             e.target.style.borderColor = '#72102a';
+            e.target.style.boxShadow = '0 0 0 3px rgba(114,16,42,0.10)';
+            e.target.style.background = '#ffffff';
           }}
           onBlur={(e) => {
-            e.target.style.boxShadow = 'none';
             e.target.style.borderColor = '#E8E2D9';
+            e.target.style.boxShadow = 'none';
+            e.target.style.background = '#FAFAF9';
           }}
         />
         {searchTerm && (
           <button
             onClick={() => setSearchTerm('')}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             aria-label="Clear search"
+            style={{
+              position: 'absolute', right: '12px', top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#9CA3AF', background: 'none', border: 'none',
+              cursor: 'pointer', display: 'flex', alignItems: 'center',
+              padding: '2px',
+            }}
           >
             <Icon name="close" className="w-4 h-4" />
           </button>
@@ -67,51 +124,71 @@ export default function QuestionFilters({
       </div>
 
       {/* Filters Row */}
-      <div className="flex flex-wrap items-center gap-2">
-        {filterConfigs.map((f) => (
-          <select
-            key={f.label}
-            value={f.value}
-            onChange={(e) => f.set(e.target.value)}
-            className="bg-white border rounded-lg px-2.5 py-1.5 text-xs text-gray-700 focus:outline-none hover:border-gray-300 transition-colors cursor-pointer"
-            style={{ borderColor: '#E8E2D9', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}
-          >
-            {f.opts.map((o) => (
-              <option key={o} value={o}>
-                {o === 'All' ? `All ${f.label}s` : o}
-              </option>
-            ))}
-          </select>
-        ))}
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
+        <span style={{ fontSize: '11px', fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.08em', marginRight: '2px' }}>
+          Filters
+        </span>
 
-        {/* View Mode Toggle */}
-        <div
-          className="ml-auto flex items-center gap-1 bg-white p-1 rounded-lg border"
-          style={{ borderColor: '#E8E2D9', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}
-        >
+        {filterConfigs.map((f) => {
+          const isActive = f.value !== 'All';
+          return (
+            <select
+              key={f.label}
+              value={f.value}
+              onChange={(e) => f.set(e.target.value)}
+              style={{
+                appearance: 'none',
+                WebkitAppearance: 'none',
+                padding: '5px 12px',
+                fontSize: '12px',
+                fontWeight: isActive ? 700 : 500,
+                color: isActive ? '#72102a' : '#4B5563',
+                background: isActive ? 'rgba(114,16,42,0.07)' : '#F9F9F8',
+                border: `1.5px solid ${isActive ? 'rgba(114,16,42,0.3)' : '#E8E2D9'}`,
+                borderRadius: '999px',
+                cursor: 'pointer',
+                outline: 'none',
+                transition: 'all 0.15s',
+                boxShadow: isActive ? '0 0 0 3px rgba(114,16,42,0.08)' : 'none',
+              }}
+            >
+              {f.opts.map((o) => (
+                <option key={o} value={o}>
+                  {getOptionLabel(f.label, o)}
+                </option>
+              ))}
+            </select>
+          );
+        })}
+
+        {/* Clear Filters */}
+        {activeFiltersCount > 0 && (
           <button
-            onClick={() => setViewMode('card')}
-            className={`p-1.5 rounded transition-colors ${
-              viewMode === 'card' ? 'text-white' : 'text-gray-500 hover:text-gray-700'
-            }`}
-            style={viewMode === 'card' ? { backgroundColor: '#72102a' } : {}}
-            title="Card View"
-            aria-label="Card View"
+            onClick={() => {
+              setFilterSubject('All');
+              setFilterGrade('All');
+              setFilterType('All');
+              setFilterMarks('All');
+            }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '5px',
+              padding: '5px 12px',
+              fontSize: '12px', fontWeight: 600,
+              color: '#72102a',
+              background: 'rgba(114,16,42,0.06)',
+              border: '1.5px solid rgba(114,16,42,0.2)',
+              borderRadius: '999px',
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(114,16,42,0.12)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(114,16,42,0.06)'; }}
           >
-            <Icon name="grid" className="w-4 h-4" />
+            <Icon name="close" className="w-3 h-3" />
+            Clear ({activeFiltersCount})
           </button>
-          <button
-            onClick={() => setViewMode('table')}
-            className={`p-1.5 rounded transition-colors ${
-              viewMode === 'table' ? 'text-white' : 'text-gray-500 hover:text-gray-700'
-            }`}
-            style={viewMode === 'table' ? { backgroundColor: '#72102a' } : {}}
-            title="Table View"
-            aria-label="Table View"
-          >
-            <Icon name="list" className="w-4 h-4" />
-          </button>
-        </div>
+        )}
+
       </div>
     </div>
   );

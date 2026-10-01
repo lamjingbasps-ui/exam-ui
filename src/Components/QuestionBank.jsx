@@ -3,7 +3,7 @@ import TopBar from './layout/TopBar.jsx';
 import Sidebar from './layout/Sidebar.jsx';
 import ComingSoonPlaceholder from './layout/ComingSoonPlaceholder.jsx';
 import QuestionFilters from './question-bank/QuestionFilters.jsx';
-import QuestionCard from './question-bank/QuestionCard.jsx';
+import Pagination from './question-bank/Pagination.jsx';
 import QuestionTable from './question-bank/QuestionTable.jsx';
 import QuestionDetailsModal from './modals/QuestionDetailsModal.jsx';
 import QuestionEditModal from './modals/QuestionEditModal.jsx';
@@ -20,8 +20,12 @@ export default function QuestionBank() {
   const [filterGrade, setFilterGrade] = useState('All');
   const [filterType, setFilterType] = useState('All');
   const [filterStatus, setFilterStatus] = useState('All');
-  const [viewMode, setViewMode] = useState('card');
+  const [filterMarks, setFilterMarks] = useState('All');
   const [activeNav, setActiveNav] = useState('questionBank');
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   const [modal, setModal] = useState(null); // 'details' | 'edit' | 'history' | 'delete'
   const [current, setCurrent] = useState(null);
@@ -100,10 +104,22 @@ export default function QuestionBank() {
         (filterSubject === 'All' || q.subject === filterSubject) &&
         (filterGrade === 'All' || q.grade === filterGrade) &&
         (filterType === 'All' || q.type === filterType) &&
-        (filterStatus === 'All' || q.status === filterStatus)
+        (filterStatus === 'All' || q.status === filterStatus) &&
+        (filterMarks === 'All' || String(q.marks) === filterMarks)
       );
     });
-  }, [questions, searchTerm, filterSubject, filterGrade, filterType, filterStatus]);
+  }, [questions, searchTerm, filterSubject, filterGrade, filterType, filterStatus, filterMarks]);
+
+  // Reset to first page when any search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterSubject, filterGrade, filterType, filterStatus, filterMarks]);
+
+  // Pagination calculations
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
+  const startIndex = (safeCurrentPage - 1) * pageSize;
+  const paginatedQuestions = filtered.slice(startIndex, startIndex + pageSize);
 
   // Edit Handlers
   const handleOpenEdit = (q) => {
@@ -143,6 +159,8 @@ export default function QuestionBank() {
     setFilterGrade('All');
     setFilterType('All');
     setFilterStatus('All');
+    setFilterMarks('All');
+    setCurrentPage(1);
   };
 
   return (
@@ -189,43 +207,80 @@ export default function QuestionBank() {
               </div>
             )}
 
-            {/* Sub-Header: Page Title & Actions */}
-            <div className="flex items-center justify-between flex-shrink-0">
+            {/* ── Professional Page Header Banner ── */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #72102a 0%, #9b1d3d 50%, #5a0c1f 100%)',
+                borderRadius: '16px',
+                padding: '24px 28px',
+                boxShadow: '0 8px 32px rgba(114,16,42,0.22), 0 2px 8px rgba(0,0,0,0.08)',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              {/* Decorative blobs */}
+              <div style={{
+                position: 'absolute', top: '-30px', right: '-30px',
+                width: '140px', height: '140px', borderRadius: '50%',
+                background: 'rgba(201,168,76,0.10)', pointerEvents: 'none',
+              }} />
+              <div style={{
+                position: 'absolute', bottom: '-20px', left: '200px',
+                width: '90px', height: '90px', borderRadius: '50%',
+                background: 'rgba(255,255,255,0.05)', pointerEvents: 'none',
+              }} />
+
+              {/* Title */}
               <div>
                 <h1
                   style={{
                     fontFamily: "'Outfit', 'Inter', system-ui, sans-serif",
-                    fontSize: '32px',
+                    fontSize: '26px',
                     fontWeight: 800,
-                    color: '#1A1A1A',
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.025em',
+                    color: '#ffffff',
+                    lineHeight: 1.15,
+                    letterSpacing: '-0.02em',
+                    margin: 0,
                   }}
                 >
                   {NAV_ITEMS.find((n) => n.id === activeNav)?.label || 'Question Bank'}
                 </h1>
-                <p
-                  className="mt-1"
-                  style={{
-                    fontFamily: "'Inter', system-ui, sans-serif",
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: '#6B6B6B',
-                  }}
-                >
-                  South Point School · Exam Management System
+                <p style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  color: 'rgba(255,255,255,0.65)',
+                  marginTop: '4px',
+                }}>
+                  Manage your exam question library · South Point School
                 </p>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <button
-                  disabled
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all shadow-sm cursor-not-allowed opacity-50 pointer-events-none"
-                  style={{ backgroundColor: '#72102a' }}
-                >
-                  <Icon name="plus" className="w-4 h-4" />
-                  New Question
-                </button>
+              {/* Stat pills row */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '18px' }}>
+                {[
+                  { label: `${questions.length} Questions`, icon: '📄' },
+                  { label: `${[...new Set(questions.map(q => q.subject))].length} Subjects`, icon: '📚' },
+                  { label: `${[...new Set(questions.map(q => q.type))].length} Types`, icon: '🏷️' },
+                  { label: 'Last updated Today', icon: '🕐' },
+                ].map((stat) => (
+                  <span
+                    key={stat.label}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '6px',
+                      padding: '5px 13px',
+                      borderRadius: '999px',
+                      background: 'rgba(255,255,255,0.12)',
+                      border: '1px solid rgba(255,255,255,0.18)',
+                      fontSize: '12px', fontWeight: 600,
+                      color: 'rgba(255,255,255,0.92)',
+                      backdropFilter: 'blur(4px)',
+                    }}
+                  >
+                    <span style={{ fontSize: '13px' }}>{stat.icon}</span>
+                    {stat.label}
+                  </span>
+                ))}
               </div>
             </div>
 
@@ -242,34 +297,31 @@ export default function QuestionBank() {
                   setFilterGrade={setFilterGrade}
                   filterType={filterType}
                   setFilterType={setFilterType}
-                  viewMode={viewMode}
-                  setViewMode={setViewMode}
+                  filterMarks={filterMarks}
+                  setFilterMarks={setFilterMarks}
                 />
 
-                {/* Results Count */}
-                <div>
-                  <p className="text-xs text-gray-500">
-                    Showing <span className="font-semibold text-gray-800">{filtered.length}</span> of {questions.length} questions
-                  </p>
-                </div>
+                {/* Questions Display — Table only with paginated subset */}
+                <QuestionTable
+                  questions={paginatedQuestions}
+                  onOpenModal={openModal}
+                  onOpenEdit={handleOpenEdit}
+                />
 
-                {/* Questions Display */}
-                {viewMode === 'card' ? (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {filtered.map((q) => (
-                      <QuestionCard
-                        key={q.id}
-                        question={q}
-                        onOpenModal={openModal}
-                        onOpenEdit={handleOpenEdit}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <QuestionTable
-                    questions={filtered}
-                    onOpenModal={openModal}
-                    onOpenEdit={handleOpenEdit}
+                {/* Bottom Full-Featured Pagination Bar */}
+                {filtered.length > 0 && (
+                  <Pagination
+                    totalItems={filtered.length}
+                    pageSize={pageSize}
+                    onPageSizeChange={(newSize) => {
+                      setPageSize(newSize);
+                      setCurrentPage(1);
+                    }}
+                    currentPage={safeCurrentPage}
+                    onPageChange={setCurrentPage}
+                    pageSizeOptions={[5, 10, 20, 50]}
+                    totalUnfiltered={questions.length}
+                    isFiltered={filtered.length !== questions.length}
                   />
                 )}
 
