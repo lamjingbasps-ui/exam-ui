@@ -74,6 +74,11 @@ const Icon = ({ name, className = "w-5 h-5", ...props }) => {
       <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
       </svg>
+    ),
+    users: (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 100 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
     )
   };
 
@@ -354,6 +359,11 @@ export default function TeacherManagement() {
   // Form State for Selected Teachers in Step 2A (Defaulted to ALL mapped teachers)
   const [selectedTeacherIds, setSelectedTeacherIds] = useState([]);
 
+  // Teacher Picker Modal State (opens from Step 4 button)
+  const [isTeacherPickerOpen, setIsTeacherPickerOpen] = useState(false);
+  const [teacherPickerSearch, setTeacherPickerSearch] = useState('');
+  const [teacherPickerFilter, setTeacherPickerFilter] = useState('mapped'); // 'mapped' | 'all'
+
   // Form State for Specific Questions Assignment (Step 2B)
   const [selectedQuestionIds, setSelectedQuestionIds] = useState(['Q-101', 'Q-102']);
 
@@ -406,6 +416,18 @@ export default function TeacherManagement() {
       return true;
     });
   }, [teachers, selectedProgram]);
+
+  // Computed Teachers List for Picker Modal
+  const pickerTeachersList = useMemo(() => {
+    const baseList = teacherPickerFilter === 'mapped' ? mappedTeachers : teachers;
+    if (!teacherPickerSearch.trim()) return baseList;
+    const term = teacherPickerSearch.toLowerCase();
+    return baseList.filter(t =>
+      t.name.toLowerCase().includes(term) ||
+      t.department.toLowerCase().includes(term) ||
+      t.designation.toLowerCase().includes(term)
+    );
+  }, [teachers, mappedTeachers, teacherPickerFilter, teacherPickerSearch]);
 
   // AUTO-SELECT ALL MAPPED TEACHERS BY DEFAULT when Program or Subject changes (unless editing)
   useEffect(() => {
@@ -1327,49 +1349,67 @@ export default function TeacherManagement() {
                     </div>
                   )}
 
-                  {/* 4. Loaded Mapped Teachers (Loaded & Selected by Default) */}
+                  {/* 4. Mapped Teachers Button & Selection Preview */}
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide">
-                        4. Mapped Teachers ({selectedTeacherIds.length} / {mappedTeachers.length} selected by default)
-                      </label>
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-2">
+                      4. Mapped Teachers
+                    </label>
+                    <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-stone-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:border-stone-300 transition-all">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[#F5E6EA] text-[#72102A] flex items-center justify-center border border-[#E6C4CD] flex-shrink-0">
+                          <Icon name="users" className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-sm text-[#1A1A1A]">
+                              {selectedTeacherIds.length} of {mappedTeachers.length} Mapped Teachers Selected
+                            </span>
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F5E6EA] text-[#72102A] border border-[#E6C4CD]">
+                              Pre-selected
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className="flex -space-x-2 overflow-hidden">
+                              {teachers
+                                .filter(t => selectedTeacherIds.includes(t.id))
+                                .slice(0, 4)
+                                .map(t => (
+                                  <img
+                                    key={t.id}
+                                    src={t.avatar}
+                                    alt={t.name}
+                                    title={t.name}
+                                    className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover"
+                                  />
+                                ))}
+                            </div>
+                            <p className="text-xs text-stone-500 truncate max-w-xs sm:max-w-md">
+                              {selectedTeacherIds.length === 0
+                                ? 'No teachers selected'
+                                : teachers
+                                    .filter(t => selectedTeacherIds.includes(t.id))
+                                    .map(t => t.name)
+                                    .join(', ')}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
                       <button
                         type="button"
-                        onClick={toggleSelectAllTeachers}
-                        className="text-xs text-[#72102A] hover:text-[#8B1F3A] font-semibold underline underline-offset-2"
+                        onClick={() => {
+                          setTeacherPickerSearch('');
+                          setTeacherPickerFilter('mapped');
+                          setIsTeacherPickerOpen(true);
+                        }}
+                        className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#72102A] hover:bg-[#5C0C21] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 flex-shrink-0"
                       >
-                        {selectedTeacherIds.length === mappedTeachers.length ? 'Deselect All' : 'Select All'}
+                        <Icon name="users" className="w-4 h-4 text-white" />
+                        <span>Select Mapped Teachers</span>
+                        <span className="bg-[#C9A84C] text-[#1A1A1A] px-2 py-0.5 rounded-full text-[10px] font-extrabold">
+                          {selectedTeacherIds.length}
+                        </span>
                       </button>
-                    </div>
-
-                    <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1">
-                      {mappedTeachers.map(teacher => (
-                        <label
-                          key={teacher.id}
-                          className={`flex items-center justify-between p-3.5 rounded-xl border text-xs sm:text-sm cursor-pointer transition-all ${
-                            selectedTeacherIds.includes(teacher.id)
-                              ? 'bg-[#F5E6EA] text-[#72102A] border-[#E6C4CD]'
-                              : 'bg-[#FAF8F5] text-stone-600 border-stone-200 hover:border-stone-300'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <input
-                              type="checkbox"
-                              checked={selectedTeacherIds.includes(teacher.id)}
-                              onChange={() => toggleTeacherSelection(teacher.id)}
-                              className="w-4 h-4 rounded accent-[#72102A] cursor-pointer flex-shrink-0"
-                            />
-                            <img src={teacher.avatar} alt="" className="w-8 h-8 rounded-lg object-cover flex-shrink-0 ring-1 ring-stone-200" />
-                            <div>
-                              <p className="font-bold text-[#1A1A1A]">{teacher.name}</p>
-                              <p className="text-[11px] sm:text-xs text-stone-500">{teacher.designation} • {teacher.department}</p>
-                            </div>
-                          </div>
-                          <span className="text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded bg-white text-[#72102A] border border-[#E6C4CD]">
-                            Mapped
-                          </span>
-                        </label>
-                      ))}
                     </div>
                   </div>
 
@@ -1598,6 +1638,177 @@ export default function TeacherManagement() {
                 </form>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ========================================== */}
+      {/* TEACHER SELECTION POPUP MODAL */}
+      {/* ========================================== */}
+      {isTeacherPickerOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col max-h-[90vh]">
+            {/* Modal Header */}
+            <div className="px-6 py-5 bg-[#72102A] text-white flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-[#C9A84C] text-[#1A1A1A]">
+                  <Icon name="users" className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white leading-tight">
+                    Select Mapped Teachers
+                  </h3>
+                  <p className="text-xs text-[#F5E6EA] mt-0.5">
+                    {selectedSubject} • {selectedProgram}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsTeacherPickerOpen(false)}
+                className="w-8 h-8 rounded-full bg-[#5C0C21] hover:bg-[#8B1F3A] flex items-center justify-center text-[#F5E6EA] hover:text-white transition-all"
+              >
+                <Icon name="close" className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Filter Controls & Search */}
+            <div className="p-4 bg-[#FAF8F5] border-b border-stone-200 space-y-3">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                {/* Search bar */}
+                <div className="relative flex-1 w-full">
+                  <Icon name="search" className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search teacher by name or department..."
+                    value={teacherPickerSearch}
+                    onChange={(e) => setTeacherPickerSearch(e.target.value)}
+                    className="w-full bg-white border border-stone-300 rounded-xl pl-10 pr-4 py-2 text-xs text-[#1A1A1A] focus:outline-none focus:border-[#72102A]"
+                  />
+                </div>
+
+                {/* Mapped vs All Filter */}
+                <div className="flex items-center bg-white p-1 rounded-xl border border-stone-200 text-xs w-full sm:w-auto justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setTeacherPickerFilter('mapped')}
+                    className={`px-3 py-1.5 rounded-lg font-bold transition-all text-xs ${
+                      teacherPickerFilter === 'mapped'
+                        ? 'bg-[#72102A] text-white shadow-xs'
+                        : 'text-stone-600 hover:text-stone-900'
+                    }`}
+                  >
+                    Mapped ({mappedTeachers.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTeacherPickerFilter('all')}
+                    className={`px-3 py-1.5 rounded-lg font-bold transition-all text-xs ${
+                      teacherPickerFilter === 'all'
+                        ? 'bg-[#72102A] text-white shadow-xs'
+                        : 'text-stone-600 hover:text-stone-900'
+                    }`}
+                  >
+                    All Faculty ({teachers.length})
+                  </button>
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="flex items-center justify-between text-xs text-stone-500 pt-1">
+                <span>
+                  Showing {pickerTeachersList.length} teacher(s) ({selectedTeacherIds.length} selected)
+                </span>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={toggleSelectAllTeachers}
+                    className="text-[#72102A] hover:text-[#8B1F3A] font-bold underline underline-offset-2"
+                  >
+                    {selectedTeacherIds.length === mappedTeachers.length ? 'Deselect All Mapped' : 'Select All Mapped'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Teachers List */}
+            <div className="p-4 overflow-y-auto space-y-2.5 flex-1 max-h-[50vh] bg-stone-50/50">
+              {pickerTeachersList.length === 0 ? (
+                <div className="text-center py-8 text-stone-400 text-xs">
+                  No teachers found matching your search.
+                </div>
+              ) : (
+                pickerTeachersList.map(teacher => {
+                  const isMapped = mappedTeachers.some(m => m.id === teacher.id);
+                  const isSelected = selectedTeacherIds.includes(teacher.id);
+
+                  return (
+                    <label
+                      key={teacher.id}
+                      className={`flex items-center justify-between p-3.5 rounded-2xl border text-xs sm:text-sm cursor-pointer transition-all ${
+                        isSelected
+                          ? 'bg-[#F5E6EA] text-[#72102A] border-[#E6C4CD] shadow-sm'
+                          : 'bg-white text-stone-600 border-stone-200 hover:border-stone-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3.5">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleTeacherSelection(teacher.id)}
+                          className="w-4 h-4 rounded accent-[#72102A] cursor-pointer flex-shrink-0"
+                        />
+                        <img
+                          src={teacher.avatar}
+                          alt={teacher.name}
+                          className="w-10 h-10 rounded-xl object-cover ring-1 ring-stone-200 flex-shrink-0"
+                        />
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <p className="font-bold text-[#1A1A1A]">{teacher.name}</p>
+                            {isMapped && (
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#C9A84C]/20 text-[#A68A3D] border border-[#C9A84C]/40">
+                                Course Mapped
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-stone-500">
+                            {teacher.designation} • {teacher.department}
+                          </p>
+                          <p className="text-[11px] text-stone-400 mt-0.5">
+                            {teacher.email}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="text-right flex-shrink-0">
+                        <span className={`text-xs font-semibold px-3 py-1 rounded-lg border ${
+                          isSelected
+                            ? 'bg-[#72102A] text-white border-[#72102A]'
+                            : 'bg-stone-100 text-stone-600 border-stone-200'
+                        }`}>
+                          {isSelected ? 'Selected' : 'Select'}
+                        </span>
+                      </div>
+                    </label>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 bg-white border-t border-stone-200 flex items-center justify-between">
+              <div className="text-xs text-stone-600">
+                <span className="font-bold text-[#72102A]">{selectedTeacherIds.length}</span> teacher(s) currently selected for this assignment.
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsTeacherPickerOpen(false)}
+                className="px-6 py-2.5 rounded-xl bg-[#72102A] hover:bg-[#8B1F3A] text-white font-bold text-xs shadow-md transition-all active:scale-95"
+              >
+                Confirm Selection
+              </button>
+            </div>
           </div>
         </div>
       )}
