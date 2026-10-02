@@ -19,21 +19,19 @@ export default function QuestionFilters({
   questions = [],
   searchTerm,
   setSearchTerm,
-  filterClass,
-  filterGrade,
+  filterClass = 'All',
   setFilterClass,
-  setFilterGrade,
-  filterSubject,
+  filterSubject = 'All',
   setFilterSubject,
   filterChapter = 'All',
   setFilterChapter,
-  filterType,
+  filterType = 'All',
   setFilterType,
-  filterMarks,
+  filterMarks = 'All',
   setFilterMarks,
 }) {
-  const currentClass = filterClass ?? filterGrade ?? 'All';
-  const setClass = setFilterClass || setFilterGrade;
+  const currentClass = filterClass;
+  const setClass = setFilterClass;
 
   // 1. CLASS options (chain step 1)
   const classOptions = useMemo(() => {

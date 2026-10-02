@@ -8,27 +8,17 @@
 :root {
   /* Brand colours */
   --brand: rgb(114, 16, 42);
-  /* #72102A */
   --brand-dark: rgb(92, 12, 33);
-  /* #5C0C21 */
   --brand-light: rgb(139, 31, 58);
-  /* #8B1F3A */
   --brand-muted: rgba(114, 16, 42, 0.08);
 
   /* Gold accent */
   --gold: rgb(201, 168, 76);
-  /* #C9A84C */
   --gold-light: #DFBF65;
   --gold-muted: rgba(201, 168, 76, 0.15);
 
-  /* Accent (matches other module --accent pattern) */
-  --accent: rgb(114, 16, 42);
-  --accent-bg: rgba(114, 16, 42, 0.06);
-  --accent-border: rgba(114, 16, 42, 0.2);
-
   /* Surface & background */
   --bg: rgb(250, 248, 245);
-  /* #FAF8F5 */
   --surface: #ffffff;
   --surface-2: #F7F4EE;
   --surface-3: #EFEAE0;
@@ -39,43 +29,16 @@
 
   /* Text */
   --text: rgb(26, 26, 26);
-  /* #1A1A1A */
   --text-h: rgb(26, 26, 26);
   --text-2: #3F3F3F;
   --text-3: #6B6864;
   --text-4: #9C9790;
-
-  /* Status colours */
-  --success: #16a34a;
-  --success-bg: #f0fdf4;
-  --success-border: #86efac;
-
-  --warning: #d97706;
-  --warning-bg: #fffbeb;
-  --warning-border: #fcd34d;
-
-  --danger: #dc2626;
-  --danger-bg: #fef2f2;
-  --danger-border: #fca5a5;
-
-  --info: #2563eb;
-  --info-bg: #eff6ff;
-  --info-border: #93c5fd;
-
-  /* Sidebar */
-  --sidebar-bg: rgb(114, 16, 42);
-  --sidebar-text: rgba(255, 255, 255, 0.85);
-  --sidebar-active: #ffffff;
-  --sidebar-hover: rgba(255, 255, 255, 0.1);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
   --shadow-brand: 0 4px 14px rgba(114, 16, 42, 0.25);
-
-  /* Social / card bg (matches other module pattern) */
-  --social-bg: #f3f4f6;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -87,7 +50,6 @@
   --radius: 10px;
   --radius-lg: 14px;
   --radius-xl: 18px;
-  --radius-2xl: 24px;
   --radius-full: 9999px;
 }
 
@@ -164,29 +126,6 @@ div:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* ── Skip to Main Content ── */
-.skip-to-content {
-  position: absolute;
-  top: -100px;
-  left: 16px;
-  z-index: 100000;
-  background: var(--brand);
-  color: #ffffff;
-  padding: 10px 18px;
-  border-radius: var(--radius);
-  font-weight: 700;
-  font-size: 13px;
-  text-decoration: none;
-  box-shadow: var(--shadow-md);
-  transition: top 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
-}
-
-.skip-to-content:focus {
-  top: 16px;
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
-
 /* ── Hide scrollbar on ALL inner elements ── */
 *::-webkit-scrollbar {
   display: none;
@@ -197,175 +136,12 @@ div:focus:not(:focus-visible) {
   -ms-overflow-style: none;
 }
 
-/* ── Prevent scroll chaining on modal backdrops ── */
-.am-backdrop,
-.jm-backdrop,
-.lm-backdrop,
-.uc-backdrop,
-.pp-backdrop,
-.jd-backdrop,
-.cm-backdrop,
-.benefit-modal-backdrop,
-.exam-modal-backdrop,
-.sms-dropdown,
-.am-multiselect-dropdown,
-.jm-multiselect-dropdown {
-  overscroll-behavior: contain;
-}
-
-/* ── Skeleton Shimmer ── */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.skeleton {
-  background: linear-gradient(90deg, #eae5e5 25%, #d5c8c8 50%, #eae5e5 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite ease-in-out;
-  border-radius: var(--radius-sm);
-  display: block;
-}
-
-/* ── Counter (matching other module pattern) ── */
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: var(--radius-sm);
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
-}
-
-.counter:hover {
-  border-color: var(--accent-border);
-}
-
-.counter:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* ── Status Badge Helpers ── */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 600;
-  border: 1px solid transparent;
-}
-
-.badge-active {
-  background: var(--success-bg);
-  color: var(--success);
-  border-color: var(--success-border);
-}
-
-.badge-revision {
-  background: var(--warning-bg);
-  color: var(--warning);
-  border-color: var(--warning-border);
-}
-
-.badge-danger {
-  background: var(--danger-bg);
-  color: var(--danger);
-  border-color: var(--danger-border);
-}
-
-.badge-brand {
-  background: var(--accent-bg);
-  color: var(--accent);
-  border-color: var(--accent-border);
-}
-
-.badge-info {
-  background: var(--info-bg);
-  color: var(--info);
-  border-color: var(--info-border);
-}
-
-/* ── Card Base ── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 20px;
-}
-
-/* ── Brand Button ── */
-.btn-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: var(--radius);
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: var(--brand);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-.btn-brand:hover {
-  background-color: var(--brand-dark);
-  box-shadow: var(--shadow-brand);
-}
-
-/* ── Page Header Bar ── */
-.page-header {
-  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 50%, var(--brand) 100%);
-  min-height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ── Ticks (matching other module) ── */
-.ticks {
-  position: relative;
-  width: 100%;
-}
-
-.ticks::before,
-.ticks::after {
-  content: '';
-  position: absolute;
-  top: -4.5px;
-  border: 5px solid transparent;
-}
-
-.ticks::before {
-  left: 0;
-  border-left-color: var(--border);
-}
-
-.ticks::after {
-  right: 0;
-  border-right-color: var(--border);
-}
-
 /* ── Animations ── */
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(6px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -377,7 +153,6 @@ div:focus:not(:focus-visible) {
     opacity: 0;
     transform: translateY(10px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -389,7 +164,6 @@ div:focus:not(:focus-visible) {
     opacity: 0;
     transform: scale(0.95);
   }
-
   to {
     opacity: 1;
     transform: scale(1);

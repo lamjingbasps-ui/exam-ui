@@ -1,25 +1,6 @@
 import React from 'react';
 import Icon from './Icon.jsx';
 
-export function ActionBtn({ icon, label, color, onClick, disabled = false }) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-        disabled
-          ? 'cursor-not-allowed opacity-40 pointer-events-none'
-          : 'hover:bg-gray-100 active:scale-95'
-      }`}
-      style={{ color }}
-      title={label}
-    >
-      <Icon name={icon} className="w-3.5 h-3.5" />
-      <span className="hidden sm:inline">{label}</span>
-    </button>
-  );
-}
-
 export function ModalWrapper({ title, subtitle, onClose, children, wide, narrow }) {
   const w = wide ? 'max-w-2xl' : narrow ? 'max-w-md' : 'max-w-xl';
   return (

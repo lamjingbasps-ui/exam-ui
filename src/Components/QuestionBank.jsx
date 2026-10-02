@@ -20,7 +20,6 @@ export default function QuestionBank() {
   const [filterSubject, setFilterSubject] = useState('All');
   const [filterChapter, setFilterChapter] = useState('All');
   const [filterType, setFilterType] = useState('All');
-  const [filterStatus, setFilterStatus] = useState('All');
   const [filterMarks, setFilterMarks] = useState('All');
   const [activeNav, setActiveNav] = useState('questionBank');
 
@@ -106,16 +105,15 @@ export default function QuestionBank() {
         (filterSubject === 'All' || q.subject === filterSubject) &&
         (filterChapter === 'All' || q.chapter === filterChapter) &&
         (filterType === 'All' || q.type === filterType) &&
-        (filterStatus === 'All' || q.status === filterStatus) &&
         (filterMarks === 'All' || String(q.marks) === filterMarks)
       );
     });
-  }, [questions, searchTerm, filterClass, filterSubject, filterChapter, filterType, filterStatus, filterMarks]);
+  }, [questions, searchTerm, filterClass, filterSubject, filterChapter, filterType, filterMarks]);
 
   // Reset to first page when any search or filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, filterClass, filterSubject, filterChapter, filterType, filterStatus, filterMarks]);
+  }, [searchTerm, filterClass, filterSubject, filterChapter, filterType, filterMarks]);
 
   // Pagination calculations
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
@@ -161,7 +159,6 @@ export default function QuestionBank() {
     setFilterSubject('All');
     setFilterChapter('All');
     setFilterType('All');
-    setFilterStatus('All');
     setFilterMarks('All');
     setCurrentPage(1);
   };
