@@ -16,6 +16,7 @@ export default function QuestionHistoryModal({ current, onClose }) {
             Created: { dot: '#059669', badge: 'bg-green-100 text-green-700 border-green-200' },
             Edited: { dot: '#0369A1', badge: 'bg-blue-100 text-blue-700 border-blue-200' },
             Versioned: { dot: '#6B21A8', badge: 'bg-purple-100 text-purple-700 border-purple-200' },
+            'Edit History': { dot: '#6B21A8', badge: 'bg-purple-100 text-purple-700 border-purple-200' },
             Downloaded: { dot: '#D97706', badge: 'bg-amber-100 text-amber-700 border-amber-200' },
             'Sent Back': { dot: '#DC2626', badge: 'bg-red-100 text-red-700 border-red-200' },
           };

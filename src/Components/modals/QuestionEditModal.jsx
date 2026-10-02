@@ -7,7 +7,7 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
   return (
     <ModalWrapper
       title="Edit Question"
-      subtitle={`Current: ${editForm.version} → New version on save`}
+      subtitle={`Current: ${editForm.version} → New edit history on save`}
       onClose={onClose}
       wide
     >
@@ -28,7 +28,7 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
             { label: 'Subject', val: editForm.subject, key: 'subject', type: 'text' },
-            { label: 'Grade', val: editForm.grade, key: 'grade', type: 'text' },
+            { label: 'Class', val: editForm.class || editForm.grade || '', key: 'class', type: 'text' },
             { label: 'Marks', val: editForm.marks, key: 'marks', type: 'number' },
             { label: 'Neg. Marks', val: editForm.negativeMarks, key: 'negativeMarks', type: 'number' },
           ].map((f) => (
@@ -39,12 +39,14 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
                 value={f.val}
                 min={f.type === 'number' ? 0 : undefined}
                 step={f.type === 'number' ? 0.25 : undefined}
-                onChange={(e) =>
-                  setEditForm({
-                    ...editForm,
-                    [f.key]: f.type === 'number' ? Number(e.target.value) : e.target.value,
-                  })
-                }
+                onChange={(e) => {
+                  const val = f.type === 'number' ? Number(e.target.value) : e.target.value;
+                  const updated = { ...editForm, [f.key]: val };
+                  if (f.key === 'class') {
+                    updated.grade = val;
+                  }
+                  setEditForm(updated);
+                }}
                 className="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none"
                 onFocus={(e) => (e.target.style.boxShadow = '0 0 0 2px rgba(114, 16, 42, 0.25)')}
                 onBlur={(e) => (e.target.style.boxShadow = 'none')}
@@ -113,7 +115,7 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
         </div>
 
         <div className="rounded-lg p-3 border" style={{ backgroundColor: 'rgba(114, 16, 42, 0.04)', borderColor: 'rgba(114, 16, 42, 0.2)' }}>
-          <Label>Changelog / Version Note</Label>
+          <Label>Changelog / Edit History Note</Label>
           <input
             type="text"
             placeholder="e.g. Corrected option B phrasing and updated rubric."
@@ -143,7 +145,7 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
             style={{ backgroundColor: '#72102a', padding: '10px 14px', borderRadius: '8px' }}
             className="text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90"
           >
-            Save & Publish New Version
+            Save & Publish Edit History
           </button>
         </div>
       </form>

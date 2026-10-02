@@ -17,7 +17,7 @@ export default function QuestionDetailsModal({ current, onClose, onOpenEdit, onO
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
             ['Subject', current.subject],
-            ['Grade', current.grade],
+            ['Class', current.class || current.grade],
             ['Marks', `${current.marks}M (Neg: ${current.negativeMarks})`],
             ['Type', TYPE_BADGES[current.type]?.label || current.type],
             ['Cognitive Level', current.cognitiveLevel],

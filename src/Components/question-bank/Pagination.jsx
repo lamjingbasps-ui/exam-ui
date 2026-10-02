@@ -20,7 +20,7 @@ function NavBtn({ onClick, disabled, title, children }) {
 
 export default function Pagination({
   totalItems,
-  pageSize,
+  pageSize = 20,
   onPageSizeChange,
   currentPage,
   onPageChange,
@@ -80,31 +80,6 @@ export default function Pagination({
               Filtered from {totalUnfiltered}
             </span>
           )}
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '12px', color: '#777', fontWeight: 500 }}>Per page:</span>
-          <select
-            value={pageSize}
-            onChange={(e) => onPageSizeChange(Number(e.target.value))}
-            style={{
-              padding: '4px 10px',
-              fontSize: '12px',
-              fontWeight: 600,
-              color: '#1A1A1A',
-              backgroundColor: '#FAFAF8',
-              border: '1px solid #D5CEC5',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              outline: 'none',
-            }}
-          >
-            {pageSizeOptions.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
 

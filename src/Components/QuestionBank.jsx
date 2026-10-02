@@ -16,8 +16,9 @@ import { NAV_ITEMS } from '../data/navigation.js';
 export default function QuestionBank() {
   const [questions, setQuestions] = useState(INITIAL_QUESTIONS);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterClass, setFilterClass] = useState('All');
   const [filterSubject, setFilterSubject] = useState('All');
-  const [filterGrade, setFilterGrade] = useState('All');
+  const [filterChapter, setFilterChapter] = useState('All');
   const [filterType, setFilterType] = useState('All');
   const [filterStatus, setFilterStatus] = useState('All');
   const [filterMarks, setFilterMarks] = useState('All');
@@ -25,7 +26,7 @@ export default function QuestionBank() {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(20);
 
   const [modal, setModal] = useState(null); // 'details' | 'edit' | 'history' | 'delete'
   const [current, setCurrent] = useState(null);
@@ -101,19 +102,20 @@ export default function QuestionBank() {
         q.author.toLowerCase().includes(s);
       return (
         matchSearch &&
+        (filterClass === 'All' || q.class === filterClass || q.grade === filterClass) &&
         (filterSubject === 'All' || q.subject === filterSubject) &&
-        (filterGrade === 'All' || q.grade === filterGrade) &&
+        (filterChapter === 'All' || q.chapter === filterChapter) &&
         (filterType === 'All' || q.type === filterType) &&
         (filterStatus === 'All' || q.status === filterStatus) &&
         (filterMarks === 'All' || String(q.marks) === filterMarks)
       );
     });
-  }, [questions, searchTerm, filterSubject, filterGrade, filterType, filterStatus, filterMarks]);
+  }, [questions, searchTerm, filterClass, filterSubject, filterChapter, filterType, filterStatus, filterMarks]);
 
   // Reset to first page when any search or filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, filterSubject, filterGrade, filterType, filterStatus, filterMarks]);
+  }, [searchTerm, filterClass, filterSubject, filterChapter, filterType, filterStatus, filterMarks]);
 
   // Pagination calculations
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
@@ -135,7 +137,7 @@ export default function QuestionBank() {
       ...editForm,
       version: newVer,
       history: [
-        { action: 'Versioned', date: new Date().toLocaleString(), user: 'System', note: `Promoted to ${newVer}` },
+        { action: 'Edit History', date: new Date().toLocaleString(), user: 'System', note: `Updated to ${newVer}` },
         { action: 'Edited', date: new Date().toLocaleString(), user: 'Teacher', note: editForm.changelogNote || 'Updated content.' },
         ...(editForm.history || []),
       ],
@@ -155,8 +157,9 @@ export default function QuestionBank() {
 
   const handleResetFilters = () => {
     setSearchTerm('');
+    setFilterClass('All');
     setFilterSubject('All');
-    setFilterGrade('All');
+    setFilterChapter('All');
     setFilterType('All');
     setFilterStatus('All');
     setFilterMarks('All');
@@ -207,81 +210,81 @@ export default function QuestionBank() {
               </div>
             )}
 
-            {/* ── Professional Page Header Banner ── */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, #72102a 0%, #9b1d3d 50%, #5a0c1f 100%)',
-                borderRadius: '16px',
-                padding: '24px 28px',
-                boxShadow: '0 8px 32px rgba(114,16,42,0.22), 0 2px 8px rgba(0,0,0,0.08)',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              {/* Decorative blobs */}
-              <div style={{
-                position: 'absolute', top: '-30px', right: '-30px',
-                width: '140px', height: '140px', borderRadius: '50%',
-                background: 'rgba(201,168,76,0.10)', pointerEvents: 'none',
-              }} />
-              <div style={{
-                position: 'absolute', bottom: '-20px', left: '200px',
-                width: '90px', height: '90px', borderRadius: '50%',
-                background: 'rgba(255,255,255,0.05)', pointerEvents: 'none',
-              }} />
-
-              {/* Title */}
-              <div>
-                <h1
-                  style={{
-                    fontFamily: "'Outfit', 'Inter', system-ui, sans-serif",
-                    fontSize: '26px',
-                    fontWeight: 800,
-                    color: '#ffffff',
-                    lineHeight: 1.15,
-                    letterSpacing: '-0.02em',
-                    margin: 0,
-                  }}
-                >
-                  {NAV_ITEMS.find((n) => n.id === activeNav)?.label || 'Question Bank'}
-                </h1>
-                <p style={{
+            {/* ── Page Header: Title & Subtitle ── */}
+            <div>
+              <h1
+                style={{
+                  fontFamily: "'Outfit', 'Inter', system-ui, sans-serif",
+                  fontSize: '22px',
+                  fontWeight: 800,
+                  color: '#111827',
+                  lineHeight: 1.2,
+                  letterSpacing: '-0.02em',
+                  margin: 0,
+                }}
+              >
+                {NAV_ITEMS.find((n) => n.id === activeNav)?.label || 'Question Bank'}
+              </h1>
+              <p
+                style={{
                   fontFamily: "'Inter', system-ui, sans-serif",
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  color: 'rgba(255,255,255,0.65)',
+                  fontSize: '12.5px',
+                  color: '#6B7280',
                   marginTop: '4px',
-                }}>
-                  Manage your exam question library · South Point School
-                </p>
-              </div>
+                  marginBottom: 0,
+                }}
+              >
+                All sanctioned questions across subjects and classes
+              </p>
+            </div>
 
-              {/* Stat pills row */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '18px' }}>
-                {[
-                  { label: `${questions.length} Questions`, icon: '📄' },
-                  { label: `${[...new Set(questions.map(q => q.subject))].length} Subjects`, icon: '📚' },
-                  { label: `${[...new Set(questions.map(q => q.type))].length} Types`, icon: '🏷️' },
-                  { label: 'Last updated Today', icon: '🕐' },
-                ].map((stat) => (
-                  <span
-                    key={stat.label}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '6px',
-                      padding: '5px 13px',
-                      borderRadius: '999px',
-                      background: 'rgba(255,255,255,0.12)',
-                      border: '1px solid rgba(255,255,255,0.18)',
-                      fontSize: '12px', fontWeight: 600,
-                      color: 'rgba(255,255,255,0.92)',
-                      backdropFilter: 'blur(4px)',
-                    }}
+            {/* ── Summary Cards (4 Compact Cards: Questions, Subjects, Types, Last Updated) ── */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                {
+                  label: 'Questions',
+                  value: questions.length,
+                  color: '#72102a',
+                  onClick: handleResetFilters,
+                  tooltip: 'Total questions in repository (Click to view all)',
+                },
+                {
+                  label: 'Subjects',
+                  value: [...new Set(questions.map((q) => q.subject).filter(Boolean))].length,
+                  color: '#059669',
+                  tooltip: 'Total academic subjects covered',
+                },
+                {
+                  label: 'Question Types',
+                  value: [...new Set(questions.map((q) => q.type).filter(Boolean))].length,
+                  color: '#7a422bff',
+                  tooltip: 'Unique question formats and types',
+                },
+                {
+                  label: 'Last Updated',
+                  value: 'Today',
+                  color: '#0f766e',
+                  tooltip: 'Latest question bank activity recorded',
+                },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  onClick={stat.onClick}
+                  className={`bg-white rounded-xl border border-[#E8E2D9] px-5 py-3.5 transition-all duration-150 shadow-sm flex flex-col justify-center ${stat.onClick ? 'cursor-pointer hover:shadow-md hover:border-[#72102a]/40' : 'hover:shadow'
+                    }`}
+                  title={stat.tooltip}
+                >
+                  <div
+                    className="text-2xl md:text-3xl font-extrabold leading-none mb-1.5 tracking-tight"
+                    style={{ color: stat.color }}
                   >
-                    <span style={{ fontSize: '13px' }}>{stat.icon}</span>
+                    {stat.value}
+                  </div>
+                  <div className="text-xs font-semibold text-gray-700">
                     {stat.label}
-                  </span>
-                ))}
-              </div>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* View Switcher */}
@@ -289,12 +292,15 @@ export default function QuestionBank() {
               <>
                 {/* Search & Filter Controls */}
                 <QuestionFilters
+                  questions={questions}
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
+                  filterClass={filterClass}
+                  setFilterClass={setFilterClass}
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}
-                  filterGrade={filterGrade}
-                  setFilterGrade={setFilterGrade}
+                  filterChapter={filterChapter}
+                  setFilterChapter={setFilterChapter}
                   filterType={filterType}
                   setFilterType={setFilterType}
                   filterMarks={filterMarks}
