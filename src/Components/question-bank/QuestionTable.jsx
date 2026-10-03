@@ -203,22 +203,25 @@ function VersionInfo() {
 
 export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
   return (
-    <div className="bg-white rounded-xl border shadow-sm overflow-x-auto" style={{ borderColor: '#E8E2D9' }}>
-      <div>
-        <table className="w-full text-left text-xs">
-          <thead>
-            <tr className="bg-[#FBF9F6] border-b border-[#E8E2D9] text-gray-500 uppercase tracking-wide text-[11px]">
-              <th className="px-4 py-3 whitespace-nowrap">ID</th>
-              <th className="px-4 py-3 whitespace-nowrap">Class</th>
-              <th className="px-4 py-3 whitespace-nowrap">Subject</th>
-              <th className="px-4 py-3 whitespace-nowrap">Chapter</th>
-              <th className="px-4 py-3 whitespace-nowrap">Question Type</th>
-              <th className="px-4 py-3 min-w-[200px] max-w-xs">Question</th>
-              <th className="px-4 py-3 whitespace-nowrap">Marks</th>
-              <th className="px-4 py-3 whitespace-nowrap">
+    <div
+      className="bg-white rounded-xl border shadow-sm flex flex-col flex-1 min-h-0 overflow-hidden"
+      style={{ borderColor: '#E8E2D9' }}
+    >
+      <div className="overflow-auto flex-1 min-h-0 custom-scrollbar">
+        <table className="w-full text-left text-xs border-collapse">
+          <thead className="sticky top-0 z-10">
+            <tr className="text-gray-500 uppercase tracking-wide text-[11px]">
+              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>ID</th>
+              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Class</th>
+              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Subject</th>
+              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Chapter</th>
+              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Question Type</th>
+              <th className="px-4 py-3 min-w-[200px] max-w-xs bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Question</th>
+              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Marks</th>
+              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>
                 <span className="inline-flex items-center gap-1">Edit History <VersionInfo /></span>
               </th>
-              <th className="px-4 py-3 text-right whitespace-nowrap">Actions</th>
+              <th className="px-4 py-3 text-right whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">

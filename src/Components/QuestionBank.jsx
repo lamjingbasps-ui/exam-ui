@@ -171,13 +171,14 @@ export default function QuestionBank() {
         height: '100vh',
         background: '#faf8f5',
         fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+        overflow: 'hidden',
       }}
     >
       {/* Top Bar Header */}
       <TopBar />
 
       {/* Main Body */}
-      <div style={{ display: 'flex', flex: '1 1 0%', minHeight: '0px' }}>
+      <div style={{ display: 'flex', flex: '1 1 0%', minHeight: '0px', overflow: 'hidden' }}>
         {/* Sidebar */}
         <Sidebar
           activeNav={activeNav}
@@ -193,12 +194,23 @@ export default function QuestionBank() {
           className="animate-fade-in-up"
           style={{
             flex: '1 1 0%',
-            overflowY: 'auto',
-            padding: '28px 32px',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '0px',
+            overflow: 'hidden',
+            padding: '20px 32px',
             outline: 'none',
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: '1 1 0%',
+              minHeight: '0px',
+              gap: '14px',
+            }}
+          >
             {/* Toast Notification */}
             {toast && (
               <div className="fixed top-16 right-4 z-50 flex items-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium">
@@ -288,21 +300,23 @@ export default function QuestionBank() {
             {activeNav === 'questionBank' ? (
               <>
                 {/* Search & Filter Controls */}
-                <QuestionFilters
-                  questions={questions}
-                  searchTerm={searchTerm}
-                  setSearchTerm={setSearchTerm}
-                  filterClass={filterClass}
-                  setFilterClass={setFilterClass}
-                  filterSubject={filterSubject}
-                  setFilterSubject={setFilterSubject}
-                  filterChapter={filterChapter}
-                  setFilterChapter={setFilterChapter}
-                  filterType={filterType}
-                  setFilterType={setFilterType}
-                  filterMarks={filterMarks}
-                  setFilterMarks={setFilterMarks}
-                />
+                <div className="flex-shrink-0">
+                  <QuestionFilters
+                    questions={questions}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    filterClass={filterClass}
+                    setFilterClass={setFilterClass}
+                    filterSubject={filterSubject}
+                    setFilterSubject={setFilterSubject}
+                    filterChapter={filterChapter}
+                    setFilterChapter={setFilterChapter}
+                    filterType={filterType}
+                    setFilterType={setFilterType}
+                    filterMarks={filterMarks}
+                    setFilterMarks={setFilterMarks}
+                  />
+                </div>
 
                 {/* Questions Display — Table only with paginated subset */}
                 <QuestionTable
@@ -313,24 +327,26 @@ export default function QuestionBank() {
 
                 {/* Bottom Full-Featured Pagination Bar */}
                 {filtered.length > 0 && (
-                  <Pagination
-                    totalItems={filtered.length}
-                    pageSize={pageSize}
-                    onPageSizeChange={(newSize) => {
-                      setPageSize(newSize);
-                      setCurrentPage(1);
-                    }}
-                    currentPage={safeCurrentPage}
-                    onPageChange={setCurrentPage}
-                    pageSizeOptions={[5, 10, 20, 50]}
-                    totalUnfiltered={questions.length}
-                    isFiltered={filtered.length !== questions.length}
-                  />
+                  <div className="flex-shrink-0">
+                    <Pagination
+                      totalItems={filtered.length}
+                      pageSize={pageSize}
+                      onPageSizeChange={(newSize) => {
+                        setPageSize(newSize);
+                        setCurrentPage(1);
+                      }}
+                      currentPage={safeCurrentPage}
+                      onPageChange={setCurrentPage}
+                      pageSizeOptions={[5, 10, 20, 50]}
+                      totalUnfiltered={questions.length}
+                      isFiltered={filtered.length !== questions.length}
+                    />
+                  </div>
                 )}
 
                 {/* Empty State */}
                 {filtered.length === 0 && (
-                  <div className="bg-white rounded-xl border p-14 text-center shadow-sm" style={{ borderColor: '#E8E2D9' }}>
+                  <div className="bg-white rounded-xl border p-12 text-center shadow-sm flex-1 flex flex-col items-center justify-center min-h-0" style={{ borderColor: '#E8E2D9' }}>
                     <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
                       <Icon name="search" className="w-6 h-6 text-gray-400" />
                     </div>
@@ -347,7 +363,9 @@ export default function QuestionBank() {
                 )}
               </>
             ) : (
-              <ComingSoonPlaceholder activeNav={activeNav} />
+              <div className="flex-1 min-h-0 overflow-y-auto">
+                <ComingSoonPlaceholder activeNav={activeNav} />
+              </div>
             )}
           </div>
         </main>

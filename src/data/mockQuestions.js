@@ -10,10 +10,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Optics & Light Reflection',
     bookReference: 'NCERT Science Class 10 (Ch 10)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Application',
-    estimatedTimeMin: 2,
-    status: 'Active',
     questionText:
       'An object is placed at a distance of 12 cm in front of a concave mirror. It forms a real image four times larger than the object. Calculate the distance of the image from the mirror.',
     options: [
@@ -25,7 +21,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option A (-48 cm)',
     explanation:
       'Magnification m = -v/u. Since image is real and magnified 4 times, m = -4. Given u = -12 cm. Therefore v = -48 cm.',
-    rubric: '1 Mark for correct magnification formula and sign convention.',
     author: 'Dr. Evelyn Vance',
     history: [
       { action: 'Created', date: '2026-01-15 09:30 AM', user: 'Dr. Evelyn Vance', note: 'Created for NCERT-based question set.' },
@@ -44,17 +39,12 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Quadratic Equations & Roots',
     bookReference: 'Oxford Mathematics v2 (Ch 4)',
     marks: 5,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 8,
-    status: 'Active',
     questionText:
       'A motor boat whose speed is 18 km/h in still water takes 1 hour more to go 24 km upstream than to return downstream. Find the speed of the stream.',
     options: [],
     correctAnswer: 'Speed of stream = 6 km/h',
     explanation:
       'Let stream speed be x. 24/(18-x) - 24/(18+x) = 1 → x² + 48x - 324 = 0 → x = 6 km/h.',
-    rubric: '1M variables setup; 2M algebraic equation; 2M factorization and positive root verification.',
     author: 'Prof. Marcus Thorne',
     history: [
       { action: 'Created', date: '2025-11-20 10:15 AM', user: 'Prof. Marcus Thorne', note: 'Authored for Term Exam QB.' },
@@ -72,10 +62,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Chemical Bonding & Molecular Structure',
     bookReference: 'NCERT Chemistry Vol 1 (Ch 4)',
     marks: 2,
-    negativeMarks: 0.5,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 3,
-    status: 'Active',
     questionText:
       'Assertion (A): The bond angle in NH₃ is larger than in PH₃.\nReason (R): Nitrogen is more electronegative than phosphorus, causing stronger bond pair repulsion in NH₃.',
     options: [
@@ -86,7 +72,6 @@ export const INITIAL_QUESTIONS = [
     ],
     correctAnswer: 'Option A',
     explanation: 'N is more electronegative → electron density closer to N → greater bp-bp repulsion → larger bond angle (107° vs 93.5°).',
-    rubric: '2 Marks for selecting the correct logical pairing.',
     author: 'Dr. Alistair Finch',
     history: [
       { action: 'Created', date: '2026-02-10 11:00 AM', user: 'Dr. Alistair Finch', note: 'Extracted from 2025 Board Paper.' },
@@ -103,16 +88,11 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Life Processes & Photosynthesis',
     bookReference: 'Oxford Living Science (Ch 6)',
     marks: 3,
-    negativeMarks: 0,
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 4,
-    status: 'Active',
     questionText:
       'State the three events that occur during photosynthesis. Write the balanced chemical equation.',
     options: [],
     correctAnswer: '1. Light absorption by chlorophyll. 2. Light → chemical energy + water splitting. 3. CO₂ → carbohydrates. Equation: 6CO₂ + 12H₂O → C₆H₁₂O₆ + 6O₂ + 6H₂O',
     explanation: 'Equation must be balanced with 12H₂O for full marks.',
-    rubric: '1M equation; 2M for 3 events listed clearly.',
     author: 'Ms. Sarah Jenkins',
     history: [
       { action: 'Created', date: '2025-09-12 08:45 AM', user: 'Ms. Sarah Jenkins', note: 'Unit Test 1.' },
@@ -131,10 +111,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Data Structures & Python Stacks',
     bookReference: 'Sumita Arora Python CS (Ch 7)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 1.5,
-    status: 'Active',
     questionText:
       'Which operation in a Python Stack peeks the topmost element without removing it?',
     options: [
@@ -145,7 +121,6 @@ export const INITIAL_QUESTIONS = [
     ],
     correctAnswer: 'Option B (stack[-1])',
     explanation: 'list[-1] accesses the last element without mutating the stack.',
-    rubric: '1 Mark for correct indexing expression.',
     author: 'Dr. Evelyn Vance',
     history: [
       { action: 'Created', date: '2026-01-20 04:10 PM', user: 'Dr. Evelyn Vance', note: 'Class 12 CS repository.' },
@@ -162,16 +137,11 @@ export const INITIAL_QUESTIONS = [
     chapter: 'The Road Not Taken — Robert Frost',
     bookReference: 'Beehive English Reader (Poem 1)',
     marks: 2,
-    negativeMarks: 0,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 3,
-    status: 'Active',
     questionText:
       "What do the 'two roads diverged in a yellow wood' symbolize? How does the speaker make his choice?",
     options: [],
     correctAnswer: "The roads symbolize life's choices. The speaker chooses the road 'less traveled by', showing individuality.",
     explanation: 'Metaphor of paths representing critical decision points in life.',
-    rubric: '1M symbolism; 1M choice rationale.',
     author: 'Prof. Jonathan Blake',
     history: [
       { action: 'Created', date: '2026-02-14 10:00 AM', user: 'Prof. Jonathan Blake', note: 'Poetry Assessment.' },
@@ -188,10 +158,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Coordinate Geometry',
     bookReference: 'NCERT Mathematics Class 9 (Ch 3)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 1.5,
-    status: 'Active',
     questionText:
       'In which quadrant does the point (-4, 7) lie in the Cartesian plane?',
     options: [
@@ -203,7 +169,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option B (Quadrant II)',
     explanation:
       'In Quadrant II, the x-coordinate is negative (x < 0) and the y-coordinate is positive (y > 0).',
-    rubric: '1 Mark for correct quadrant identification.',
     author: 'Prof. Marcus Thorne',
     history: [
       { action: 'Created', date: '2026-02-18 11:30 AM', user: 'Prof. Marcus Thorne', note: 'Added for Class 9 diagnostic assessment.' },
@@ -220,10 +185,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Laws of Motion & Friction',
     bookReference: 'H.C. Verma Concepts of Physics Vol 1 (Ch 5)',
     marks: 2,
-    negativeMarks: 0.5,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 3,
-    status: 'Active',
     questionText:
       'Assertion (A): Friction is a self-adjusting force up to a certain maximum limit.\nReason (R): Static friction adjusts its magnitude and direction equal and opposite to the applied force until limiting friction is reached.',
     options: [
@@ -235,7 +196,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option A',
     explanation:
       'Static friction balances external forces up to limiting value fs(max) = μs*N, hence it is self-adjusting.',
-    rubric: '2 Marks for correct option.',
     author: 'Dr. Evelyn Vance',
     history: [
       { action: 'Created', date: '2026-01-28 02:15 PM', user: 'Dr. Evelyn Vance', note: 'Prepared for Mechanics revision module.' },
@@ -253,10 +213,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Chemical Reactions & Equations',
     bookReference: 'NCERT Science Class 10 (Ch 1)',
     marks: 2,
-    negativeMarks: 0,
-    cognitiveLevel: 'Application',
-    estimatedTimeMin: 3,
-    status: 'Active',
     questionText:
       'Why does the color of copper sulphate solution change when an iron nail is dipped in it? Write the balanced chemical equation for this reaction.',
     options: [],
@@ -264,7 +220,6 @@ export const INITIAL_QUESTIONS = [
       'Iron is more reactive than copper and displaces it from copper sulphate solution to form ferrous sulphate (pale green). Equation: Fe(s) + CuSO₄(aq) → FeSO₄(aq) + Cu(s)',
     explanation:
       'Displacement reaction occurring because Fe lies above Cu in the metal reactivity series.',
-    rubric: '1M for correct explanation of displacement; 1M for balanced chemical equation.',
     author: 'Dr. Alistair Finch',
     history: [
       { action: 'Created', date: '2026-02-01 09:00 AM', user: 'Dr. Alistair Finch', note: 'Created for Term 1 board preparation.' },
@@ -281,10 +236,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Principles of Inheritance & Variation',
     bookReference: 'NCERT Biology Class 12 (Ch 5)',
     marks: 5,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 9,
-    status: 'Active',
     questionText:
       'Using a Punnett square, explain the dihybrid cross between a homozygous round yellow pea plant and a wrinkled green pea plant. State the phenotypic and genotypic ratios obtained in the F2 generation.',
     options: [],
@@ -292,7 +243,6 @@ export const INITIAL_QUESTIONS = [
       'F1 generation: RrYy (All round yellow). F2 phenotypic ratio: 9 Round Yellow : 3 Round Green : 3 Wrinkled Yellow : 1 Wrinkled Green. Law of Independent Assortment is demonstrated.',
     explanation:
       'Mendel dihybrid cross showing alleles of two different genes segregating independently during gamete formation.',
-    rubric: '2M for complete Punnett square; 2M for phenotypic ratio (9:3:3:1); 1M for law derivation.',
     author: 'Ms. Sarah Jenkins',
     history: [
       { action: 'Created', date: '2025-12-05 11:30 AM', user: 'Ms. Sarah Jenkins', note: 'Genetics core repository.' },
@@ -310,10 +260,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Boolean Algebra & Logic Gates',
     bookReference: 'Computer Science with Python by Preeti Arora (Ch 2)',
     marks: 1,
-    negativeMarks: 0,
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 1,
-    status: 'Active',
     questionText:
       'State True or False: The NAND gate and NOR gate are called Universal Gates because any Boolean logic function can be implemented using only NAND gates or only NOR gates.',
     options: [
@@ -323,7 +269,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'True',
     explanation:
       'NAND and NOR gates are functionally complete and can replicate AND, OR, and NOT operations.',
-    rubric: '1 Mark for correct True/False selection.',
     author: 'Dr. Evelyn Vance',
     history: [
       { action: 'Created', date: '2026-02-11 04:45 PM', user: 'Dr. Evelyn Vance', note: 'Logic gates quiz item.' },
@@ -340,10 +285,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'A Letter to God — G.L. Fuentes',
     bookReference: 'First Flight English Reader (Ch 1)',
     marks: 3,
-    negativeMarks: 0,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 4,
-    status: 'Active',
     questionText:
       'What was the irony in the story "A Letter to God"? How did Lencho react to the help he received from the post office employees?',
     options: [],
@@ -351,7 +292,6 @@ export const INITIAL_QUESTIONS = [
       'The post office staff collected money out of kindness, yet Lencho suspected them of stealing thirty pesos, calling them a "bunch of crooks".',
     explanation:
       'Situational irony arises where the benefactors are accused of fraud by the very person they helped.',
-    rubric: '1.5M for identifying postmaster contribution; 1.5M for explaining Lencho reaction and irony.',
     author: 'Prof. Jonathan Blake',
     history: [
       { action: 'Created', date: '2026-01-14 10:20 AM', user: 'Prof. Jonathan Blake', note: 'Literature assessment item.' },
@@ -368,10 +308,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Electrostatics & Coulomb Law',
     bookReference: 'NCERT Physics Part 1 (Ch 1)',
     marks: 5,
-    negativeMarks: 0,
-    cognitiveLevel: 'Application',
-    estimatedTimeMin: 10,
-    status: 'Active',
     questionText:
       'State Gauss\'s Law in electrostatics. Using Gauss\'s law, derive an expression for the electric field intensity due to an infinitely long straight uniformly charged wire of linear charge density λ.',
     options: [],
@@ -379,7 +315,6 @@ export const INITIAL_QUESTIONS = [
       'E = λ / (2πε₀r). Electric field is directed radially outwards if λ is positive and inwards if λ is negative.',
     explanation:
       'Construct a cylindrical Gaussian surface of radius r and length L coaxial with the line charge. Flux through flat ends is zero; curved surface flux gives E*(2πrL) = q/ε₀ = λL/ε₀.',
-    rubric: '1M Gauss law statement; 2M Gaussian cylinder flux derivation; 1M final E formula; 1M diagram.',
     author: 'Dr. Evelyn Vance',
     history: [
       { action: 'Created', date: '2025-10-10 09:15 AM', user: 'Dr. Evelyn Vance', note: 'Authored for CBSE Board Exam Question Bank.' },
@@ -397,10 +332,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Electrochemistry & Nernst Equation',
     bookReference: 'Pradeep New Course Chemistry Vol 1 (Ch 3)',
     marks: 5,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 8,
-    status: 'Active',
     questionText:
       'Represent the cell in which the following reaction takes place:\nMg(s) + 2Ag⁺(0.0001 M) → Mg²⁺(0.130 M) + 2Ag(s)\nCalculate its E_cell at 298 K if E°_cell = 3.17 V.',
     options: [],
@@ -408,7 +339,6 @@ export const INITIAL_QUESTIONS = [
       'Cell notation: Mg(s) | Mg²⁺(0.130 M) || Ag⁺(0.0001 M) | Ag(s). E_cell = 2.96 V.',
     explanation:
       'Nernst equation: E_cell = E°_cell - (0.059/2) * log([Mg²⁺]/[Ag⁺]²). Substituting gives E_cell = 3.17 - 0.0295 * log(0.130 / 10⁻⁸) ≈ 2.96 V.',
-    rubric: '1M cell representation; 2M Nernst equation application; 2M final calculation with units.',
     author: 'Dr. Alistair Finch',
     history: [
       { action: 'Created', date: '2026-01-25 03:30 PM', user: 'Dr. Alistair Finch', note: 'Standard cell calculation problem.' },
@@ -425,10 +355,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Integrals & Area Under Curves',
     bookReference: 'R.D. Sharma Mathematics Vol 2 (Ch 19)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 2,
-    status: 'Active',
     questionText:
       'Evaluate the definite integral: ∫ from 0 to π/2 of (sin x) / (sin x + cos x) dx.',
     options: [
@@ -440,7 +366,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option B (π/4)',
     explanation:
       'Using property ∫_0^a f(x) dx = ∫_0^a f(a-x) dx: 2I = ∫_0^(π/2) 1 dx = π/2 → I = π/4.',
-    rubric: '1 Mark for applying king property of definite integrals.',
     author: 'Prof. Marcus Thorne',
     history: [
       { action: 'Created', date: '2026-02-15 01:10 PM', user: 'Prof. Marcus Thorne', note: 'Definite integrals benchmark question.' },
@@ -457,10 +382,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Cell: The Unit of Life',
     bookReference: 'NCERT Biology Class 11 (Ch 8)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 1.5,
-    status: 'Active',
     questionText:
       'Which organelle is known as the "protein factory" of the eukaryotic cell and lacks a membrane?',
     options: [
@@ -472,7 +393,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option C (Ribosome)',
     explanation:
       'Ribosomes are non-membrane bound ribonucleoprotein complexes responsible for protein translation.',
-    rubric: '1 Mark for correct organelle.',
     author: 'Ms. Sarah Jenkins',
     history: [
       { action: 'Created', date: '2026-02-08 10:45 AM', user: 'Ms. Sarah Jenkins', note: 'Cell biology unit quiz.' },
@@ -489,10 +409,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'SQL Queries & Relational Databases',
     bookReference: 'Computer Science Class 12 NCERT (Ch 11)',
     marks: 3,
-    negativeMarks: 0,
-    cognitiveLevel: 'Application',
-    estimatedTimeMin: 4,
-    status: 'Active',
     questionText:
       'Consider a table EMPLOYEE with columns (EmpID, EmpName, Department, Salary). Write SQL queries to:\n(i) Display all employees whose Salary is between 35,000 and 60,000.\n(ii) Count the number of employees in each Department.',
     options: [],
@@ -500,7 +416,6 @@ export const INITIAL_QUESTIONS = [
       '(i) SELECT * FROM EMPLOYEE WHERE Salary BETWEEN 35000 AND 60000;\n(ii) SELECT Department, COUNT(*) FROM EMPLOYEE GROUP BY Department;',
     explanation:
       'Query (i) uses the BETWEEN range operator; query (ii) uses aggregate COUNT with GROUP BY.',
-    rubric: '1.5M for BETWEEN query; 1.5M for GROUP BY aggregate query.',
     author: 'Dr. Evelyn Vance',
     history: [
       { action: 'Created', date: '2026-02-22 03:00 PM', user: 'Dr. Evelyn Vance', note: 'SQL practical exam paper.' },
@@ -517,10 +432,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Trigonometric Functions & Identities',
     bookReference: 'NCERT Mathematics Class 11 (Ch 3)',
     marks: 3,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 5,
-    status: 'Active',
     questionText:
       'Prove the identity: (sin 5x + sin 3x) / (cos 5x + cos 3x) = tan 4x.',
     options: [],
@@ -528,7 +439,6 @@ export const INITIAL_QUESTIONS = [
       'Using CD formulas: sin C + sin D = 2 sin((C+D)/2) cos((C-D)/2) and cos C + cos D = 2 cos((C+D)/2) cos((C-D)/2). Cancelling 2 cos x yields sin 4x / cos 4x = tan 4x.',
     explanation:
       'Standard sum-to-product trigonometric transformations applied to numerator and denominator.',
-    rubric: '1M for sum-to-product formula; 1M for simplification; 1M for final tan 4x result.',
     author: 'Prof. Marcus Thorne',
     history: [
       { action: 'Created', date: '2026-01-30 11:00 AM', user: 'Prof. Marcus Thorne', note: 'Trigonometry module.' },
@@ -545,10 +455,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Gravitation & Free Fall',
     bookReference: 'NCERT Science Class 9 (Ch 10)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 1.5,
-    status: 'Active',
     questionText:
       'The value of acceleration due to gravity "g" on Earth is maximum at which of the following locations?',
     options: [
@@ -560,7 +466,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option B (At the Poles)',
     explanation:
       'Because Earth is slightly flattened at the poles, the polar radius Rp is smaller than equatorial radius Re. Since g = GM/R², g is maximum at the poles (approx 9.83 m/s²).',
-    rubric: '1 Mark for correct location.',
     author: 'Dr. Evelyn Vance',
     history: [
       { action: 'Created', date: '2026-02-25 09:30 AM', user: 'Dr. Evelyn Vance', note: 'Gravitation assessment for Class 9.' },
@@ -577,10 +482,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Wind — Subramania Bharati',
     bookReference: 'Beehive English Reader (Poem 2)',
     marks: 1,
-    negativeMarks: 0,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 1,
-    status: 'Active',
     questionText:
       'State True or False: In Subramania Bharati\'s poem "Wind", the poet advises readers to build strong homes and firm hearts so that the wind becomes their friend rather than destroying them.',
     options: [
@@ -590,7 +491,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'True',
     explanation:
       'The poem serves as a metaphor that adversity only crushes the weak; steadfastness turns challenges into allies.',
-    rubric: '1 Mark for correct True/False selection.',
     author: 'Prof. Jonathan Blake',
     history: [
       { action: 'Created', date: '2026-02-26 12:00 PM', user: 'Prof. Jonathan Blake', note: 'Poetry comprehension check.' },
@@ -607,10 +507,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'The Rise of Nationalism in Europe',
     bookReference: 'India and the Contemporary World II (Ch 1)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 1.5,
-    status: 'Active',
     questionText:
       'Which treaty recognized Greece as an independent nation in the year 1832?',
     options: [
@@ -622,7 +518,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option B (Treaty of Constantinople 1832)',
     explanation:
       'The Treaty of Constantinople of 1832 recognized Greece as an independent nation following the Greek War of Independence.',
-    rubric: '1 Mark for correct treaty selection.',
     author: 'Mrs. Devika Sharma',
     history: [
       { action: 'Created', date: '2026-02-20 10:15 AM', user: 'Mrs. Devika Sharma', note: 'History unit test item.' },
@@ -639,10 +534,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Resources and Development',
     bookReference: 'Contemporary India II (Ch 1)',
     marks: 3,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 4,
-    status: 'Active',
     questionText:
       'Distinguish between Khadar and Bangar soils on the basis of age, texture, concentration of kankar nodules, and agricultural fertility.',
     options: [],
@@ -650,7 +541,6 @@ export const INITIAL_QUESTIONS = [
       '1. Age: Khadar is new alluvium; Bangar is old alluvium.\n2. Texture & Kankar: Khadar has fine particles and lower kankar concentration; Bangar has higher kankar nodules.\n3. Fertility: Khadar is renewed annually by floods and is more fertile than Bangar.',
     explanation:
       'Classification of alluvial soils based on geological age across Northern Plains of India.',
-    rubric: '1M for age distinction; 1M for texture/kankar; 1M for relative fertility.',
     author: 'Mrs. Devika Sharma',
     history: [
       { action: 'Created', date: '2026-02-22 02:40 PM', user: 'Mrs. Devika Sharma', note: 'Geography midterm bank.' },
@@ -667,10 +557,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'Democratic Rights & Constitution',
     bookReference: 'Democratic Politics I (Ch 5)',
     marks: 5,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 8,
-    status: 'Active',
     questionText:
       'Explain the "Right to Constitutional Remedies" guaranteed under Article 32 of the Indian Constitution. Why did Dr. B.R. Ambedkar describe it as the "heart and soul" of the Constitution?',
     options: [],
@@ -678,7 +564,6 @@ export const INITIAL_QUESTIONS = [
       'Article 32 allows citizens to approach the Supreme Court directly if Fundamental Rights are violated. Dr. Ambedkar called it the heart and soul because without an enforcement mechanism through writs (Habeas Corpus, Mandamus, Prohibition, Quo-Warranto, Certiorari), rights remain hollow on paper.',
     explanation:
       'Constitutional jurisprudence regarding enforcement of Part III fundamental rights.',
-    rubric: '2M for Article 32 definition; 2M for explanation of judicial writs; 1M for Dr. Ambedkar rationale.',
     author: 'Mrs. Devika Sharma',
     history: [
       { action: 'Created', date: '2026-02-24 11:00 AM', user: 'Mrs. Devika Sharma', note: 'Civics annual examination pool.' },
@@ -695,10 +580,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'The French Revolution',
     bookReference: 'India and the Contemporary World I (Ch 1)',
     marks: 2,
-    negativeMarks: 0.5,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 2.5,
-    status: 'Active',
     questionText:
       'Assertion (A): On 20 June 1789, the representatives of the Third Estate assembled in the hall of an indoor tennis court in Versailles.\nReason (R): They declared themselves a National Assembly and swore not to disperse until they had drafted a constitution for France that would limit the powers of the monarch.',
     options: [
@@ -710,7 +591,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option A',
     explanation:
       'The Tennis Court Oath marked the formal assertion of popular sovereignty by the Third Estate against Louis XVI.',
-    rubric: '2 Marks for correct logical pairing.',
     author: 'Mrs. Devika Sharma',
     history: [
       { action: 'Created', date: '2026-02-27 09:30 AM', user: 'Mrs. Devika Sharma', note: 'European history unit item.' },
@@ -727,10 +607,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'नेताजी का चश्मा — स्वयं प्रकाश',
     bookReference: 'क्षितिज भाग-2 (गद्य खंड पाठ 10)',
     marks: 1,
-    negativeMarks: 0.25,
-    cognitiveLevel: 'Comprehension',
-    estimatedTimeMin: 1.5,
-    status: 'Active',
     questionText:
       'पाठ \'नेताजी का चश्मा\' के आधार पर बताइए कि कैप्टन चश्मेवाला सुभाषचंद्र बोस की संगमरमर की मूर्ति पर बार-बार चश्मा क्यों बदलता था?',
     options: [
@@ -742,7 +618,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'Option B (उसे बिना चश्मे के नेताजी की मूर्ति आहत करती थी)',
     explanation:
       'कैप्टन एक सच्चा देशभक्त था। मूर्ति पर चश्मा न होना उसे नेताजी के प्रति अनादर प्रतीत होता था, इसलिए वह अपनी दुकान से चश्मा लगा देता था।',
-    rubric: '1 अंक सही विकल्प चयन हेतु।',
     author: 'आचार्य रमेश मिश्र (Acharya Ramesh Mishra)',
     history: [
       { action: 'Created', date: '2026-01-18 10:00 AM', user: 'Acharya Ramesh Mishra', note: 'कक्षा 10 हिंदी प्रथम सत्र प्रश्न बैंक।' },
@@ -760,10 +635,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'साखी — कबीरदास',
     bookReference: 'स्पर्श भाग-2 (पद्य खंड पाठ 1)',
     marks: 3,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 4,
-    status: 'Active',
     questionText:
       'कबीर की साखी "ऐसी बाणी बोलिये, मन का आपा खोइ। औरन को सीतल करै, आपहु सीतल होइ॥" में \'मन का आपा खोना\' से क्या अभिप्राय है? मीठी वाणी बोलने से स्वयं और दूसरों को क्या लाभ मिलता है?',
     options: [],
@@ -771,7 +642,6 @@ export const INITIAL_QUESTIONS = [
       '\'मन का आपा खोने\' का तात्पर्य मन के अहंकार और घमंड को त्यागने से है। जब मनुष्य अहंकार त्याग कर मधुर वाणी बोलता है, तो सुनने वालों को सुख व शांति मिलती है तथा बोलने वाले का अंतःकरण भी शांत और शीतलता से भर जाता है।',
     explanation:
       'कबीरदास जी के अनुसार वाणी में अहंकाररहित मिठास मनुष्य के पारस्परिक संबंधों को सुखद बनाती है।',
-    rubric: '1.5 अंक \'आपा खोने\' के अर्थ हेतु; 1.5 अंक स्वयं व दूसरों को मिलने वाले लाभ के विश्लेषण हेतु।',
     author: 'आचार्य रमेश मिश्र (Acharya Ramesh Mishra)',
     history: [
       { action: 'Created', date: '2026-02-05 11:30 AM', user: 'Acharya Ramesh Mishra', note: 'कबीर साखी विश्लेषण प्रश्न।' },
@@ -788,10 +658,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'रीढ़ की हड्डी — जगदीशचंद्र माथुर',
     bookReference: 'कृतिका भाग-1 (पाठ 3)',
     marks: 5,
-    negativeMarks: 0,
-    cognitiveLevel: 'Analytical',
-    estimatedTimeMin: 8,
-    status: 'Active',
     questionText:
       '\'रीढ़ की हड्डी\' एकांकी के माध्यम से नाटककार ने समाज की किस रूढ़िवादी व संकीर्ण मानसिकता पर चोट की है? उमा के चरित्र द्वारा स्त्री-शिक्षा और स्वाभिमान का क्या संदेश दिया गया है?',
     options: [],
@@ -799,7 +665,6 @@ export const INITIAL_QUESTIONS = [
       'एकांकी में विवाह योग्य लड़कियों को वस्तु समझकर उनकी शिक्षा छिपाने तथा लड़कों के दोहरे चरित्र पर तीखा व्यंग्य किया गया है। उमा पढ़ी-लिखी, स्वाभिमानी युवती है जो गोपाल प्रसाद और शंकर की दकियानूसी सोच का मुंहतोड़ जवाब देकर सिद्ध करती है कि स्त्रियों का भी आत्मसम्मान होता है।',
     explanation:
       'जगदीशचंद्र माथुर द्वारा रचित एकांकी नारी स्वाभिमान और शिक्षा के अधिकार का सशक्त समर्थन करती है।',
-    rubric: '2 अंक समाज की संकीर्ण मानसिकता के उद्घाटन हेतु; 2 अंक उमा के स्वाभिमान व नारी चेतना पर; 1 अंक भाषा व प्रस्तुति हेतु।',
     author: 'आचार्य रमेश मिश्र (Acharya Ramesh Mishra)',
     history: [
       { action: 'Created', date: '2026-02-12 03:00 PM', user: 'Acharya Ramesh Mishra', note: 'कक्षा 9 कृतिका एकांकी प्रश्न संकलन।' },
@@ -816,10 +681,6 @@ export const INITIAL_QUESTIONS = [
     chapter: 'व्याकरण — उपसर्ग एवं प्रत्यय',
     bookReference: 'व्याकरण परिचय कक्षा 9 (अध्याय 4)',
     marks: 1,
-    negativeMarks: 0,
-    cognitiveLevel: 'Knowledge',
-    estimatedTimeMin: 1,
-    status: 'Active',
     questionText:
       'सत्य या असत्य बताइए: \'अपमान\' और \'अपशब्द\' शब्दों में प्रयुक्त \'अप\' एक संस्कृत (तत्सम) उपसर्ग है, जिसका अर्थ \'बुरा\', \'हीन\' अथवा \'विपरीत\' होता है।',
     options: [
@@ -829,7 +690,6 @@ export const INITIAL_QUESTIONS = [
     correctAnswer: 'सत्य (True)',
     explanation:
       '\'अप\' उपसर्ग का प्रयोग हीनता या विपरीत भाव प्रकट करने के लिए होता है (जैसे अप+मान = अपमान, अप+शब्द = अपशब्द)।',
-    rubric: '1 अंक सही सत्य/असत्य चयन हेतु।',
     author: 'आचार्य रमेश मिश्र (Acharya Ramesh Mishra)',
     history: [
       { action: 'Created', date: '2026-02-28 01:15 PM', user: 'Acharya Ramesh Mishra', note: 'हिंदी व्याकरण प्रारंभिक जांच।' },

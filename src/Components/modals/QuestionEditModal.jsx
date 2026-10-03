@@ -25,12 +25,11 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
           />
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
             { label: 'Subject', val: editForm.subject, key: 'subject', type: 'text' },
             { label: 'Class', val: editForm.class || editForm.grade || '', key: 'class', type: 'text' },
             { label: 'Marks', val: editForm.marks, key: 'marks', type: 'number' },
-            { label: 'Neg. Marks', val: editForm.negativeMarks, key: 'negativeMarks', type: 'number' },
           ].map((f) => (
             <div key={f.key}>
               <Label>{f.label}</Label>
@@ -38,7 +37,7 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
                 type={f.type}
                 value={f.val}
                 min={f.type === 'number' ? 0 : undefined}
-                step={f.type === 'number' ? 0.25 : undefined}
+                step={f.type === 'number' ? 1 : undefined}
                 onChange={(e) => {
                   const val = f.type === 'number' ? Number(e.target.value) : e.target.value;
                   const updated = { ...editForm, [f.key]: val };
@@ -118,7 +117,7 @@ export default function QuestionEditModal({ editForm, setEditForm, onSave, onClo
           <Label>Changelog / Edit History Note</Label>
           <input
             type="text"
-            placeholder="e.g. Corrected option B phrasing and updated rubric."
+            placeholder="e.g. Corrected option B phrasing and model answer."
             value={editForm.changelogNote}
             onChange={(e) => setEditForm({ ...editForm, changelogNote: e.target.value })}
             className="w-full bg-white border rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:outline-none mt-1"

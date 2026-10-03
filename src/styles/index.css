@@ -126,7 +126,7 @@ div:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* ── Hide scrollbar on ALL inner elements ── */
+/* ── Hide scrollbar by default on page elements ── */
 *::-webkit-scrollbar {
   display: none;
 }
@@ -134,6 +134,38 @@ div:focus:not(:focus-visible) {
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+/* ── Custom Scrollbar for scrollable tables & containers ── */
+.table-scroll-container,
+.custom-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: #D6CDC0 transparent !important;
+  -ms-overflow-style: auto !important;
+}
+
+.table-scroll-container::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  display: block !important;
+  width: 6px;
+  height: 6px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track,
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #FAFAF9;
+  border-radius: 9999px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb,
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #D6CDC0;
+  border-radius: 9999px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover,
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #9C9790;
 }
 
 /* ── Animations ── */
