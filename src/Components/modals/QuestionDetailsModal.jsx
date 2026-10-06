@@ -3,7 +3,7 @@ import Icon from '../common/Icon.jsx';
 import { ModalWrapper, Label, InfoBox } from '../common/ModalWrapper.jsx';
 import { TYPE_BADGES } from '../../data/mockQuestions.js';
 
-export default function QuestionDetailsModal({ current, onClose, onOpenEdit, onOpenHistory }) {
+export default function QuestionDetailsModal({ current, onClose, onOpenEdit, onOpenHistory, onOpenDelete }) {
   if (!current) return null;
 
   return (
@@ -132,11 +132,12 @@ export default function QuestionDetailsModal({ current, onClose, onOpenEdit, onO
             Edit Question
           </button>
           <button
-            onClick={onClose}
-            style={{ padding: '10px 14px', borderRadius: '8px' }}
-            className="text-xs font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
+            onClick={() => { onClose(); onOpenDelete && onOpenDelete(current); }}
+            style={{ padding: '10px 14px', borderRadius: '8px', backgroundColor: '#fee2e2', color: '#991b1b', border: '1px solid #fca5a5' }}
+            className="text-xs font-semibold flex items-center gap-1.5 hover:bg-red-200 transition-colors"
           >
-            Close
+            <Icon name="trash" className="w-3.5 h-3.5" />
+            Delete
           </button>
         </div>
       </div>

@@ -378,6 +378,7 @@ export default function QuestionBank() {
           onClose={closeModal}
           onOpenEdit={handleOpenEdit}
           onOpenHistory={(q) => openModal('history', q)}
+          onOpenDelete={(q) => openModal('delete', q)}
         />
       )}
 
