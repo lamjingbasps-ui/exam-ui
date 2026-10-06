@@ -259,7 +259,7 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
                   <div className="flex items-center justify-center gap-1.5" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => onOpenEdit(q)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-amber-700 border border-amber-200 hover:bg-amber-50 transition-colors text-[11px] font-medium"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-amber-700 border border-amber-200 bg-amber-50/40 hover:bg-amber-100 hover:border-amber-300 hover:text-amber-800 hover:shadow-sm hover:scale-105 active:scale-95 transition-all duration-150 text-[11px] font-semibold cursor-pointer"
                       title="Edit Question"
                     >
                       <Icon name="edit" className="w-3 h-3" />
@@ -267,7 +267,7 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
                     </button>
                     <button
                       onClick={() => onOpenModal('history', q)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-teal-700 border border-teal-200 hover:bg-teal-50 transition-colors text-[11px] font-medium"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-teal-700 border border-teal-200 bg-teal-50/40 hover:bg-teal-100 hover:border-teal-300 hover:text-teal-800 hover:shadow-sm hover:scale-105 active:scale-95 transition-all duration-150 text-[11px] font-semibold cursor-pointer"
                       title="Activity History"
                     >
                       <Icon name="history" className="w-3 h-3" />
@@ -275,7 +275,7 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
                     </button>
                     <button
                       onClick={() => onOpenModal('delete', q)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-red-600 border border-red-200 hover:bg-red-50 transition-colors text-[11px] font-medium"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-red-600 border border-red-200 bg-red-50/40 hover:bg-red-100 hover:border-red-300 hover:text-red-700 hover:shadow-sm hover:scale-105 active:scale-95 transition-all duration-150 text-[11px] font-semibold cursor-pointer"
                       title="Delete Question"
                     >
                       <Icon name="trash" className="w-3 h-3" />
@@ -287,7 +287,7 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
                   <div className="flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => onOpenModal('details', q)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[#72102a] border border-[#72102a]/30 hover:bg-[#72102a]/5 transition-colors text-[11px] font-medium"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[#72102a] border border-[#72102a]/30 bg-[#72102a]/5 hover:bg-[#72102a]/15 hover:border-[#72102a]/50 hover:shadow-sm hover:scale-105 active:scale-95 transition-all duration-150 text-[11px] font-semibold cursor-pointer"
                       title="View Details"
                     >
                       <Icon name="eye" className="w-3 h-3" />
