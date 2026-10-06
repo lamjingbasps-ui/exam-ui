@@ -4,7 +4,7 @@ import Icon from './Icon.jsx';
 export function ModalWrapper({ title, subtitle, onClose, children, wide, narrow }) {
   const w = wide ? 'max-w-2xl' : narrow ? 'max-w-md' : 'max-w-xl';
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
       <div className={`bg-white rounded-2xl shadow-2xl w-full ${w} max-h-[90vh] overflow-y-auto flex flex-col`}>
         <div
           className="border-b border-gray-100 flex items-start justify-between gap-4 sticky top-0 bg-white z-10"

@@ -218,15 +218,19 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
               <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Question Type</th>
               <th className="px-4 py-3 min-w-[200px] max-w-xs bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Question</th>
               <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Marks</th>
-              <th className="px-4 py-3 whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>
-                <span className="inline-flex items-center gap-1">Edit History <VersionInfo /></span>
-              </th>
-              <th className="px-4 py-3 text-right whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Actions</th>
+              <th className="px-4 py-3 text-center whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>No. of Edits</th>
+              <th className="px-4 py-3 text-center whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Actions</th>
+              <th className="px-4 py-3 text-center whitespace-nowrap bg-[#FBF9F6]" style={{ boxShadow: 'inset 0 -1px 0 #E8E2D9' }}>Details</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {questions.map((q) => (
-              <tr key={q.id} className="hover:bg-gray-50/70 transition-colors">
+              <tr
+                key={q.id}
+                className="hover:bg-[#fdf5f6] transition-colors cursor-pointer"
+                onClick={() => onOpenModal('details', q)}
+                title="Click to view question details"
+              >
                 <td className="px-4 py-3 whitespace-nowrap">
                   <span className="font-mono font-bold text-gray-700">{q.id}</span>
                 </td>
@@ -248,38 +252,46 @@ export default function QuestionTable({ questions, onOpenModal, onOpenEdit }) {
                 <td className="px-4 py-3 whitespace-nowrap text-gray-700 font-medium">
                   {q.marks}
                 </td>
-                <td className="px-4 py-3 whitespace-nowrap text-gray-700 font-medium">
-                  {q.version}
+                <td className="px-4 py-3 whitespace-nowrap text-center text-gray-700 font-semibold">
+                  {q.history?.length ?? 0}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <div className="flex items-center justify-end gap-1">
-                    <button
-                      onClick={() => onOpenModal('details', q)}
-                      className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
-                      title="View Details"
-                    >
-                      <Icon name="eye" className="w-3.5 h-3.5" />
-                    </button>
+                  <div className="flex items-center justify-center gap-1.5" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => onOpenEdit(q)}
-                      className="p-1.5 rounded-lg text-amber-700 hover:bg-amber-50 transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-amber-700 border border-amber-200 hover:bg-amber-50 transition-colors text-[11px] font-medium"
                       title="Edit Question"
                     >
-                      <Icon name="edit" className="w-3.5 h-3.5" />
+                      <Icon name="edit" className="w-3 h-3" />
+                      Edit
                     </button>
                     <button
                       onClick={() => onOpenModal('history', q)}
-                      className="p-1.5 rounded-lg text-teal-600 hover:bg-teal-50 transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-teal-700 border border-teal-200 hover:bg-teal-50 transition-colors text-[11px] font-medium"
                       title="Activity History"
                     >
-                      <Icon name="history" className="w-3.5 h-3.5" />
+                      <Icon name="history" className="w-3 h-3" />
+                      History
                     </button>
                     <button
                       onClick={() => onOpenModal('delete', q)}
-                      className="p-1.5 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-red-600 border border-red-200 hover:bg-red-50 transition-colors text-[11px] font-medium"
                       title="Delete Question"
                     >
-                      <Icon name="trash" className="w-3.5 h-3.5" />
+                      <Icon name="trash" className="w-3 h-3" />
+                      Delete
+                    </button>
+                  </div>
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <div className="flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={() => onOpenModal('details', q)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[#72102a] border border-[#72102a]/30 hover:bg-[#72102a]/5 transition-colors text-[11px] font-medium"
+                      title="View Details"
+                    >
+                      <Icon name="eye" className="w-3 h-3" />
+                      View
                     </button>
                   </div>
                 </td>
